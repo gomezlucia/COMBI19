@@ -3,4 +3,5 @@
 	session_unset(); //destruir todas las variables de sesion(arreglo)
 	session_destroy(); //destruir la sesion(varibales de la sesion actual)
 	header("Location: ../.php");//falta el nombre del archivo al que vuelve
+//......
 ?>
