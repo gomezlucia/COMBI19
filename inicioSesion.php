@@ -1,7 +1,7 @@
 <?php
 	include "BD.php";// conectar y seleccionar la base de datos
 	$link = conectar();
-	include "validarLogin.php";
+	include "COMBI19/validarLogin.php";
 	$usuario= new usuario(); //se crea la clase usuario
 	$usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (parametro por referencia), sirve por si escribe la url para ir a inicio de sesion pero ya tiene una sesion iniciada, como el valor tiene un nombre de usuario correcto va a entrar a la parte del catch (noIniciada va a tirar una excepcion)
 ?>
@@ -22,7 +22,7 @@
 		     }
 	?>
          <center>
-			<form action="iniciarsesion.php" name="iniciarsesion" method="post" >
+			<form action="COMBI9/iniciarsesion.php" name="iniciarsesion" method="post" >
 				 <h2> Inciar Sesi&oacuten </h2>       
 				     <input type="text" name="nombre" size=30 id="nombre" value="<?php echo $nombre ?>" placeholder="Nombre Usuario" ><br><br></p>  
 				     <input type="password" name="cont" size=30  id="cont"	value="<?php echo $contraseña ?>" minlength="8" placeholder="Contraseña" ><br><br>
@@ -39,6 +39,6 @@
 	 </center>		
 	 </body>
 	 <?php } catch (Exception $e){  //si ya tenia una sesion iniciada y quizo entrar a la pag inicioSesion lo va a llevar a la pag principal
-			    header("Location: /home.php");
+			    header("Location: /COMBI19/home.php");
 	  } ?> 			
 </html>
