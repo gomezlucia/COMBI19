@@ -1,7 +1,7 @@
 <?php
-	include "BD.php";// conectar y seleccionar la base de datos
+	include "COMBI19/BD.php";// conectar y seleccionar la base de datos
 	$link = conectar();
-    include "validarLogin.php";
+    include "COMBI19/validarLogin.php";
 	$usuario= new usuario();
 	$usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
 ?>
@@ -14,10 +14,10 @@
      ?> 
 	 <body>	
 				<h1>Bienvenid@  <?php echo " ".$nombreUsuario;  ?></h1>
-				<a href="cerrarSesion.php"> Cerrar Sesion </a>  	
+				<a href="COMBI19/cerrarSesion.php"> Cerrar Sesion </a>  	
 	 </body>
 	 <?php  } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
            	     $mensaje=$e->getMessage(); 
-                 header ("Location: /inicioSesion.php?mensaje=$mensaje");	//redirige a la pagina inicioSesion con el mensaje de error por url
+                 header ("Location: /COMBI19/inicioSesion.php?mensaje=$mensaje");	//redirige a la pagina inicioSesion con el mensaje de error por url
      }?>
 </html>
