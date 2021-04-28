@@ -1,5 +1,5 @@
 <?php
-	include "BD.php";// conectar y seleccionar la base de datos
+	include "COMBI19/BD.php";// conectar y seleccionar la base de datos
 	$link = conectar();
 	include "COMBI19/validarLogin.php";
 	$usuario= new usuario(); //se crea la clase usuario
@@ -22,7 +22,7 @@
 		     }
 	?>
          <center>
-			<form action="COMBI9/iniciarsesion.php" name="iniciarsesion" method="post" >
+			<form action="COMBI19/iniciarsesion.php" name="iniciarsesion" method="post" >
 				 <h2> Inciar Sesi&oacuten </h2>       
 				     <input type="text" name="nombre" size=30 id="nombre" value="<?php echo $nombre ?>" placeholder="Nombre Usuario" ><br><br></p>  
 				     <input type="password" name="cont" size=30  id="cont"	value="<?php echo $contraseña ?>" minlength="8" placeholder="Contraseña" ><br><br>
