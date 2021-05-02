@@ -5,6 +5,8 @@
 	$cumple1= false;
 	$mensaje= "";
 
+  if ($_POST['tipo_usuario']=='cliente'){
+
 	if ((isset ($_POST['nombre'])) and (isset ($_POST['apellido']))) {
 		$nombre= $_POST['nombre'];
 		$apellido= $_POST['apellido'];
@@ -70,6 +72,65 @@
 	} else {
 		$mensaje= "Introduzca su nombre y apellido";
 	}
+}
+////////////////////SI ES CHOFER SE COMPLETRA EL OTRO REGISTRO
+else{
+  if ((isset ($_POST['nombre'])) and (isset ($_POST['apellido']))) {
+    $nombre= $_POST['nombre'];
+    $apellido= $_POST['apellido'];
+    if((!empty($_POST['nombre'])) and (!empty($_POST['apellido'])) and (!empty($_POST['nombre_usuario'])) and (!empty($_POST['contraseña'])) and (!empty($_POST['clave1']))){
+    if ((ctype_alpha($nombre)) and (ctype_alpha($apellido))){// verificacion si contiene solo caracteres alfabeticos
+      if (isset ($_POST['nombre_usuario'])){
+        $usuario= $_POST['nombre_usuario'];
+//				if ((ctype_alnum($usuario))) {// alfanumerico y 6 caracteres
+          if ((isset ($_POST['contraseña'])) and (isset ($_POST['clave1'])) and ($_POST['clave1']==$_POST['contraseña'])) {
+            $contra= $_POST['contraseña'];
+            if ((strlen($contra)) >= 8){
+              $mayus= 0;
+              $simbolo= 0;
+              $nro= 0;
+              for ($i=0; $i<strlen($contra);$i++){
+                $caracter= $contra[$i];
+                if (ctype_upper($caracter)){
+                  $mayus ++;
+                } elseif (!ctype_alnum ($caracter)) {
+                  $simbolo ++;
+                } elseif (ctype_digit($caracter)){
+                  $nro ++;
+                }
+              }
+
+              if (($mayus <> 0) and (($simbolo <> 0) or ($nro <> 0))) {
+                  $cumple1= true;
+
+                    }
+               else {
+                $mensaje="La contraseña debe tener al menos una mayuscula y un simbolo o un numero";
+              }
+            } else {
+              $mensaje= "La contraseña debe tener 8 caracteres como minimo";
+            }
+           } else {
+            $mensaje="Las conntraseñas no fueron introducidas, o no coinciden";
+          }
+//				} else {
+//					$mensaje="ingrese";
+//				}
+      } else {
+        $mensaje= "Introduzca un nombre de usuario";
+      }
+    } else {
+      $mensaje= "El nombre y el apellido deben ser alfanumericos";
+    }
+    } else{
+      $mensaje="Complete todos los campos";
+    }
+  } else {
+    $mensaje= "Introduzca su nombre y apellido";
+  }
+}
+
+
 
 	$cumple2=true;// verificacion de la existencia del nombre de usuario
 	if ($cumple1 == true){
@@ -84,8 +145,7 @@
 	}
 
 	if ($cumple1 == true){
-    $mensaje="entro";
-		$query27= ("SELECT mail FROM usuarios");//hacer consulta
+    $query27= ("SELECT mail FROM usuarios");//hacer consulta
 		$result27= mysqli_query ($link, $query27) or die ('Consulta fallida 83' .mysqli_error());
 		while ($usuarioTabla= mysqli_fetch_array ($result27)){
 			if ($usuario == $usuarioTabla['mail']){
@@ -97,10 +157,17 @@
 
 
 	if (($cumple1== true) and ($cumple2== true)){
+    if ($_POST['tipo_usuario']=='cliente'){
 		$query31= "INSERT INTO usuarios (apellido, nombre, mail, nombre_usuario, contraseña, fecha_nacimiento, DNI, tipo_usuario) values ('$_POST[apellido]', '$_POST[nombre]', '$_POST[mail]', '$_POST[nombre_usuario]', '$_POST[contraseña]', '$_POST[fecha_nacimiento]','$_POST[DNI]', 'cliente' )";//falta subir la imagen y su tipo
-		$result31= mysqli_query ($link, $query31) or die ('Consuluta query1 fallida 81: ' .mysqli_error($link));
+		$result31= mysqli_query ($link, $query31) or die ('Consuluta query1 fallida 163: ' .mysqli_error($link));
 		$exito= true;
 	}
+  else{
+    $query31= "INSERT INTO usuarios (apellido, nombre, nombre_usuario, contraseña, tipo_usuario) values ('$_POST[apellido]', '$_POST[nombre]', '$_POST[nombre_usuario]', '$_POST[contraseña]', 'chofer' )";//falta subir la imagen y su tipo
+		$result31= mysqli_query ($link, $query31) or die ('Consuluta query1 fallida 168: ' .mysqli_error($link));
+		$exito= true;
+  }
+}
 
  ?>
 
@@ -136,4 +203,3 @@
 	</div>
 </body>
 </html>
-
