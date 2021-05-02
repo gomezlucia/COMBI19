@@ -15,6 +15,7 @@
         <input type="text" name="clave1" size=50   minlength= "8 " placeholder=" Confirmar Contraseña"> <br><br>
 				<input type="submit" value="Guardar">
 				<input type= "reset" value= "Borrar">
+	    <input type="hidden" name="tipo_usuario" value='cliente'> <br><br>
     </form>
   </body>
 </html>
