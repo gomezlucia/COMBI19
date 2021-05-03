@@ -11,8 +11,8 @@
 				<input type="text" name="DNI" size=50 placeholder=" DNI sin puntos"> <br><br>
 				<input type="email" name="mail" size=50 placeholder=" Email"> <br><br>
 				<input type="text" name="nombre_usuario" size=50 placeholder=" Nombre de usuario"> <br><br>
-				<input type="text" name="contraseña" size=50 placeholder=" Contraseña"> <br><br>
-        <input type="text" name="clave1" size=50   minlength= "8 " placeholder=" Confirmar Contraseña"> <br><br>
+				<input type="password" name="contraseña" size=50 placeholder=" Contraseña"> <br><br>
+        <input type="password" name="clave1" size=50   minlength= "8 " placeholder=" Confirmar Contraseña"> <br><br>
 				<input type="submit" value="Guardar">
 				<input type= "reset" value= "Borrar">
 	    <input type="hidden" name="tipo_usuario" value='cliente'> <br><br>
