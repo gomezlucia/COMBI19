@@ -18,59 +18,27 @@
 				$result_insercion= mysqli_query ($link, $consulta_agregar) or die ('Consulta consulta_agregar fallida: ' .mysqli_error($link));
 				}
 			else{
-					$mensaje2="La patente que intenta ingresar ya esta registrada en el sistema";
-			    $exito2=false;
+					$mensaje2="Error al completar el fomulario, la patente que intenta ingresar ya esta registrada en el sistema.Por favor intente nuevamente";
+			        $exito2=false;
 			}
 		}
 		else{
-			$exito1=false;
-			$mensaje1="Complete todos los campos";
+			$exito1=false; //
+			$mensaje1="Error al completar el fomulario, complete todos los campos.Por favor intente nuevamente";
 		}
-	
 
-?>
-<html>
-<head> 
-	<title> Registro de combi</title>
-	<link rel="stylesheet" type="text/css" href= " ../css/Estilos.css" media="all" > 
-</head>
-<body class = "body" >
-	<div class="div_body">
-	<br> <br>
-	<?php 
-	if ((isset($exito1)) and ($exito1==true) and ($exito2==true)){
-	?>
-	echo "<script >
-	alert('Combi regitrada exitosamente');window.location='home.php'</script>";
-	<?php
-	} 
-	else {
-		if($exito1==false){
-		?>
-		<div class="div_registro">
-		Error al completar el formulario. <br><br>
-		<?php echo ($mensaje1); ?> <br><br>
-		Por favor intente nuevamente <br> <br>
-		<a href="cargarCombi.php" class="links"> Click aqui para volver a intentar &nbsp;&nbsp;&nbsp; </a>
-		</div>
-	<?php
-	}
-        else {
-		    if($exito2==false){
-		?>
-		   <div class="div_registro">
-	     	Error al completar el formulario. <br><br>
-		   <?php echo ($mensaje2); ?> <br><br>
-		   Por favor intente nuevamente <br> <br>
-		   <a href="cargarCombi.php" class="links"> Click aqui para volver a intentar &nbsp;&nbsp;&nbsp; </a>
-		   </div>
-	<?php
+		if ( (isset($exito1)) and ($exito1==true) and ($exito2==true) ){ 
+             echo "<script > alert(' Combi regitrada exitosamente ');window.location='home.php'</script>";
+         } 
+         else{
+         	 if($exito1==false){
+                 echo "<script> alert('$mensaje1');window.location='/COMBI19-main/cargarCombi.php'</script>";
+                
+             } else {
+		         if($exito2==false){
+		             echo "<script> alert('$mensaje2');window.location='/COMBI19-main/cargarCombi.php'</script>";
+		         }
+             }
+	
          }
-             }
-             }
-             ?>
-	
-	</div>
-</body>
-</html>
-	
+?>
