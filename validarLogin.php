@@ -66,8 +66,8 @@
 		}
 	    
 	     public function id(&$id){
-	    	if(isset($_SESSION['id'])){
-	    		$id=$_SESSION['id'];
+	    	if(isset($_SESSION['id_usuario'])){
+	    		$id=$_SESSION['id_usuario'];
 	    	}
 	    }
 		
