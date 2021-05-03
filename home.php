@@ -4,6 +4,7 @@
     include "validarLogin.php";
 	$usuario= new usuario();
 	$usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
+	$usuario ->id($id);
 ?>
 <html>
 	<head>
@@ -14,10 +15,30 @@
      ?> 
 	 <body>	
 				<h1>Bienvenid@  <?php echo " ".$nombreUsuario;  ?></h1>
-				<a href="COMBI19/cerrarSesion.php"> Cerrar Sesion </a>  	
+                <?php $consulta="SELECT tipo_usuario as tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
+                $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
+                $arregloConTipoUsuario=mysqli_fetch_array ($resultado); 
+                 if ($arregloConTipoUsuario['tipo_usuario']=='cliente'){ ?> 
+
+                     <a href="listarViajes.php"> Ver listado de viajes  </a><br> 	
+
+         <?php } elseif ($arregloConTipoUsuario['tipo_usuario']=='chofer') { ?>
+
+                 	 <a href="">  </a>
+
+         <?php } else { ?>
+
+                     <a href="verListadoDeCombis.php"> Ver listado de combis </a><br> 
+                     <a href="cargarCombi.php"> Cargar combis  </a><br>
+                     <a href="registrarChoferes.php"> Registrar Chofer  </a><br>
+                     <a href="listarViajes.php"> Ver listado de viajes  </a><br>
+            <?php  }
+                 	?>
+			     <a href="cerrarSesion.php"> Cerrar Sesion </a>  	
 	 </body>
 	 <?php  } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
            	     $mensaje=$e->getMessage(); 
-                 header ("Location: /inicioSesion.php?mensaje=$mensaje");	//redirige a la pagina inicioSesion con el mensaje de error por url
+           	     echo "<script> alert('$mensaje');window.location='/COMBI19-main/inicioSesion.php'</script>";
+                	//redirige a la pagina inicioSesion y muestra una mensaje de error
      }?>
 </html>
