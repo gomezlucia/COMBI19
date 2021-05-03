@@ -157,7 +157,7 @@ else{
 		}
 	}
 
-	if ($cumple1 == true){
+	if( ($cumple1 == true) and ($_POST['tipo_usuario']=='cliente')){
         $query27= ("SELECT mail FROM usuarios");//hacer consulta
         $mail= $_POST['mail'];
 		$result27= mysqli_query ($link, $query27) or die ('Consulta fallida 83' .mysqli_error());
@@ -200,3 +200,5 @@ else{
   } 	
 	
  ?>
+
+
