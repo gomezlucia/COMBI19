@@ -27,7 +27,7 @@
 				     <input type="text" name="nombre" size=30 id="nombre" value="<?php echo $nombre ?>" placeholder="Nombre Usuario" ><br><br></p>  
 				     <input type="password" name="cont" size=30  id="cont"	value="<?php echo $contraseña ?>" minlength="8" placeholder="Contraseña" ><br><br>
 				     <input type="submit" value="Iniciar Sesion" ><br><br>
-				 <a href="" >Registrarse como nuevo usuario </a>
+				 <a href="registroUsuario.php" >Registrarse como nuevo usuario </a>
 			</form>
 			<br>
 			<!--en los dos campos se va a mostrar, la primera vez vacios, y cuando se equivoque, los datos erroneos-->
@@ -39,6 +39,6 @@
 	 </center>		
 	 </body>
 	 <?php } catch (Exception $e){  //si ya tenia una sesion iniciada y quizo entrar a la pag inicioSesion lo va a llevar a la pag principal
-			    header("Location: /home.php");
+			    header("Location: /COMBI19-main/home.php");
 	  } ?> 			
 </html>
