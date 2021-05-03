@@ -5,6 +5,13 @@
 	$cumple1= false;
 	$mensaje= "";
 
+	function edad($edad){
+   list($anio,$mes,$dia) = explode("/",$edad);
+    $anio_dif = date("Y") - $anio;
+    $mes_dif = date("m") - $mes;
+    $dia_dif = date("d") - $dia;
+     if ($dia_dif < 0 || $mes_dif < 0) { $anio_dif--; } return $anio_dif; }
+
   if ($_POST['tipo_usuario']=='cliente'){
 
 	if ((isset ($_POST['nombre'])) and (isset ($_POST['apellido']))) {
@@ -38,7 +45,13 @@
 										if(isset($_POST['mail'])){
 
                       if((ctype_digit($_POST['DNI'])) and ((strlen($_POST['DNI'])) >= 7) and ((strlen($_POST['DNI'])) < 9)){
+
+												if ( edad($_POST['fecha_nacimiento']) >= 18){
 											  $cumple1= true;
+											}
+											else{
+												$mensaje='Debes ser mayor de edad para registrarte en esta pagina';
+											}
                        }
                        else{
                          $mensaje="DNI invalido. Por favor intente de nuevo";
