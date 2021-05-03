@@ -40,7 +40,7 @@
 								}
 							}
 
-							if (($mayus <> 0) and (($simbolo <> 0) or ($nro <> 0))) {
+							 if (($mayus <> 0) and (($simbolo <> 0) or ($nro <> 0))) {
 
 										if(isset($_POST['mail'])){
 
@@ -68,7 +68,7 @@
 							$mensaje= "La contraseña debe tener 8 caracteres como minimo";
 						}
 					 } else {
-						$mensaje="Las conntraseñas no fueron introducidas, o no coinciden";
+						$mensaje="Las contraseñas no fueron introducidas, o no coinciden";
 					}
 //				} else {
 //					$mensaje="ingrese";
@@ -158,10 +158,11 @@ else{
 	}
 
 	if ($cumple1 == true){
-    $query27= ("SELECT mail FROM usuarios");//hacer consulta
+        $query27= ("SELECT mail FROM usuarios");//hacer consulta
+        $mail= $_POST['mail'];
 		$result27= mysqli_query ($link, $query27) or die ('Consulta fallida 83' .mysqli_error());
 		while ($usuarioTabla= mysqli_fetch_array ($result27)){
-			if ($usuario == $usuarioTabla['mail']){
+			if ($mail == $usuarioTabla['mail']){
 				$cumple2= false;
 				$mensaje="Este mail ya tiene una cuenta asociada";
 			}
@@ -182,37 +183,20 @@ else{
   }
 }
 
+
+ if ((isset($exito)) and (($exito==true))){
+	 if($_POST['tipo_usuario']=='cliente'){
+         echo "<script > alert('Usuario regitrado exitosamente');window.location='inicioSesion.php'</script>";
+     }
+     else{
+     	 echo "<script > alert('Usuario regitrado exitosamente');window.location='home.php'</script>";
+     }
+ }else {
+	 if($_POST['tipo_usuario']=='cliente'){
+         echo "<script > alert('Error al completar el formulario.'+'$mensaje');window.location='registroUsuario.php'</script>";
+     }else{
+     	 echo "<script > alert('Error al completar el formulario.'+'$mensaje');window.location='registrarChoferes.php'</script>";
+     }
+  } 	
+	
  ?>
-
-
-<html>
-<head>
-	<title> Registro </title>
-	<link rel="stylesheet" type="text/css" href= " ../css/Estilos.css" media="all" >
-</head>
-<body class = "body" >
-	<div class="div_body">
-			<div class="div_superior" >
-				<p> Registrarse </p>
-			</div>
-	<br> <br>
-	<?php
-	if ((isset($exito)) and (($exito==true))){
-	?>
-	Usuario regitrado exitosamente <br><br>
-	<a href="../registrarse.php"> Click aqui para iniciar sesion &nbsp;&nbsp;&nbsp; </a>
-	<?php
-	} else {
-		?>
-		<div class="div_registro">
-		Error al completar el formulario. <br><br>
-		<?php echo ($mensaje); ?> <br><br>
-		Por favor intente nuevamente <br> <br>
-		<a href="registroUsuario.php" class="links"> Click aqui para volver a intenar &nbsp;&nbsp;&nbsp; </a>
-		</div>
-	<?php
-	}
-	?>
-	</div>
-</body>
-</html>
