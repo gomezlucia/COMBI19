@@ -15,10 +15,10 @@
      ?> 
 	 <body>	
 				<h1>Bienvenid@  <?php echo " ".$nombreUsuario;  ?></h1>
-                <?php $consulta="SELECT tipo_usuario as tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
+                <?php $consulta="SELECT tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
                 $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
-                $arregloConTipoUsuario=mysqli_fetch_array ($resultado); 
-                 if ($arregloConTipoUsuario['tipo_usuario']=='cliente'){ ?> 
+                $usuario=mysqli_fetch_array ($resultado); 
+                 if ($usuario['tipo_usuario']=='cliente'){ ?> 
 
                      <a href="listarViajes.php"> Ver listado de viajes  </a><br> 	
 
