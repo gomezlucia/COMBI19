@@ -9,7 +9,7 @@
 </head>
 <body>
      <?php
-        $consulta= "SELECT v.origen, v.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t WHERE (now()<=fecha_hora_salida)" ;
+        $consulta= "SELECT v.origen, v.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t WHERE (now()<=fecha_hora_salida)and (debaja=0)" ;
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
         if ($resultado){
         	while (($valores = mysqli_fetch_array($resultado)) ){
