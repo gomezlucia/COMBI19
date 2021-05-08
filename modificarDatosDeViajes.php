@@ -25,14 +25,7 @@
     $fecha_hora_salida=$viaje['fecha_hora_salida'];
     $fecha_hora_llegada=$viaje['fecha_hora_llegada'];
     $id_viaje=1;
-	//	if (isset ($_GET['error'])){
-	//		$error=$_GET['error'];
-	//		if($error){
-	//		$email=$_SESSION['emailf'];
-	//		$nombre=$_SESSION['nombref'];
-	//		$apellido=$_SESSION['apellidof'];
-	//		}
-	//	}
+
   ?><center>
      <h2>Modificar datos del viaje</h2>
 	 <form name="editar" method="post" action="validarModificacionViaje.php" >
