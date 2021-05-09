@@ -91,7 +91,8 @@ else{
   if ((isset ($_POST['nombre'])) and (isset ($_POST['apellido']))) {
     $nombre= $_POST['nombre'];
     $apellido= $_POST['apellido'];
-    if((!empty($_POST['nombre'])) and (!empty($_POST['apellido'])) and (!empty($_POST['nombre_usuario'])) and (!empty($_POST['contraseña'])) and (!empty($_POST['clave1']))){
+    if((!empty($_POST['nombre'])) and (!empty($_POST['apellido'])) and (!empty($_POST['nombre_usuario'])) and (!empty($_POST['mail'])) and (!empty($_POST['legajo'])) and (!empty($_POST['contraseña'])) and
+		(!empty($_POST['clave1']))){
     if ((ctype_alpha($nombre)) and (ctype_alpha($apellido))){// verificacion si contiene solo caracteres alfabeticos
       if (isset ($_POST['nombre_usuario'])){
         $usuario= $_POST['nombre_usuario'];
@@ -114,8 +115,17 @@ else{
               }
 
               if (($mayus <> 0) and (($simbolo <> 0) or ($nro <> 0))) {
+								if(isset($_POST['mail'])){
+									if(isset($_POST['legajo'])){
                   $cumple1= true;
-
+								    }
+										else{
+											$mensaje= "Introduzca legajo del chofer";
+										}
+								}
+								else{
+									$mensaje="Introduzca email";
+								}
                     }
                else {
                 $mensaje="La contraseña debe tener al menos una mayuscula y un simbolo o un numero";
@@ -156,11 +166,21 @@ else{
 			}
 		}
 	}
+	if (($cumple1 == true) and ($_POST['tipo_usuario'] <> 'cliente')){
+		$query25= ("SELECT legajo FROM usuarios");//hacer consulta
+		$result25= mysqli_query ($link, $query25) or die ('Consulta fallida 170' .mysqli_error());
+		while ($usuarioTabla= mysqli_fetch_array ($result25)){
+			if ($_POST['legajo'] == $usuarioTabla['legajo']){
+				$cumple2= false;
+				$mensaje="Este legajo ya fue ingresado, por favor elija otro";
+			}
+		}
+	}
 
-	if( ($cumple1 == true) and ($_POST['tipo_usuario']=='cliente')){
+	if ($cumple1 == true){
         $query27= ("SELECT mail FROM usuarios");//hacer consulta
         $mail= $_POST['mail'];
-		$result27= mysqli_query ($link, $query27) or die ('Consulta fallida 83' .mysqli_error());
+		$result27= mysqli_query ($link, $query27) or die ('Consulta fallida 183' .mysqli_error());
 		while ($usuarioTabla= mysqli_fetch_array ($result27)){
 			if ($mail == $usuarioTabla['mail']){
 				$cumple2= false;
@@ -177,7 +197,7 @@ else{
 		$exito= true;
 	}
   else{
-    $query31= "INSERT INTO usuarios (apellido, nombre, nombre_usuario, contraseña, tipo_usuario) values ('$_POST[apellido]', '$_POST[nombre]', '$_POST[nombre_usuario]', '$_POST[contraseña]', 'chofer' )";//falta subir la imagen y su tipo
+    $query31= "INSERT INTO usuarios (apellido, nombre, nombre_usuario, mail, legajo, contraseña, tipo_usuario, debaja) values ('$_POST[apellido]', '$_POST[nombre]', '$_POST[nombre_usuario]', '$_POST[mail]', '$_POST[legajo]', '$_POST[contraseña]', 'chofer' , '0')";//falta subir la imagen y su tipo
 		$result31= mysqli_query ($link, $query31) or die ('Consuluta query1 fallida 168: ' .mysqli_error($link));
 		$exito= true;
   }
@@ -197,8 +217,7 @@ else{
      }else{
      	 echo "<script > alert('Error al completar el formulario.'+'$mensaje');window.location='registrarChoferes.php'</script>";
      }
-  } 	
-	
- ?>
+  }
 
+ ?>
 
