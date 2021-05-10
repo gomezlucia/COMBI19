@@ -9,32 +9,61 @@
 <html>
 	<head>
 		<title> COMBI-19</title>
+        <style type="text/css">
+            #menu{
+                list-style: none;
+                padding: 0;
+                background:#135373;
+                width: 30%;
+                max-width: 1000px;
+                margin: auto;
+            }
+            #menu li a{
+               text-decoration: none;
+               color: white;
+               padding: 20px;
+               display: block;  
+            }
+            #menu li{
+                text-align: center;
+            }
+            #menu li a:hover{
+                background:#93ad94;
+            }
+
+        </style>
      </head>
      <?php try {
     	     $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
      ?> 
 	 <body>	
-				<h1>Bienvenid@  <?php echo " ".$nombreUsuario;  ?></h1>
+         <div id="header"></div>
+         <center>
                 <?php $consulta="SELECT tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
                 $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
                 $usuario=mysqli_fetch_array ($resultado); 
                  if ($usuario['tipo_usuario']=='cliente'){ ?> 
+                     <div id="menu">
+                          <li><a href="listarViajes.php"> Ver listado de viajes</a></li>
+                          <li><a href="cerrarSesion.php"> Cerrar Sesion </a></li> 
+                     </div>	
 
-                     <a href="listarViajes.php"> Ver listado de viajes  </a><br> 	
-
-         <?php } elseif ($arregloConTipoUsuario['tipo_usuario']=='chofer') { ?>
-
-                 	 <a href="">  </a>
-
+         <?php } elseif ($usuario['tipo_usuario']=='chofer') { ?>
+                     <div>
+                         <li><a href="cerrarSesion.php"> Cerrar Sesion </a></li> 
+                     </div>
          <?php } else { ?>
-
-                     <a href="verListadoDeCombis.php"> Ver listado de combis </a><br> 
-                     <a href="cargarCombi.php"> Cargar combis  </a><br>
-                     <a href="registrarChoferes.php"> Registrar Chofer  </a><br>
-                     <a href="listarViajes.php"> Ver listado de viajes  </a><br>
-            <?php  }
-                 	?>
-			     <a href="cerrarSesion.php"> Cerrar Sesion </a>  	
+             <div id="menu">
+                 <li><a href="verListadoDeCombis.php"> Ver listado de combis </a></li>
+                 <li><a href="cargarCombi.php"> Cargar combis  </a></li>
+                 <li><a href="registrarChoferes.php"> Registrar Chofer  </a></li>
+                 <li><a href="verListadoDeChoferes.php"> Ver listado de choferes  </a></li>
+                 <li><a href="cargarViaje.php"> Cargar viaje  </a></li>
+                 <li><a href="listarViajes.php"> Ver listado de viajes  </a></li>
+                 <li><a href="cerrarSesion.php"> Cerrar Sesion </a></li>
+             </div>
+            <?php  }	?>
+		 </center>       	
 	 </body>
 	 <?php  } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
            	     $mensaje=$e->getMessage(); 
