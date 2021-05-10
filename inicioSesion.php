@@ -34,7 +34,7 @@
 	 	
 	 <?php if (isset($_GET['mensaje'])){ //si ingreso datos incorrectos abajo del boton inicar sesion se van a mostrar los errores (las excepcines (que estan en validarLogin.php) guardadas en la variable GET)
 	         echo ($_GET['mensaje'] . "<br>");
-			 echo ("Por favor intente nuevamente");	
+
 	 } ?>
 	 </center>		
 	 </body>
