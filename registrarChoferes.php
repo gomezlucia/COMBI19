@@ -12,6 +12,7 @@
         <input type="text" name="legajo" size=50 placeholder=" Legajo"> <br><br>
 				<input type="password" name="contraseña" size=50 placeholder=" Contraseña"> <br><br>
         <input type="password" name="clave1" size=50   minlength= "8 " placeholder=" Confirmar Contraseña"> <br><br>
+	    <input type="hidden" name="tipo_usuario" value='chofer'> <br><br>
 				<input type="submit" value="Guardar">
 				<input type= "reset" value= "Borrar">
     </form>
