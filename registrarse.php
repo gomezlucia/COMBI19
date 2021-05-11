@@ -4,6 +4,7 @@
 	$cumple= false;
 	$cumple1= false;
 	$mensaje= "";
+	$contra_correcta= true;
 
 	function edad($edad){
    list($anio,$mes,$dia) = explode("/",$edad);
@@ -62,13 +63,13 @@
 										}
 									}
 							 else {
-								$mensaje="La contraseña debe tener al menos una mayuscula y un simbolo o un numero";
+									$contra_correcta= false;
 							}
 						} else {
-							$mensaje= "La contraseña debe tener 8 caracteres como minimo";
+							$contra_correcta= false;
 						}
 					 } else {
-						$mensaje="Las contraseñas no fueron introducidas, o no coinciden";
+						$contra_correcta= false;
 					}
 //				} else {
 //					$mensaje="ingrese";
@@ -114,7 +115,7 @@ else{
                 }
               }
 
-              if (($mayus <> 0) and (($simbolo <> 0) or ($nro <> 0))) {
+              if (($mayus <> 0) and (($simbolo <> 0) and ($nro <> 0))) {
 								if(isset($_POST['mail'])){
 									if(isset($_POST['legajo'])){
                   $cumple1= true;
@@ -128,13 +129,13 @@ else{
 								}
                     }
                else {
-                $mensaje="La contraseña debe tener al menos una mayuscula y un simbolo o un numero";
+                $contra_correcta= false;
               }
             } else {
-              $mensaje= "La contraseña debe tener 8 caracteres como minimo";
+              $contra_correcta= false;
             }
            } else {
-            $mensaje="Las conntraseñas no fueron introducidas, o no coinciden";
+            $contra_correcta= false;
           }
 //				} else {
 //					$mensaje="ingrese";
@@ -153,6 +154,9 @@ else{
   }
 }
 
+if ($contra_correcta == false ){
+	$mensaje= "La contraseña debe contar con al menos 8 caracteres, contener letras mayúsculas, letras minúsculas, poseer al menos un número y un símbolo";
+}
 
 
 	$cumple2=true;// verificacion de la existencia del nombre de usuario
@@ -172,7 +176,7 @@ else{
 		while ($usuarioTabla= mysqli_fetch_array ($result25)){
 			if ($_POST['legajo'] == $usuarioTabla['legajo']){
 				$cumple2= false;
-				$mensaje="Este legajo ya fue ingresado, por favor elija otro";
+				$mensaje='Ya existe un usuario con ese legajo por favor ingrese otro';
 			}
 		}
 	}
@@ -184,7 +188,7 @@ else{
 		while ($usuarioTabla= mysqli_fetch_array ($result27)){
 			if ($mail == $usuarioTabla['mail']){
 				$cumple2= false;
-				$mensaje="Este mail ya tiene una cuenta asociada";
+				$mensaje="El mail ingresado ya tiene una cuenta asociada";
 			}
 		}
 	}
@@ -220,4 +224,3 @@ else{
   }
 
  ?>
-
