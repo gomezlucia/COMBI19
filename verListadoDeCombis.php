@@ -53,14 +53,17 @@
 
                 $consulta2= "SELECT id_combi FROM viajes WHERE (now()<=fecha_hora_salida) and id_combi ='$id_combi'" ;
                $result25= mysqli_query ($link, $consulta2) or die ('Consulta fallida 44' .mysqli_error());
-               echo $mensaje;
-            //       if (mysqli_num_rows($resultado)>0){
-            //     if ($resultado){
-            //      while (($valores = mysqli_fetch_array($resultado)) ){
-              //        $id_combi_act = $valores['id_combi'];
-              //        if ($id_combi_act == $id_combi){
-              //           $mensaje= 'No se puede dar de baja las combis que tengan viajes asignados, por favor primero modifique los datos de esos viajes o cancele el viaje en caso de que tenga pasajes vendidos';
-
+             //  echo $mensaje;
+                   if (mysqli_num_rows($resultado)>0){
+                if ($resultado){
+                  while (($valores = mysqli_fetch_array($resultado)) ){
+                      $id_combi_act = $valores['id_combi'];
+                      if ($id_combi_act == $id_combi){
+                         $mensaje= 'No se puede dar de baja las combis que tengan viajes asignados, por favor primero modifique los datos de esos viajes o cancele el viaje en caso de que tenga pasajes vendidos';
+}
+                   }
+                 }
+               }
 
 
 
