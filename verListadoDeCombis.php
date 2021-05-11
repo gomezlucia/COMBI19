@@ -12,7 +12,7 @@
 <body>
 
      <?php
-        $consulta= "SELECT id_combi, patente, chasis, modelo, nombre_tipo, debaja FROM combis NATURAL JOIN tipos_combi " ;#debaja = 0 es falso
+        $consulta= "SELECT id_combi, patente, chasis, modelo, nombre_tipo, debaja, asientos FROM combis NATURAL JOIN tipos_combi " ;#debaja = 0 es falso
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
         if ($resultado){
           while (($valores = mysqli_fetch_array($resultado)) ){
@@ -22,6 +22,7 @@
              $id_combi = $valores['id_combi'];
              $tipo_combi = $valores['nombre_tipo'] ;
              $debaja = $valores['debaja'];
+             $asientos=$valores['asientos'];
              ?>
              <div>
              	<h2><?php echo $patente ?></h2>
@@ -30,6 +31,7 @@
              			<b>Numero de chasis:</b> <?php echo $chasis;?><br>
              			<b>Modelo:</b> <?php echo $modelo;?><br>
              			<b>Tipo de combi:</b> <?php echo $tipo_combi;?><br>
+                  <b>Cantidad de asientos:</b> <?php echo $asientos;?><br>
                 <?php  if ($debaja == 0){
                 //    $tipo='checkbox';
                 ?><br>
@@ -39,7 +41,7 @@
               else{ ?>
                 <br>
                 <b >Combi dada de baja <br><br>
-              <?php } ?>
+              <?php }} ?>
 
 
 
@@ -53,17 +55,14 @@
 
                 $consulta2= "SELECT id_combi FROM viajes WHERE (now()<=fecha_hora_salida) and id_combi ='$id_combi'" ;
                $result25= mysqli_query ($link, $consulta2) or die ('Consulta fallida 44' .mysqli_error());
-             //  echo $mensaje;
-                   if (mysqli_num_rows($resultado)>0){
-                if ($resultado){
-                  while (($valores = mysqli_fetch_array($resultado)) ){
-                      $id_combi_act = $valores['id_combi'];
-                      if ($id_combi_act == $id_combi){
-                         $mensaje= 'No se puede dar de baja las combis que tengan viajes asignados, por favor primero modifique los datos de esos viajes o cancele el viaje en caso de que tenga pasajes vendidos';
-}
-                   }
-                 }
-               }
+               echo $mensaje;
+            //       if (mysqli_num_rows($resultado)>0){
+            //     if ($resultado){
+            //      while (($valores = mysqli_fetch_array($resultado)) ){
+              //        $id_combi_act = $valores['id_combi'];
+              //        if ($id_combi_act == $id_combi){
+              //           $mensaje= 'No se puede dar de baja las combis que tengan viajes asignados, por favor primero modifique los datos de esos viajes o cancele el viaje en caso de que tenga pasajes vendidos';
+
 
 
 
@@ -90,7 +89,7 @@
              </div>
              <?php
 
-        }
+        
 
         if(mysqli_num_rows($resultado)==0){
             ?>
