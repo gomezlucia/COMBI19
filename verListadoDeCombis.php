@@ -1,8 +1,6 @@
 <?php
     include("BD.php");// conectar y seleccionar la base de datos
     $link=conectar();
-//    include("funcionEvaluarDebaja.php");
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -11,7 +9,7 @@
 </head>
 <body>
 
-
+ <a href="home.php" >Volver al home </a>   
      <?php
         $consulta= "SELECT id_combi, patente, chasis, modelo, nombre_tipo, debaja, asientos FROM combis NATURAL JOIN tipos_combi " ;#debaja = 0 es falso
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
