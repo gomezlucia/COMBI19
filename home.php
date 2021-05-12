@@ -9,44 +9,19 @@
 <html>
     <head>
         <title> COMBI-19</title>
-        <style type="text/css">
-            #menu{
-                list-style: none;
-                padding: 0;
-                background:#135373;
-                width: 30%;
-                max-width: 1000px;
-                margin: auto;
-            }
-            #menu li a{
-               text-decoration: none;
-               color: white;
-               padding: 20px;
-               display: block;  
-            }
-            #menu li{
-                text-align: center;
-            }
-            #menu li a:hover{
-                background:#93ad94;
-            }
-           img{
-             display:block;
-             margin:auto;
-             height: 30%;
-             padding: 5px;
-            }
-        </style>
+       <style type="text/css">
+         li{
+            list-style: none;
+            padding: 20px;
+         }
+       </style>
      </head>
      <?php try {
              $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
      ?> 
-     <body> 
-                
-            <a href="home.php" >  
-                      <img src="logo_is.png" class="div_icono">  
-                     </a> 
+     <body>               
          <center>
+            <h1>COMBI-19</h1> 
                 <?php $consulta="SELECT tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
                 $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
                 $usuario=mysqli_fetch_array ($resultado); 
@@ -79,4 +54,3 @@
                 	//redirige a la pagina inicioSesion y muestra una mensaje de error
      }?>
 </html>
-
