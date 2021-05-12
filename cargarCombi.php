@@ -5,21 +5,10 @@
   <html>
   <head>
     <title>Registro de combi</title>
-    <style type="text/css">
-        
-            img{
-             display:block;
-             margin:auto;
-             height: 30%;
-             padding: 5px;
-            }
 
-        </style>
   </head>
   <body>
         <a href="home.php" > 
-            <img src="logo_is.png" class="div_icono">     
-        </a>
     <center>
     <form action="procesarCargaCombi.php" method="post">
      <h1> Registrar combi </h1>   
