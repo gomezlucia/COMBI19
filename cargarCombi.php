@@ -8,7 +8,7 @@
 
   </head>
   <body>
-        <a href="home.php" > 
+         <a href="home.php" >Volver al home </a>   
     <center>
     <form action="procesarCargaCombi.php" method="post">
      <h1> Registrar combi </h1>   
