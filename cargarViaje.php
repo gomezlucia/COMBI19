@@ -1,3 +1,4 @@
+      
  <?php
   include "BD.php";// conectar y seleccionar la base de datos
   $link = conectar();
@@ -9,6 +10,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title> CARGAR VIAJE</title>
+<style type="text/css">        
+            img{
+             display:block;
+             margin:auto;
+             height: 30%;
+             padding: 5px;
+            }
+        </style>
 </head>
 <body>
  <?php  try {
@@ -26,6 +36,9 @@
     $precio=$_SESSION['precio_formulario'];
    }
 ?>
+       <a href="home.php" > 
+            <img src="logo_is.png" class="div_icono">     
+        </a>
      <center>
      <form action="validarViaje.php" method="post">
      	<h1>Registro de viaje</h1>
