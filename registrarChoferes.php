@@ -3,6 +3,7 @@
     <title>Registro de Choferes</title>
   </head>
   <body>
+	   <a href="home.php" >Volver al home </a>   
     <form action="registrarse.php" method="post">
      <h1> Registrar chofer </h1>
 				<input type="text" name="nombre" size=50 placeholder=" Nombre"> <br><br>
