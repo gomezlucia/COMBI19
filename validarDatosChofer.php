@@ -4,6 +4,7 @@
    // include "classLogin.php";
 	//$usuario= new usuario();
 	//$usuario ->id($id);
+	$id_usuario=intval($_POST['id']);
 	$cumple1=false;
 	$cumple2=true;
 	$cumple3=true;
@@ -54,7 +55,7 @@
    else{
       $mensaje='El nombre debe ser alfanumerico';
   }
-       $id_usuario=intval($_POST['id']);
+       
        if($cumple1){
        	 $consultaEmail= ("SELECT mail FROM usuarios WHERE id_usuario<>$id_usuario");//hacer consulta
 		$resultEmail= mysqli_query ($link, $consultaEmail) or die ('Consulta fallida 83' .mysqli_error());
@@ -84,11 +85,11 @@
 		}
 	
 	if((!$cumple1)or (!$cumple2) or (!$cumple3)){
-           	echo "<script > alert('$mensaje');window.location='verListadoDeChoferes.php'</script>";
+           	echo "<script > alert('$mensaje');window.location='modificarDatosChofer.php?id=$id_usuario'</script>";
            }
 }
 
 
      else{
-     	echo "<script > alert('Por favor complete todos los campos');window.location='verListadoDeChoferes.php'</script>";
+     	echo "<script > alert('Por favor complete todos los campos');window.location='modificarDatosChofer.php?id=$id_usuario'</script>";
      }
