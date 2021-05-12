@@ -9,12 +9,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<h1>Viajes disponibles</h1>
+    <style type="text/css">       
+            img{
+             display:block;
+             margin:auto;
+             height: 30%;
+             padding: 5px;
+            }
+        </style>
 </head>
      <?php try {
              $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
      ?> 
 <body>
+     <a href="home.php" > 
+            <img src="logo_is.png" class="div_icono">     
+        </a>
+      <h1>Viajes disponibles</h1>
      <?php
          $consulta="SELECT tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
          $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
