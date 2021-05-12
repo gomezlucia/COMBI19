@@ -13,7 +13,7 @@
             img{
              display:block;
              margin:auto;
-             height: 30%;
+             height: 180px;
              padding: 5px;
             }
         </style>
