@@ -1,5 +1,5 @@
 <?php
-    include("BD.php");// conectar y seleccionar la base de datos
+     include("BD.php");// conectar y seleccionar la base de datos
      $link=conectar();
      include "validarLogin.php";
      $usuario= new usuario();
@@ -9,22 +9,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style type="text/css">       
-            img{
-             display:block;
-             margin:auto;
-             height: 180px;
-             padding: 5px;
-            }
-        </style>
 </head>
      <?php try {
              $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
      ?> 
 <body>
-     <a href="home.php" > 
-            <img src="logo_is.png" class="div_icono">     
-        </a>
+<a href="home.php">Volver al home</a>
       <h1>Viajes disponibles</h1>
      <?php
          $consulta="SELECT tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
