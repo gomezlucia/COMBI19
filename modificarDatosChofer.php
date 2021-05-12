@@ -25,7 +25,7 @@ $consulta="SELECT nombre, contraseña, legajo, mail FROM usuarios WHERE id_usuar
     $legajo=$usuarioChofer['legajo'];
     $email=$usuarioChofer['mail'];
     ?>
-    
+  <a href="home.php" >Volver al home </a>     
     <form action="validarDatosChofer.php" method="post">
      <h1>Modificar datos del chofer </h1>   
         <input type="text" name="nombre" size=50 placeholder=" Nombre nuevo" value="<?php echo $nombre;?>"><br><br>          
