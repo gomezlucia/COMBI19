@@ -11,14 +11,6 @@
 <html>
 <head>
 <title> CARGAR VIAJE</title>
-<style type="text/css">        
-            img{
-             display:block;
-             margin:auto;
-             height: 30%;
-             padding: 5px;
-            }
-        </style>
 </head>
 <body>
  <?php  try {
@@ -29,16 +21,14 @@
     $fecha_hora_llegada="";
     $precio=""; 
   if (isset ($_GET['error']) ){
-    $origen=$_SESSION['origenF'];
+    $origen=$_SESSION['origen_formulario'];
     $destino=$_SESSION['destino_formulario'];
     $f_h_s=$_SESSION['fecha_hora_salida_formulario'];
     $f_h_l=$_SESSION['fecha_hora_llegada_formulario'];
     $precio=$_SESSION['precio_formulario'];
    }
 ?>
-       <a href="home.php" > 
-            <img src="logo_is.png" class="div_icono">     
-        </a>
+   <a href="home.php">Volver al home</a>
      <center>
      <form action="validarViaje.php" method="post">
      	<h1>Registro de viaje</h1>
@@ -57,14 +47,13 @@
 
  <?php if (isset ($_GET['error'])) { ?>
        
-     <form action="validarViaje.php" method="post">  
+     <form  action="validarViaje.php" method="post">  
  <?php
      $fecha_hora_salida=strftime('%Y-%m-%d %H:%M:%S', strtotime($_SESSION['fecha_hora_salida_formulario']));
      $fecha_hora_llegada=strftime('%Y-%m-%d %H:%M:%S', strtotime($_SESSION['fecha_hora_llegada_formulario']));?>   
      <select name= 'combis' id="combis">
              <option value="0">Seleccione combi</option>
-             <?php $consulta= "SELECT id_combi,patente,chasis,modelo FROM combis WHERE id_combi not in(SELECT id_combi from viajes WHERE ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))";
-             var_dump($consulta);
+             <?php $consulta= "SELECT id_combi,patente,chasis,modelo FROM combis WHERE  debaja='0' and  id_combi not in(SELECT id_combi from viajes WHERE ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))";
              $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
               while ($valores = mysqli_fetch_array($resultado)) {
                  echo '<option value="' . $valores["id_combi"] . '">' . $valores["patente"] ." ". $valores["chasis"]."  ". $valores["modelo"] .  '</option>';}?>
@@ -72,7 +61,7 @@
      <select name= 'choferes' id="choferes">
          <option value="0">Seleccione chofer</option>
          <?php 
-         $consulta= "SELECT id_usuario,nombre,apellido FROM usuarios WHERE tipo_usuario='chofer'and id_usuario not in (SELECT id_chofer from viajes WHERE  ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))";
+         $consulta= "SELECT id_usuario,nombre,apellido FROM usuarios WHERE debaja='0' and tipo_usuario='chofer'and id_usuario not in (SELECT id_chofer from viajes WHERE  ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))";
           $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
           while ($valores = mysqli_fetch_array($resultado)) {
            echo '<option value="' . $valores["id_usuario"] . '">' . $valores["nombre"] ." ". $valores["apellido"].'</option>';}?>
