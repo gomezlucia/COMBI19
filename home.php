@@ -30,29 +30,22 @@
             #menu li a:hover{
                 background:#93ad94;
             }
-            img{
+           img{
              display:block;
              margin:auto;
+             height: 30%;
+             padding: 5px;
             }
-            #div_superior{
-                height: 34%;
-
-             } 
-             #div_icono{
-                 width:15%;
-                 padding: 5px;
-             }
         </style>
      </head>
      <?php try {
              $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
      ?> 
      <body> 
-                <div class="div_superior"  > 
-                     <a href="home.php" >  
+                
+            <a href="home.php" >  
                       <img src="logo_is.png" class="div_icono">  
-                     </a>
-                </div>
+                     </a> 
          <center>
                 <?php $consulta="SELECT tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
                 $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
