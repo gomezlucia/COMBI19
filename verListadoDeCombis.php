@@ -40,6 +40,7 @@
                 ?><br>
                   <form action="funcionEvaluarDebaja.php" method="post">
                 <input type="hidden" name="id_combi" value="<?php echo $id_combi; ?>"> </input>
+                <input type="hidden" name="tipo" value="combi"> </input>
                 <input type="submit" value="Dar de baja"><br><br></input>
 
                 </form>
