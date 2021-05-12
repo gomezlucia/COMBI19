@@ -13,7 +13,7 @@
 
 
      <?php
-        $consulta= "SELECT id_combi, patente, chasis, modelo, nombre_tipo, debaja FROM combis NATURAL JOIN tipos_combi " ;#debaja = 0 es falso
+        $consulta= "SELECT id_combi, patente, chasis, modelo, nombre_tipo, debaja, asientos FROM combis NATURAL JOIN tipos_combi " ;#debaja = 0 es falso
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
         if ($resultado){
           while (($valores = mysqli_fetch_array($resultado)) ){
@@ -24,6 +24,7 @@
              $id_combi = $valores['id_combi'];
              $tipo_combi = $valores['nombre_tipo'] ;
              $debaja = $valores['debaja'];
+             $asientos = $valores['asientos'];
              ?>
              <div>
 
@@ -33,7 +34,7 @@
              			<b>Numero de chasis:</b> <?php echo $chasis;?><br>
              			<b>Modelo:</b> <?php echo $modelo;?><br>
              			<b>Tipo de combi:</b> <?php echo $tipo_combi;?><br>
-                  <b>Tipo de combi555555555:</b> <?php echo $id_combi;?><br>
+                  <b>Cantidad de asientos:</b> <?php echo $asientos;?><br>
                 <?php  if ($debaja == 0){
                 //    $tipo='checkbox';
                 ?><br>
@@ -51,11 +52,8 @@
 
              		</p>
               <?php
-
-
-               ?>
-
-              	</div>
+ ?>
+           	</div>
 
              </div>
              <?php
@@ -75,4 +73,3 @@
 
         ?>
 </html>
-
