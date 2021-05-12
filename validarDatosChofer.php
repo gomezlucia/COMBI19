@@ -71,7 +71,7 @@
 		while ($usuarioTabla= mysqli_fetch_array ($resultLegajo)){
 			if ($_POST['legajo'] == $usuarioTabla['legajo']){
 				$cumple3= false;
-				$mensaje="Este legajo ya fue ingresado, por favor elija otro";
+				$mensaje="Ya existe un usuario con ese legajo por favor ingrese otro";
 			}
 		}
 		if($cumple3){
