@@ -1,4 +1,3 @@
-
 <?php
     include("BD.php");// conectar y seleccionar la base de datos
     $link=conectar();
@@ -10,7 +9,7 @@
 </head>
 <body>
      <?php
-        $consulta= "SELECT SEC_TO_TIME(sum(time_to_sec(TIMEDIFF(v.fecha_hora_llegada, v.fecha_hora_salida)))) as horas, v.id_chofer,u.nombre, u.apellido, u.mail, u.legajo FROM viajes v inner join usuarios u on(v.id_chofer=u.id_usuario) WHERE(now()>=+v.fecha_hora_salida) GROUP BY v.id_chofer UNION SELECT 0 AS horas, u1.id_usuario  ,u1.nombre, u1.apellido, u1.mail, u1.legajo FROM usuarios u1 WHERE(u1.tipo_usuario='chofer')and NOT EXISTS ( SELECT * from viajes v1 WHERE v1.id_chofer=u1.id_usuario)" ;
+        $consulta= "SELECT SEC_TO_TIME(sum(time_to_sec(TIMEDIFF(v.fecha_hora_llegada, v.fecha_hora_salida)))) as horas,u.debaja, v.id_chofer,u.nombre, u.apellido, u.mail, u.legajo FROM viajes v inner join usuarios u on(v.id_chofer=u.id_usuario) WHERE(now()>=+v.fecha_hora_salida) GROUP BY v.id_chofer UNION SELECT 0 AS horas,u1.debaja, u1.id_usuario ,u1.nombre, u1.apellido, u1.mail, u1.legajo FROM usuarios u1 WHERE(u1.tipo_usuario='chofer')and u1.id_usuario not in (SELECT u.id_usuario FROM viajes v inner join usuarios u on(v.id_chofer=u.id_usuario) WHERE(now()>=+v.fecha_hora_salida) GROUP BY v.id_chofer )";
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: 14 ' .mysqli_error($link));
 
         if ($resultado){
@@ -21,6 +20,7 @@
              $legajo = $valores['legajo'];
              $horas_trabajadas = $valores['horas'];
              $debaja= $valores['debaja'];
+             $id_chofer= $valores['id_chofer'];
              ?>
              	<div>
                     <hr>
@@ -29,14 +29,18 @@
              			<b>Apellido:</b> <?php echo $apellido;?><br>
                         <b>Mail:</b> <?php echo $mail;?><br>
                         <b>Legajo:</b> <?php echo $legajo;?><br>
-                        <b>DEBAJA:</b> <?php echo $debaja;?><br>
                         <b>Horas trabajadas:</b> <?php
                         $horas=explode(":", $horas_trabajadas);
                         echo $horas[0];
                         if ($debaja == 0){
                       //    $tipo='checkbox';
                       ?><br>
-                      <input type="checkbox" >Dar de baja chofer<br><br>
+                        <form action="funcionEvaluarDebaja.php" method="post">
+                      <input type="hidden" name="id_chofer" value="<?php echo $id_chofer; ?>"> </input>
+                      <input type="hidden" name="tipo" value="chofer"> </input>
+                      <input type="submit" value="Dar de baja"><br><br></input>
+
+                      </form>
                       <?php
                     }
                     else{ ?>
