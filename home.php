@@ -1,14 +1,14 @@
 <?php
-	include "BD.php";// conectar y seleccionar la base de datos
-	$link = conectar();
+    include "BD.php";// conectar y seleccionar la base de datos
+    $link = conectar();
     include "validarLogin.php";
-	$usuario= new usuario();
-	$usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
-	$usuario ->id($id);
+    $usuario= new usuario();
+    $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
+    $usuario ->id($id);
 ?>
 <html>
-	<head>
-		<title> COMBI-19</title>
+    <head>
+        <title> COMBI-19</title>
         <style type="text/css">
             #menu{
                 list-style: none;
@@ -30,14 +30,29 @@
             #menu li a:hover{
                 background:#93ad94;
             }
+            img{
+             display:block;
+             margin:auto;
+            }
+            #div_superior{
+                height: 34%;
 
+             } 
+             #div_icono{
+                 width:15%;
+                 padding: 5px;
+             }
         </style>
      </head>
      <?php try {
-    	     $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
+             $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
      ?> 
-	 <body>	
-         <div id="header"></div>
+     <body> 
+                <div class="div_superior"  > 
+                     <a href="home.php" >  
+                      <img src="logo_is.png" class="div_icono">  
+                     </a>
+                </div>
          <center>
                 <?php $consulta="SELECT tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
                 $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
