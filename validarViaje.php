@@ -24,12 +24,13 @@
              $fecha_hora_salida=strftime('%Y-%m-%d %H:%M:%S', strtotime($f_s)); 
              $fecha_hora_llegada=strftime('%Y-%m-%d %H:%M:%S', strtotime($f_l));
              $fechayhoractual=date("Y-m-d H:i:s");
-             if (($fechayhoractual<$f_l) and ($fechayhoractual<$f_s)) {
-              	 $hayChoferes= "SELECT id_usuario,nombre,apellido FROM usuarios WHERE debaja='0' and tipo_usuario='chofer'and id_usuario not in (SELECT id_chofer from viajes WHERE  ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))"; 
-			     $resultado= mysqli_query($link,$hayChoferes) or die ('Consulta fallida: ' .mysqli_error($link)); 
-			     if(mysqli_num_rows($resultado)==0){
+             if (($fechayhoractual<=$fecha_hora_salida) and ($fechayhoractual<=$fecha_hora_llegada)) {
+             	 if ($fecha_hora_llegada>$fecha_hora_salida) {
+             	 	 $hayChoferes= "SELECT id_usuario,nombre,apellido FROM usuarios WHERE debaja='0' and tipo_usuario='chofer'and id_usuario not in (SELECT id_chofer from viajes WHERE  ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))"; 
+			         $resultado= mysqli_query($link,$hayChoferes) or die ('Consulta fallida: ' .mysqli_error($link)); 
+			         if(mysqli_num_rows($resultado)==0){
 			              echo "<script > alert('No hay choferes disponibles para esas fechas y horas');window.location='cargarViaje.php'</script>";
-                 }else{ //hay choferes disponibles
+                     }else{ //hay choferes disponibles
 		                  $hayCombis="SELECT id_combi,patente,chasis,modelo FROM combis WHERE debaja='0' and id_combi not in(SELECT id_combi from viajes WHERE ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))";
 			             $resultado= mysqli_query($link,$hayCombis) or die ('Consulta fallida: ' .mysqli_error($link));
 			             if(mysqli_num_rows($resultado)==0){
@@ -41,11 +42,15 @@
                               $_SESSION['fecha_hora_salida_formulario'] = $f_s;
                               $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
                               $_SESSION['precio_formulario'] = $_POST['precio'];
-		                      header ("Location: /COMBI19-main/cargarViaje.php?error=$error");
+		                     header ("Location: /COMBI19-main/cargarViaje.php?error=$error");
 	                     }
 		             }
+             	 }
+             	 else{
+                      echo "<script > alert('Las fechas ingresadas son invalidas');window.location='cargarViaje.php'</script>";
+             	 }
          }else{
-               echo "<script > alert('Las fechas ingresadas son invalidas');window.location='cargarViaje.php'</script>";	
+              echo "<script > alert('Las fechas ingresadas son invalidas');window.location='cargarViaje.php'</script>";	
               }
      }
 ?>
