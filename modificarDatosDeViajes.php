@@ -27,13 +27,16 @@
     $fecha_hora_llegada=$viaje['fecha_hora_llegada'];
 
   ?>
-  <a href="home.php">Volver al home</a>
+  <a href="home.php">Volver al home</a> <br>
+  <a href="listarViajes.php">Volver al listado</a>
   <center>
      <h2>Modificar datos del viaje</h2>
 	 <form name="editar" method="post" action="validarModificacionViaje.php" >
        <input type="hidden" name="id_viaje" value="<?php echo $id_viaje ?>"> <br><br> 
 	   Origen  <input type="text"  name="origen"  placeholder="Origen viaje" size=50 value="<?php echo $origen; ?>" required ></input><br><br>  
 		 Destino <input type ="text" name="destino" size=50 placeholder="Destino viaje" value="<?php echo $destino; ?>" required></input><br><br> 
+     Fecha y hora de salida <?php echo   $fecha_hora_salida;  ?> <br><br>
+     Fecha y hora de llegada <?php echo $fecha_hora_llegada;  ?> <br><br>
 		 Precio $ <input type ="number" name="precio" size=50 placeholder="Precio viaje" value="<?php echo $precio; ?>" required></input><br><br> 
 		 <?php $consulta= "SELECT id_combi,patente,chasis,modelo FROM combis WHERE debaja='0' and  id_combi not in (SELECT id_combi from viajes WHERE  ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))";
           $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
