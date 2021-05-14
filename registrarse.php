@@ -24,7 +24,8 @@
 			if (isset ($_POST['nombre_usuario'])){
 				$usuario= $_POST['nombre_usuario'];
 //				if ((ctype_alnum($usuario))) {// alfanumerico y 6 caracteres
-					if ((isset ($_POST['contraseña'])) and (isset ($_POST['clave1'])) and ($_POST['clave1']==$_POST['contraseña'])) {
+					if ((isset ($_POST['contraseña'])) and (isset ($_POST['clave1']))){ 
+						if($_POST['clave1']==$_POST['contraseña']) {
 						$contra= $_POST['contraseña'];
 						if ((strlen($contra)) >= 8){
 							$mayus= 0;
@@ -69,7 +70,10 @@
 							$contra_correcta= false;
 						}
 					 } else {
-						$contra_correcta= false;
+						 $mensaje="Las contraseñas no coinciden";
+						}
+					}else{
+                         $contra_correcta= false;
 					}
 //				} else {
 //					$mensaje="ingrese";
@@ -98,7 +102,9 @@ else{
       if (isset ($_POST['nombre_usuario'])){
         $usuario= $_POST['nombre_usuario'];
 //				if ((ctype_alnum($usuario))) {// alfanumerico y 6 caracteres
-          if ((isset ($_POST['contraseña'])) and (isset ($_POST['clave1'])) and ($_POST['clave1']==$_POST['contraseña'])) {
+          if ((isset ($_POST['contraseña'])) and (isset ($_POST['clave1']))){
+
+          if($_POST['clave1']==$_POST['contraseña']) {
             $contra= $_POST['contraseña'];
             if ((strlen($contra)) >= 8){
               $mayus= 0;
@@ -135,7 +141,11 @@ else{
               $contra_correcta= false;
             }
            } else {
-            $contra_correcta= false;
+            $mensaje="Las contraseñas no coinciden";
+          }
+      }
+          else{
+          	$contra_correcta= false;
           }
 //				} else {
 //					$mensaje="ingrese";
@@ -157,6 +167,7 @@ else{
 if ($contra_correcta == false ){
 	$mensaje= "La contraseña debe contar con al menos 8 caracteres, contener letras mayúsculas, letras minúsculas, poseer al menos un número y un símbolo";
 }
+
 
 
 	$cumple2=true;// verificacion de la existencia del nombre de usuario
