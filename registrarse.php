@@ -7,7 +7,7 @@
 	$contra_correcta= true;
 
 	function edad($edad){
-   list($anio,$mes,$dia) = explode("/",$edad);
+   list($anio,$mes,$dia) = explode("-",$edad);
     $anio_dif = date("Y") - $anio;
     $mes_dif = date("m") - $mes;
     $dia_dif = date("d") - $dia;
