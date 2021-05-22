@@ -39,13 +39,13 @@
 		 <p>Fecha y hora de llegada</p>
 		 <input type="datetime-local" name="fecha_hora_llegada"required=""  value="<?php echo "$f_h_l"?>"> <br><br>
 		 <input type="number" name="precio" size=50 placeholder="Precio del pasaje" required="" value="<?php echo "$precio"?>"  >  <br><br>
-     <?php if (!isset ($_GET['error'])){ ?>
+     <?php if ( ( isset ($_GET['error']) and $_GET['error'] ) or ( !isset ($_GET['error']) ) ){ ?>
           <input type="submit" value="Mostrar choferes y combis diponibles">
           <input type= "reset" value= "Borrar">
      <?php } ?>
      </form>
 
- <?php if (isset ($_GET['error'])) { ?>
+ <?php if (isset ($_GET['error']) and (!$_GET['error'])) { ?>
        
      <form  action="validarViaje.php" method="post">  
  <?php
