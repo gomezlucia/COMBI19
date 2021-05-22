@@ -29,12 +29,24 @@
              	 	 $hayChoferes= "SELECT id_usuario,nombre,apellido FROM usuarios WHERE debaja='0' and tipo_usuario='chofer'and id_usuario not in (SELECT id_chofer from viajes WHERE  ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))"; 
 			         $resultado= mysqli_query($link,$hayChoferes) or die ('Consulta fallida: ' .mysqli_error($link)); 
 			         if(mysqli_num_rows($resultado)==0){
-			              echo "<script > alert('No hay choferes disponibles para esas fechas y horas');window.location='cargarViaje.php'</script>";
+			         	  $error=true;
+         				  $_SESSION['origen_formulario'] = $_POST['origen'];
+		                  $_SESSION['destino_formulario'] = $_POST['destino'];
+                          $_SESSION['fecha_hora_salida_formulario'] = $f_s;
+                          $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
+                          $_SESSION['precio_formulario'] = $_POST['precio'];
+			              echo "<script > alert('No hay choferes disponibles para esas fechas y horas');window.location='cargarViaje.php?error=$error'</script>";
                      }else{ //hay choferes disponibles
 		                  $hayCombis="SELECT id_combi,patente,chasis,modelo FROM combis WHERE debaja='0' and id_combi not in(SELECT id_combi from viajes WHERE ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))";
 			             $resultado= mysqli_query($link,$hayCombis) or die ('Consulta fallida: ' .mysqli_error($link));
 			             if(mysqli_num_rows($resultado)==0){
-				              echo "<script > alert('No hay combis disponibles para esas fechas y horas');window.location='cargarViaje.php'</script>";
+			             	  $error=true;
+         					  $_SESSION['origen_formulario'] = $_POST['origen'];
+		                      $_SESSION['destino_formulario'] = $_POST['destino'];
+                              $_SESSION['fecha_hora_salida_formulario'] = $f_s;
+                              $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
+                              $_SESSION['precio_formulario'] = $_POST['precio'];
+				              echo "<script > alert('No hay combis disponibles para esas fechas y horas');window.location='cargarViaje.php?error=$erorr'</script>";
      	                 }else{ //hay choferes y combis disponibles
 	     		  	          $error=false;
 		    	   	          $_SESSION['origen_formulario'] = $_POST['origen'];
@@ -47,10 +59,22 @@
 		             }
              	 }
              	 else{
-                      echo "<script > alert('Las fechas ingresadas son invalidas');window.location='cargarViaje.php'</script>";
+             	     $error=true;
+         	         $_SESSION['origen_formulario'] = $_POST['origen'];
+		             $_SESSION['destino_formulario'] = $_POST['destino'];
+                     $_SESSION['fecha_hora_salida_formulario'] = $f_s;
+                     $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
+                     $_SESSION['precio_formulario'] = $_POST['precio'];
+                      echo "<script > alert('Las fechas ingresadas son invalidas');window.location='cargarViaje.php?error=$error'</script>";
              	 }
          }else{
-              echo "<script > alert('Las fechas ingresadas son invalidas');window.location='cargarViaje.php'</script>";	
+         	  $error=true;
+         	  $_SESSION['origen_formulario'] = $_POST['origen'];
+		      $_SESSION['destino_formulario'] = $_POST['destino'];
+              $_SESSION['fecha_hora_salida_formulario'] = $f_s;
+              $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
+              $_SESSION['precio_formulario'] = $_POST['precio'];
+              echo "<script > alert('Las fechas ingresadas son invalidas');window.location='cargarViaje.php?error=$error'</script>";	
               }
      }
 ?>
