@@ -15,26 +15,39 @@
 <body>
  <?php  try {
            $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
-    $origen="";
-    $destino="";
     $fecha_hora_salida="";
     $fecha_hora_llegada="";
     $precio=""; 
   if (isset ($_GET['error']) ){
-    $origen=$_SESSION['origen_formulario'];
-    $destino=$_SESSION['destino_formulario'];
     $f_h_s=$_SESSION['fecha_hora_salida_formulario'];
     $f_h_l=$_SESSION['fecha_hora_llegada_formulario'];
     $precio=$_SESSION['precio_formulario'];
+    $id_ruta=$_SESSION['ruta_formulario'];
    }
 ?>
    <a href="home.php">Volver al home</a>
      <center>
      <form action="validarViaje.php" method="post">
-     	<h1>Registro de viaje</h1>
-  		<input type="text" name="origen" size=50 placeholder="Origen" value="<?php echo "$origen"?>" required=""> <br><br>
-		 <input type="text" name="destino" size=50 placeholder="Destino" required=""value="<?php echo "$destino"?>"> <br>
-		 <p>Fecha y hora de salida</p>
+     	 <h1>Registro de viaje</h1>
+       <?php if (!isset ($_GET['error'])) {  ?>
+       <select name= 'rutas' id="rutas">
+             <option value="0">Seleccione ruta</option>
+             <?php $consulta= "SELECT id_ruta,origen,destino FROM rutas WHERE  debaja='0'";
+             $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
+              while ($valores = mysqli_fetch_array($resultado)) {
+                 echo '<option value="' . $valores["id_ruta"] . '">' . $valores["origen"] ."-". $valores["destino"]. '</option>';}?>
+     </select> <br><br> 
+     <?php }else{ 
+         $consulta="SELECT origen,destino FROM rutas WHERE  id_ruta='$id_ruta'";
+         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
+         $ruta=mysqli_fetch_array ($resultado); 
+         $origen=$ruta['origen'];
+         $destino=$ruta['destino']; ?>
+         <select name= 'rutas' id="rutas">
+             <option value=" <?php echo $id_ruta ?>"><?php echo "$origen"."-"."$destino"  ?></option>
+         </select> <br>
+     <?php } ?>
+		  <p>Fecha y hora de salida</p>
 		 <input type="datetime-local" name="fecha_hora_salida" required="" value="<?php echo "$f_h_s"?>"> <br>
 		 <p>Fecha y hora de llegada</p>
 		 <input type="datetime-local" name="fecha_hora_llegada"required=""  value="<?php echo "$f_h_l"?>"> <br><br>
@@ -50,7 +63,7 @@
      <form  action="validarViaje.php" method="post">  
  <?php
      $fecha_hora_salida=strftime('%Y-%m-%d %H:%M:%S', strtotime($_SESSION['fecha_hora_salida_formulario']));
-     $fecha_hora_llegada=strftime('%Y-%m-%d %H:%M:%S', strtotime($_SESSION['fecha_hora_llegada_formulario']));?>   
+     $fecha_hora_llegada=strftime('%Y-%m-%d %H:%M:%S', strtotime($_SESSION['fecha_hora_llegada_formulario']));?>  
      <select name= 'combis' id="combis">
              <option value="0">Seleccione combi</option>
              <?php $consulta= "SELECT id_combi,patente,chasis,modelo FROM combis WHERE  debaja='0' and  id_combi not in(SELECT id_combi from viajes WHERE ('$fecha_hora_salida' BETWEEN fecha_hora_salida and fecha_hora_llegada) or ('$fecha_hora_llegada' BETWEEN fecha_hora_salida and fecha_hora_llegada))";
@@ -65,7 +78,7 @@
           $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
           while ($valores = mysqli_fetch_array($resultado)) {
            echo '<option value="' . $valores["id_usuario"] . '">' . $valores["nombre"] ." ". $valores["apellido"].'</option>';}?>
-     </select><br><br>
+     </select><br>
      <p>Seleccione los adicionales que desea agregar al viaje:</p>
      <select name= 'servicios_adicionales[]'  multiple="multiple">
              <?php $consulta= "SELECT * FROM servicios_adicionales";
@@ -78,6 +91,7 @@
      <input type="hidden" name="fecha_hora_salida"  value="<?php echo "$fecha_hora_salida"?>"> 
      <input type="hidden" name="fecha_hora_llegada" value="<?php echo "$fecha_hora_llegada"?>">
      <input type="hidden" name="precio" required="" value="<?php echo "$precio"?>" >
+     <input type="hidden" name="ruta" required="" value="<?php echo "$id_ruta"?>" >
      <input type="hidden" name="form" required="" value="segundo_form" >
      <input type="submit" value="Cargar viaje">
      <input type= "reset" value= "Borrar">   
