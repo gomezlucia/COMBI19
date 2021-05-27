@@ -5,7 +5,7 @@
 	            
                 
 	     if ( (isset($_POST['form'])) and ($_POST['form']=='segundo_form') ){
-	     	 $Consulta="INSERT INTO viajes( id_chofer, id_combi, origen, destino, fecha_hora_salida, fecha_hora_llegada, precio, debaja, cupo) VALUES ('$_POST[choferes]','$_POST[combis]','$_POST[origen]','$_POST[destino]','$_POST[fecha_hora_salida]','$_POST[fecha_hora_llegada]','$_POST[precio]',0,0)";
+	     	 $Consulta="INSERT INTO viajes( id_chofer, id_combi,  fecha_hora_salida, fecha_hora_llegada, precio, debaja, cupo,id_ruta) VALUES ('$_POST[choferes]','$_POST[combis]','$_POST[fecha_hora_salida]','$_POST[fecha_hora_llegada]','$_POST[precio]',0,0,'$_POST[ruta]')";
 	     	 $Resultado=mysqli_query($link,$Consulta) or die ('Consulta fallida: ' .mysqli_error($link));
 	     	 $id_viaje=mysqli_insert_id($link); 
 	     	 if ($Resultado) {
@@ -17,7 +17,7 @@
 	     	  	 }	     	  	
 	     	     echo "<script > alert('Viaje cargado exitosamente');window.location='home.php'</script>";
 	     	 }
-	     }elseif ((!empty($_POST['origen'])) and (!empty($_POST['destino'])) and (!empty($_POST['fecha_hora_salida']))and (!empty($_POST['fecha_hora_llegada'])) and (!empty($_POST['precio'])) ) { //llego desde el primer formulario 
+	     }elseif ((!empty($_POST['rutas']))  and (!empty($_POST['fecha_hora_salida']))and (!empty($_POST['fecha_hora_llegada'])) and (!empty($_POST['precio'])) ) { //llego desde el primer formulario 
              
              $f_s=$_POST['fecha_hora_salida'];
 		     $f_l=$_POST['fecha_hora_llegada'];
@@ -30,8 +30,7 @@
 			         $resultado= mysqli_query($link,$hayChoferes) or die ('Consulta fallida: ' .mysqli_error($link)); 
 			         if(mysqli_num_rows($resultado)==0){
 			         	  $error=true;
-         				  $_SESSION['origen_formulario'] = $_POST['origen'];
-		                  $_SESSION['destino_formulario'] = $_POST['destino'];
+         				  $_SESSION['ruta_formulario'] = $_POST['rutas'];
                           $_SESSION['fecha_hora_salida_formulario'] = $f_s;
                           $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
                           $_SESSION['precio_formulario'] = $_POST['precio'];
@@ -41,27 +40,24 @@
 			             $resultado= mysqli_query($link,$hayCombis) or die ('Consulta fallida: ' .mysqli_error($link));
 			             if(mysqli_num_rows($resultado)==0){
 			             	  $error=true;
-         					  $_SESSION['origen_formulario'] = $_POST['origen'];
-		                      $_SESSION['destino_formulario'] = $_POST['destino'];
+         					  $_SESSION['ruta_formulario'] = $_POST['rutas'];
                               $_SESSION['fecha_hora_salida_formulario'] = $f_s;
                               $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
                               $_SESSION['precio_formulario'] = $_POST['precio'];
 				              echo "<script > alert('No hay combis disponibles para esas fechas y horas');window.location='cargarViaje.php?error=$erorr'</script>";
      	                 }else{ //hay choferes y combis disponibles
 	     		  	          $error=false;
-		    	   	          $_SESSION['origen_formulario'] = $_POST['origen'];
-		                      $_SESSION['destino_formulario'] = $_POST['destino'];
+		    	   	          $_SESSION['ruta_formulario'] = $_POST['rutas'];
                               $_SESSION['fecha_hora_salida_formulario'] = $f_s;
                               $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
                               $_SESSION['precio_formulario'] = $_POST['precio'];
-		                     header ("Location: /COMBI19-main/cargarViaje.php?error=$error");
+		                      header ("Location: /COMBI19-main/cargarViaje.php?error=$error");
 	                     }
 		             }
              	 }
              	 else{
              	     $error=true;
-         	         $_SESSION['origen_formulario'] = $_POST['origen'];
-		             $_SESSION['destino_formulario'] = $_POST['destino'];
+         	         $_SESSION['ruta_formulario'] = $_POST['rutas'];
                      $_SESSION['fecha_hora_salida_formulario'] = $f_s;
                      $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
                      $_SESSION['precio_formulario'] = $_POST['precio'];
@@ -69,8 +65,7 @@
              	 }
          }else{
          	  $error=true;
-         	  $_SESSION['origen_formulario'] = $_POST['origen'];
-		      $_SESSION['destino_formulario'] = $_POST['destino'];
+         	  $_SESSION['ruta_formulario'] = $_POST['rutas'];
               $_SESSION['fecha_hora_salida_formulario'] = $f_s;
               $_SESSION['fecha_hora_llegada_formulario'] = $_POST['fecha_hora_llegada'];
               $_SESSION['precio_formulario'] = $_POST['precio'];
