@@ -5,6 +5,8 @@
 	$cumple1= false;
 	$mensaje= "";
 	$contra_correcta= true;
+	session_start();
+
 
 	function edad($edad){
    list($anio,$mes,$dia) = explode("-",$edad);
@@ -24,9 +26,10 @@
 			if (isset ($_POST['nombre_usuario'])){
 				$usuario= $_POST['nombre_usuario'];
 //				if ((ctype_alnum($usuario))) {// alfanumerico y 6 caracteres
-					if ((isset ($_POST['contraseña'])) and (isset ($_POST['clave1']))){ 
+					if ((isset ($_POST['contraseña'])) and (isset ($_POST['clave1']))){
 						if($_POST['clave1']==$_POST['contraseña']) {
 						$contra= $_POST['contraseña'];
+						$clave= $_POST['clave1'];
 						if ((strlen($contra)) >= 8){
 							$mayus= 0;
 							$simbolo= 0;
@@ -45,10 +48,13 @@
 							 if (($mayus <> 0) and (($simbolo <> 0) or ($nro <> 0))) {
 
 										if(isset($_POST['mail'])){
+											$mail=$_POST['mail'];
 
                       if((ctype_digit($_POST['DNI'])) and ((strlen($_POST['DNI'])) >= 7) and ((strlen($_POST['DNI'])) < 9)){
+												$dni=$_POST['DNI'];
 
 												if ( edad($_POST['fecha_nacimiento']) >= 18){
+													$fecha=$_POST['fecha_nacimiento'];
 											  $cumple1= true;
 											}
 											else{
@@ -123,7 +129,9 @@ else{
 
               if (($mayus <> 0) and (($simbolo <> 0) and ($nro <> 0))) {
 								if(isset($_POST['mail'])){
+									$mail=$_POST['mail'];
 									if(isset($_POST['legajo'])){
+										$legajo=$_POST['legajo'];
                   $cumple1= true;
 								    }
 										else{
@@ -166,6 +174,15 @@ else{
 
 if ($contra_correcta == false ){
 	$mensaje= "La contraseña debe contar con al menos 8 caracteres, contener letras mayúsculas, letras minúsculas, poseer al menos un número y un símbolo";
+$error=true;
+$_SESSION['nombre_formulario'] = $_POST['nombre'];
+		$_SESSION['apellido_formulario'] = $_POST['apellido'];
+				$_SESSION['fecha_formulario'] = $_POST['fecha_nacimiento'];
+				$_SESSION['dni_formulario'] = $_POST['DNI'];
+				$_SESSION['nombre_usuario_formulario'] = $_POST['nombre_usuario'];
+				$_SESSION['contra_formulario'] = $_POST['contraseña'];
+				$_SESSION['mail_formulario'] = $_POST['mail'];
+				$_SESSION['legajo_formulario'] = $_POST['legajo'];
 }
 
 
@@ -178,6 +195,15 @@ if ($contra_correcta == false ){
 			if ($usuario == $usuarioTabla['nombre_usuario']){
 				$cumple2= false;
 				$mensaje="El nombre de usuario ya existe, por favor elija otro";
+				$error=true;
+				$_SESSION['nombre_formulario'] = $_POST['nombre'];
+						$_SESSION['apellido_formulario'] = $_POST['apellido'];
+								$_SESSION['fecha_formulario'] = $_POST['fecha_nacimiento'];
+								$_SESSION['dni_formulario'] = $_POST['DNI'];
+								$_SESSION['nombre_usuario_formulario'] = $_POST['nombre_usuario'];
+								$_SESSION['contra_formulario'] = $_POST['contraseña'];
+								$_SESSION['mail_formulario'] = $_POST['mail'];
+								$_SESSION['legajo_formulario'] = $_POST['legajo'];
 			}
 		}
 	}
@@ -188,6 +214,13 @@ if ($contra_correcta == false ){
 			if ($_POST['legajo'] == $usuarioTabla['legajo']){
 				$cumple2= false;
 				$mensaje='Ya existe un usuario con ese legajo por favor ingrese otro';
+				$error=true;
+				$_SESSION['nombre_formulario'] = $_POST['nombre'];
+						$_SESSION['apellido_formulario'] = $_POST['apellido'];
+												$_SESSION['legajo_formulario'] = $_POST['legajo'];
+								$_SESSION['nombre_usuario_formulario'] = $_POST['nombre_usuario'];
+								$_SESSION['contra_formulario'] = $_POST['contraseña'];
+								$_SESSION['mail_formulario'] = $_POST['mail'];
 			}
 		}
 	}
@@ -200,6 +233,15 @@ if ($contra_correcta == false ){
 			if ($mail == $usuarioTabla['mail']){
 				$cumple2= false;
 				$mensaje="El mail ingresado ya tiene una cuenta asociada";
+				$error=true;
+				$_SESSION['nombre_formulario'] = $_POST['nombre'];
+						$_SESSION['apellido_formulario'] = $_POST['apellido'];
+								$_SESSION['fecha_formulario'] = $_POST['fecha_nacimiento'];
+								$_SESSION['dni_formulario'] = $_POST['DNI'];
+								$_SESSION['nombre_usuario_formulario'] = $_POST['nombre_usuario'];
+								$_SESSION['contra_formulario'] = $_POST['contraseña'];
+								$_SESSION['mail_formulario'] = $_POST['mail'];
+								$_SESSION['legajo_formulario'] = $_POST['legajo'];
 			}
 		}
 	}
@@ -228,9 +270,10 @@ if ($contra_correcta == false ){
      }
  }else {
 	 if($_POST['tipo_usuario']=='cliente'){
-         echo "<script > alert('Error al completar el formulario.'+'$mensaje');window.location='registroUsuario.php'</script>";
+
+         echo "<script > alert('Error al completar el formulario.'+'$mensaje');window.location='registroUsuario.php?error=$error'</script>";
      }else{
-     	 echo "<script > alert('Error al completar el formulario.'+'$mensaje');window.location='registrarChoferes.php'</script>";
+     	 echo "<script > alert('Error al completar el formulario.'+'$mensaje');window.location='registrarChoferes.php?error=$error'</script>";
      }
   }
 
