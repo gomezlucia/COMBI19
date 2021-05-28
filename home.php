@@ -37,6 +37,8 @@
                      </div>
          <?php } else { ?>
              <div id="menu">
+		     <li><a href="verListadoDeRutas.php"> Ver listado de combis </a></li>
+                   <li><a href="cargarRuta.php"> Ver listado de combis </a></li>
                  <li><a href="verListadoDeCombis.php"> Ver listado de combis </a></li>
                  <li><a href="cargarCombi.php"> Cargar combis  </a></li>
                  <li><a href="registrarChoferes.php"> Registrar Chofer  </a></li>
