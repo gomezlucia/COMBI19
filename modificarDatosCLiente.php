@@ -15,23 +15,27 @@
 
  try {
              $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada 
-$consulta="SELECT nombre_usuario, contraseña, mail FROM usuarios WHERE id_usuario='$id'";
+$consulta="SELECT nombre, apellido, DNI, contraseña, mail FROM usuarios WHERE id_usuario='$id'";
 $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
     $usuarioCliente=mysqli_fetch_array ($resultado); 
-    $nombre_usuario=$usuarioCliente['nombre_usuario'];
+    $nombre=$usuarioCliente['nombre'];
+    $apellido=$usuarioCliente['apellido'];
+    $DNI=$usuarioCliente['DNI'];
     $contraseña=$usuarioCliente['contraseña'];
     $email=$usuarioCliente['mail'];
     ?>
   <a href="home.php" >Volver al home </a>     
     <form action="validarDatosCliente.php" method="post">
      <h1>Modificar datos personales </h1>   
-        <input type="text" name="nombre" size=50 placeholder=" Nombre de usuario nuevo" value="<?php echo $nombre_usuario;?>"><br><br>          
+        <input type="text" name="nombre" size=50 placeholder=" Nombre nuevo" value="<?php echo $nombre;?>"><br><br>    
+        <input type="text" name="apellido" size=50 placeholder="Apellido nuevo" value="<?php echo $apellido;?>"><br><br>       
+       <input type="text" name="DNI" size=50 placeholder=" D.N.I nuevo" value="<?php echo $DNI;?>"><br><br>     
         <input type="password" name="contraseña" size=50 placeholder="Contraseña nueva"value="<?php echo $contraseña;?>"><br><br>
         <input type="password" name="contraseña2" size=50 placeholder="Confirmar contraseña"value="<?php echo $contraseña;?>"><br><br>
         <input type="text" name="email" size=50 placeholder=" email nuevo"value="<?php echo $email;?>"><br><br>
         <input type="hidden"name="id" value="<?php echo $id;?>">       
        <br><br>
-        <input type="submit" value="Editar">
+        <input type="submit" value="Guardar">
         <input type= "reset" value= "Borrar">
     </form>
 </body>
