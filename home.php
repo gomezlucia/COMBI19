@@ -28,6 +28,7 @@
                  if ($usuario['tipo_usuario']=='cliente'){ ?> 
                      <div id="menu">
                           <li><a href="listarViajes.php"> Ver listado de viajes</a></li>
+                          <li><a href="verPerfilDeUsuario.php"> Perfil</a></li>
                           <li><a href="cerrarSesion.php"> Cerrar Sesion </a></li> 
                      </div>	
 
