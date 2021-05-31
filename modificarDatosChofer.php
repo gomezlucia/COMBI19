@@ -37,6 +37,7 @@ $consulta="SELECT nombre, contraseña, legajo, mail FROM usuarios WHERE id_usuar
        <br><br>
         <input type="submit" value="Guardar">
         <input type= "reset" value= "Borrar">
+        <input type="button" name="Cancelar" value="Cancelar" onClick="location.href='verListadoDeChoferes.php'"> 
     </form>
   </body>
 </html>

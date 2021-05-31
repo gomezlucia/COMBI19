@@ -37,6 +37,7 @@ $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_e
        <br><br>
         <input type="submit" value="Guardar">
         <input type= "reset" value= "Borrar">
+        <input type="button" name="Cancelar" value="Cancelar" onClick="location.href='verPerfilDeUsuario.php'"> 
     </form>
 </body>
   <?php  } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
