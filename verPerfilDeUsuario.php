@@ -45,13 +45,14 @@
                 </p>
               </div>
                    <?php }
-        $consulta= "SELECT t.numero_tarjeta FROM tarjetas t NATURAL JOIN tarjetas_clientes tc WHERE tc.id_cliente=$id";
+        $consulta= "SELECT t.id_tarjeta, t.numero_tarjeta FROM tarjetas t NATURAL JOIN tarjetas_clientes tc WHERE tc.id_cliente=$id";
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: 14 ' .mysqli_error($link));?>
 
     <center><h2>Tarjetas</h2>
     <?php
         if ($resultado){
             while (($valores = mysqli_fetch_array($resultado)) ){
+             $id_tarjeta=$valores['id_tarjeta'];
              $numero_tarjeta = $valores['numero_tarjeta'];
              $primeros = substr($numero_tarjeta, 0,2); 
              $ultimos =substr($numero_tarjeta, -4); 
@@ -60,7 +61,12 @@
                 <div>
                     <hr>
                     <p>
-                    <b>Numero de tarjeta:</b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?><br>
+
+                   
+                     <form action="borrarTarjeta.php" method="post"> 
+                       <b>Numero de tarjeta:</b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?>    <input type="hidden"name="id_tarjeta" value="<?php echo $id_tarjeta;?>">
+                           <input type="submit" value="Eliminar">
+                    </form>
                 </p>
               </div>
             <?php } 
