@@ -81,7 +81,13 @@
 	    		$id=$_SESSION['id_usuario'];
 	    	}
 	    }
+	    public function tieneSesionIniciada(&$sesion,$nombreUsuario){
+	    	 if (!isset ($nombreUsuario)) {
+				 $sesion=false;
+			 }
+	    }
 
 	}
 ?>
+
 
