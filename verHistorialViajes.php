@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<h1>Combis</h1>
+	<h1>Historial de Viajes</h1>
 </head>
 <body>
   <?php  try {
@@ -17,55 +17,61 @@
      $fecha_hora_salida="";
      $fecha_hora_llegada="";
      $precio="";
-
+     $calificado= false;
  ?>
 
  <a href="home.php" >Volver al home </a>
      <?php
-     $consulta= "SELECT v.id_viaje, v.id_ruta, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.debaja , t.origen, t.destino, c.id_cliente FROM viajes v NATURAL JOIN rutas t NATURAL JOIN clientes_viajes c WHERE (id_cliente='$id')" ;
+     $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
+     $resultado0= mysqli_query($link,$consulta0) or die ('Consulta fallida: ' .mysqli_error($link));
+     $consulta= "SELECT v.id_viaje, v.id_ruta, v.id_chofer, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.debaja , t.origen, t.destino, c.id_cliente, c.estado, u.nombre, u.apellido, u.id_usuario FROM viajes v NATURAL JOIN rutas t NATURAL JOIN usuarios u NATURAL JOIN clientes_viajes c  WHERE (id_cliente='$id') and (id_chofer=id_usuario)" ;
      $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
-        if ($resultado){
-          while (($valores = mysqli_fetch_array($resultado)) ){
+  //   $consulta2=" SELECT nom_chofer , ape_chofer , id_usuario FROM usuarios WHERE (id_usuario = '$valores['id_chofer']')"
+    // $resultado2= mysqli_query($link,$consulta2) or die ('Consulta fallida: ' .mysqli_error($link));
+    if ($resultado){
 
-        	 $fecha_hora_salida = $valores['fecha_hora_salida'];
+          while (($valores = mysqli_fetch_array($resultado)) ){
+            $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
+            $resultado0= mysqli_query($link,$consulta0) or die ('Consulta fallida: ' .mysqli_error($link));
+          //  var_dump($valores0);
+          if ($resultado0){
+            while (($valores0 = mysqli_fetch_array($resultado0)) ){
+            //  var_dump($valores0);
+              if (($valores0['id_viaje'] == $valores['id_viaje'])){
+                $calificado = true;
+
+              }
+            }
+
+
+             $destino = $valores['destino'];
+           	 $fecha_hora_salida = $valores['fecha_hora_salida'];
              $fecha_hora_llegada = $valores['fecha_hora_llegada'];
              $precio = $valores['precio'];
              $origen = $valores['origen'];
              $id_viaje = $valores['id_viaje'] ;
              $debaja = $valores['debaja'];
-             if ($debaja <> 0){
-               $estado= "cancelado";
-             }else{
+             $estado = $valores['estado'];
+             $nombre = $valores['nombre'];
+             $apellido = $valores['apellido'];
 
-             if ($fecha_hora_llegada >= now()){
-               $estado= "en curso";
-               if ($fecha_hora_salida >= now()){
-                 $estado="pendiente";
-               }
-             }
-             else{
-               $estado= "finalizado";
-             }
-
-             }
-
+//             echo $origen, '   -   ', $destino;
              ?>
-             <div>
-
-             	<h2><?php echo $origen ,'-', $destino ?></h2>
-             	<div>
+               <hr>
+               	<h2><?php echo $origen, '-', $destino ;?></h2>
              		<p>
              			<b>Fecha y hora de salida:</b> <?php echo $fecha_hora_salida;?><br>
                   <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
              			<b>Precio:</b> <?php echo $precio;?><br>
              			<b>Estado:</b> <?php echo $estado;?><br>
+                  <b>Nombre del chofer:</b> <?php echo $nombre, '   ', $apellido ;?><br>
 
-                <?php  if ($debaja == 0){ // LA CALIFICACION ES UNICA
+                <?php  if ($calificado<>true){ // LA CALIFICACION ES UNICA
                 //    $tipo='checkbox';
                 ?><br>
-                  <form action="funcionEvaluarDebaja.php" method="post">
-                <input type="hidden" name="id_combi" value="<?php echo $id_combi; ?>"> </input>
-                <input type="hidden" name="tipo" value="combi"> </input>
+                <form action="calificarViaje.php" method="post">
+                <input type="hidden" name="id" value="<?php echo $id; ?>"> </input>
+                <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"> </input>
                 <input type="submit" value="Calificar viaje"><br><br></input>
 
                 </form>
@@ -73,19 +79,20 @@
               }
               else{ ?>
                 <br>
-                <b >Este viaje ya fue calificado <br><br>
-              <?php } }?>
+                <b>Este viaje ya fue calificado <br><br>
+                  <form action="eliminarCalificacion.php" method="post">
+                  <input type="hidden" name="id" value="<?php echo $id; ?>"> </input>
+                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"> </input>
+                  <input type="submit" value="Eliminar calificación"><br><br></input>
 
+                  </form>
+
+              <?php  } $calificado= false; }}?>
              		</p>
               <?php
  ?>
-           	</div>
 
-             </div>
              <?php
-
-
-
         if(mysqli_num_rows($resultado)==0){
             ?>
             <div>
@@ -104,3 +111,4 @@
                         //redirige a la pagina inicioSesion y muestra una mensaje de error
            }?>
 </html>
+
