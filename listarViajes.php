@@ -39,8 +39,8 @@
                  <hr>
                  <p> <b>Origen:</b> <?php echo $origen;?><br>
          		     <b>Destino:</b> <?php echo $destino;?><br>
-             	     <b>Fecha y hora de salida:</b> <?php echo $fecha_hora_salida;?><br>
-                     <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
+             	     <b>Fecha y hora de salida:</b> <?php echo  date("d/m/Y  H:i:s", strtotime($fecha_hora_salida));?><br>
+                     <b>Fecha y hora de llegada:</b> <?php echo  date("d/m/Y  H:i:s", strtotime($fecha_hora_llegada));?><br>
                      <b>Precio:</b> <?php echo '$' . $precio;?><br>
                      <b>Cupo:</b> <?php 
                      if($cupo<$asientos){
@@ -59,6 +59,11 @@
                              <form action="comprarPasaje.php" method="post">
                                  <input type="submit" name="comprar" value="Comprar viaje"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                 <input type="hidden" name="origen" value="<?php echo $origen; ?>"></input>
+                                 <input type="hidden" name="destino" value="<?php echo $destino; ?>"></input>
+                                 <input type="hidden" name="fecha_hora_salida" value="<?php echo $fecha_hora_salida; ?>"></input>
+                                 <input type="hidden" name="fecha_hora_llegada" value="<?php echo $fecha_hora_llegada; ?>"></input>
+                                 <input type="hidden" name="precio" value="<?php echo $precio; ?>"></input>
                              </form> 
              <?php       }
                      }elseif (($cupo<$asientos) ) { ?>
