@@ -21,7 +21,7 @@
          $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
          $usuario=mysqli_fetch_array ($resultado); 
          $tipo_usuario=$usuario['tipo_usuario'];
-         $consulta= "SELECT v.id_viaje,v.origen, v.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t WHERE (now()<=fecha_hora_salida)and (debaja=0)" ;
+         $consulta= "SELECT v.id_viaje,v.id_ruta,r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0)" ;
          $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
          if ($resultado){
         	while (($valores = mysqli_fetch_array($resultado)) ){
