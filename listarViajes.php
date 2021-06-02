@@ -55,17 +55,21 @@
                                  <input type="submit" name="modificar" value="Modificar Viaje"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                              </form> 
-             <?php       }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) { ?>
-                             <form action="comprarPasaje.php" method="post">
-                                 <input type="submit" name="comprar" value="Comprar viaje"></input>
-                                 <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
-                                 <input type="hidden" name="origen" value="<?php echo $origen; ?>"></input>
-                                 <input type="hidden" name="destino" value="<?php echo $destino; ?>"></input>
-                                 <input type="hidden" name="fecha_hora_salida" value="<?php echo $fecha_hora_salida; ?>"></input>
-                                 <input type="hidden" name="fecha_hora_llegada" value="<?php echo $fecha_hora_llegada; ?>"></input>
-                                 <input type="hidden" name="precio" value="<?php echo $precio; ?>"></input>
-                             </form> 
-             <?php       }
+             <?php       }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) { 
+                             $comproPasaje="SELECT * FROM clientes_viajes WHERE id_viaje='$id_viaje' and id_cliente='$id'";
+                             $resultadoPasaje= mysqli_query($link,$comproPasaje) or die ('Consulta comproPasaje fallida: ' .mysqli_error($link));
+                             if(mysqli_num_rows($resultadoPasaje)==0){?>
+                                 <form action="comprarPasaje.php" method="post">
+                                     <input type="submit" name="comprar" value="Comprar pasaje"></input>
+                                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                 </form> 
+                      <?php  }else{  ?>
+                                 <form action="" method="post">
+                                     <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
+                                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                 </form> 
+ <?php                       }
+                      }
                      }elseif (($cupo<$asientos) ) { ?>
                          <form action="comprarPasaje.php" method="post">
                              <input type="submit" name="comprar" value="Comprar viaje"></input>
