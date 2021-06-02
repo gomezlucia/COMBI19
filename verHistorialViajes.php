@@ -23,8 +23,8 @@
  <a href="home.php" >Volver al home </a>
      <?php
      $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
-     $resultado0= mysqli_query($link,$consulta0) or die ('Consulta fallida: ' .mysqli_error($link));
-     $consulta= "SELECT v.id_viaje, v.id_ruta, v.id_chofer, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.debaja , t.origen, t.destino, c.id_cliente, c.estado, u.nombre, u.apellido, u.id_usuario FROM viajes v NATURAL JOIN rutas t NATURAL JOIN usuarios u NATURAL JOIN clientes_viajes c  WHERE (id_cliente='$id') and (id_chofer=id_usuario)" ;
+     $resultado0= mysqli_query($link,$consulta0) or die ('Consulta  fallida: ' .mysqli_error($link));
+     $consulta= "SELECT v.id_viaje, v.id_ruta, v.id_chofer, v.fecha_hora_salida, v.fecha_hora_llegada, c.total,c.servicios_adicionales, v.debaja , t.origen, t.destino, c.id_cliente, c.estado, u.nombre, u.apellido, u.id_usuario FROM viajes v NATURAL JOIN rutas t NATURAL JOIN usuarios u NATURAL JOIN clientes_viajes c  WHERE (id_cliente='$id') and (id_chofer=id_usuario)" ;
      $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
   //   $consulta2=" SELECT nom_chofer , ape_chofer , id_usuario FROM usuarios WHERE (id_usuario = '$valores['id_chofer']')"
     // $resultado2= mysqli_query($link,$consulta2) or die ('Consulta fallida: ' .mysqli_error($link));
@@ -42,18 +42,17 @@
 
               }
             }
-
-
              $destino = $valores['destino'];
            	 $fecha_hora_salida = $valores['fecha_hora_salida'];
              $fecha_hora_llegada = $valores['fecha_hora_llegada'];
-             $precio = $valores['precio'];
+             $precio = $valores['total'];
              $origen = $valores['origen'];
              $id_viaje = $valores['id_viaje'] ;
              $debaja = $valores['debaja'];
              $estado = $valores['estado'];
              $nombre = $valores['nombre'];
              $apellido = $valores['apellido'];
+             $servicios_adicionales=$valores['servicios_adicionales'];
 
 //             echo $origen, '   -   ', $destino;
              ?>
@@ -63,6 +62,11 @@
              			<b>Fecha y hora de salida:</b> <?php echo $fecha_hora_salida;?><br>
                   <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
              			<b>Precio:</b> <?php echo $precio;?><br>
+                  <b>Servicios adicionales:</b><br> <?php
+                  $ads=explode('/',$servicios_adicionales); 
+                  foreach ($ads as $value) {
+                    echo $value."<br>";
+                  }?>
              			<b>Estado:</b> <?php echo $estado;?><br>
                   <b>Nombre del chofer:</b> <?php echo $nombre, '   ', $apellido ;?><br>
 
