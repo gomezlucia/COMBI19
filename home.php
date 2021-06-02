@@ -10,10 +10,26 @@
     <head>
         <title> COMBI-19</title>
        <style type="text/css">
-         li{
-            list-style: none;
-            padding: 20px;
-         }
+          #menu{
+                list-style: none;
+                padding: 0;
+                background:#135373;
+                width: 30%;
+                max-width: 1000px;
+                margin: auto;
+            }
+            #menu li a{
+               text-decoration: none;
+               color: white;
+               padding: 20px;
+               display: block;  
+            }
+            #menu li{
+                text-align: center;
+            }
+            #menu li a:hover{
+                background:#93ad94;
+            }
        </style>
      </head>
      <?php try {
