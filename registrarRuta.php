@@ -17,7 +17,7 @@
                  $_SESSION['destino_formulario']=$destino;
          		 echo "<script > alert('No se puede dar de alta una ruta con la misma ciudad de origen y destino');window.location='cargarRuta.php?error=1'</script>";
          	 }else{
-         		 $agregar="INSERT INTO rutas(origen, destino) VALUES ('$origen','$destino')";
+         		 $agregar="INSERT INTO rutas(origen, destino,debaja) VALUES ('$origen','$destino',0)";
          		 $resultado= mysqli_query($link,$agregar) or die ('Consulta agregar fallida: ' .mysqli_error($link));
          		 if ($resultado) {
          		 	 echo "<script > alert('Ruta registrada exitosamente');window.location='home.php'</script>";
