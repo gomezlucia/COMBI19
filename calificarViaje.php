@@ -51,20 +51,3 @@
      }
      ?>
 </html>
-
-
-
-
-
-
-<?php  //echo "<script> alert('$_POST['estrella']');window.location='/COMBI19-main/calificarViaje.php'</script>";
- } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
-                 $mensaje=$e->getMessage();
-                 echo "<script> alert('$mensaje');window.location='/COMBI19-main/inicioSesion.php'</script>";
-                  //redirige a la pagina inicioSesion y muestra una mensaje de error
-     }
-
-
-
-     ?>
-</html>
