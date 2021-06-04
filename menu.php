@@ -12,7 +12,6 @@
 <?php    
          if ($usuario['tipo_usuario']=='cliente'){ ?> 
              <nav>
-                 <a href="listarViajes.php"> Ver listado de viajes</a>
                  <a href="verHistorialViajes.php"> Historial de viajes </a>
                  <a href="verPerfilDeUsuario.php"> Perfil</a>
                  <a href="cerrarSesion.php"> Cerrar Sesion </a> 
@@ -30,7 +29,7 @@
                  <a href="registrarChoferes.php"> Registrar Chofer  </a>
                  <a href="verListadoDeChoferes.php"> Ver listado de choferes  </a>
                  <a href="cargarViaje.php"> Cargar viaje  </a>
-                 <a href="listarViajes.php"> Ver listado de viajes  </a>
+                 <a href="viajes.php"> Ver listado de viajes  </a>
                  <a href="cerrarSesion.php"> Cerrar Sesion </a>
              <nav>
 <?php    }    ?>       
