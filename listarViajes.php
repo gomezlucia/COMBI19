@@ -1,5 +1,5 @@
 
-     <?php function listarViajes($link,$usuario,$nombreUsuario){
+     <?php function listarViajes($link,$usuario,$nombreUsuario,$id){
              $sesion=true;
              $usuario -> tieneSesionIniciada($sesion,$nombreUsuario);
               if($sesion){
