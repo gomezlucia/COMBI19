@@ -1,9 +1,6 @@
 <?php
 	 include "BD.php";// conectar y seleccionar la base de datos
 	$link = conectar();
-  //$usuario= new usuario();
-  //$usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
-  //$usuario ->id($id);
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,12 +9,12 @@
 </head>
 <body>
    <?php 
-   // try {
-    //	$usuario -> iniciada($usuarioID);
     $id_viaje=$_POST['id_viaje'];
-    $consulta="SELECT id_combi,id_chofer,r.origen,r.destino,precio,fecha_hora_salida,fecha_hora_llegada FROM viajes NATURAL JOIN rutas r WHERE id_viaje='$id_viaje' ";
+    $volverA=$_POST['listarViajes'];
+    $consulta="SELECT id_combi,id_chofer,r.id_ruta,r.origen,r.destino,precio,fecha_hora_salida,fecha_hora_llegada FROM viajes NATURAL JOIN rutas r WHERE id_viaje='$id_viaje' ";
     $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
     $viaje=mysqli_fetch_array ($resultado); 
+    $id_ruta=$viaje['id_ruta'];
     $origen=$viaje['origen'];
     $destino=$viaje['destino'];
     $precio= $viaje['precio'];
@@ -31,9 +28,15 @@
   <center>
      <h2>Modificar datos del viaje</h2>
 	 <form name="editar" method="post" action="validarModificacionViaje.php" >
-       <input type="hidden" name="id_viaje" value="<?php echo $id_viaje ?>"> <br><br> 
-	   Origen  <input type="text"  name="origen"  placeholder="Origen viaje" size=50 value="<?php echo $origen; ?>" required ></input><br><br>  
-		 Destino <input type ="text" name="destino" size=50 placeholder="Destino viaje" value="<?php echo $destino; ?>" required></input><br><br> 
+       <input type="hidden" name="id_viaje" value="<?php echo $id_viaje ?>"> <br><br>  
+   
+     Ruta: <select name= 'rutas'>
+             <option value="<?php echo $id_ruta ?>" ><?php echo $origen ."-". $destino; ?></option>
+             <?php $consulta= "SELECT id_ruta,origen,destino FROM rutas WHERE  debaja='0' and id_ruta<>'$id_ruta' ";
+             $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
+              while ($valores = mysqli_fetch_array($resultado)) {
+                 echo '<option value="' . $valores["id_ruta"] . '">' . $valores["origen"] ."-". $valores["destino"]. '</option>';}?>
+         </select> <br><br> 
      Fecha y hora de salida <?php echo date("d/m/Y  H:i:s", strtotime($fecha_hora_salida)); ?> <br><br> 
      Fecha y hora de llegada <?php echo date("d/m/Y  H:i:s", strtotime($fecha_hora_llegada));  ?> <br><br>
 		 Precio $ <input type ="number" name="precio" size=50 placeholder="Precio viaje" value="<?php echo $precio; ?>" required></input><br><br> 
@@ -57,16 +60,17 @@
              <option value="0">Seleccione chofer</option>
              <?php while ($valores = mysqli_fetch_array($resultado)) {
                  echo '<option value="' . $valores["id_usuario"] . '">' . $valores["nombre"] ." ". $valores["apellido"].'</option>';}?>
-         </select> <br><br> <?php } ?>
+         </select> <br><br> <?php } 
+         if ($volverA==1){  
+             $pag="home.php";
+         }else{ 
+             $pag="viajes.php";
+         }?>
+         <input type="hidden" name="volverA" value="<?php echo $pag;  ?>">
          <input type="submit" value="Editar">
      </form>	
   </center>
 </body>
- <?php  //} catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
-          //       $mensaje=$e->getMessage(); 
-            //     echo "<script> alert('$mensaje');window.location='/COMBI19-main/inicioSesion.php'</script>";
-                  //redirige a la pagina inicioSesion y muestra una mensaje de error
-  //   }?>
 </html>
 
 
