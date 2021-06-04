@@ -42,7 +42,7 @@
                <?php if($sesion){ 
                          if( ($tipo_usuario=='administrador') ){ 
                             if($debaja!=0){ ?>
-                                <b>Estado:</b> <?php echo "cancelado";?>
+                                <b>Estado:</b> <?php echo "Cancelado";?>
                    <?php     }else{ ?>
                                  <form action="cancelarViaje.php" method="post">
                                      <input type="submit" name="modificar" value="Cancelar viaje"></input>
