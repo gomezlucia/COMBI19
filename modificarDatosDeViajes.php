@@ -15,7 +15,7 @@
    // try {
     //	$usuario -> iniciada($usuarioID);
     $id_viaje=$_POST['id_viaje'];
-    $consulta="SELECT id_combi,id_chofer,origen,destino,precio,fecha_hora_salida,fecha_hora_llegada FROM viajes WHERE id_viaje='$id_viaje' ";
+    $consulta="SELECT id_combi,id_chofer,r.origen,r.destino,precio,fecha_hora_salida,fecha_hora_llegada FROM viajes NATURAL JOIN rutas r WHERE id_viaje='$id_viaje' ";
     $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
     $viaje=mysqli_fetch_array ($resultado); 
     $origen=$viaje['origen'];
@@ -28,7 +28,6 @@
 
   ?>
   <a href="home.php">Volver al home</a> <br>
-  <a href="listarViajes.php">Volver al listado</a>
   <center>
      <h2>Modificar datos del viaje</h2>
 	 <form name="editar" method="post" action="validarModificacionViaje.php" >
@@ -69,4 +68,6 @@
                   //redirige a la pagina inicioSesion y muestra una mensaje de error
   //   }?>
 </html>
+
+
 
