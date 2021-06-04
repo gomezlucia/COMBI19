@@ -132,6 +132,15 @@ top: -20px; left: 1000px;
            
              background-color: red; 
          }
+         .buscador_admi{
+            float:top;
+             font-size: 15px;
+             width: 100%;
+             height: 60%; 
+             border:1px solid black;
+             background:#135373;
+             color: white;
+         }
     
    
    
