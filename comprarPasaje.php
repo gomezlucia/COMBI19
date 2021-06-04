@@ -21,7 +21,7 @@
          $resultado=mysqli_query($link,$noTieneCovid) or  die ('Consulta noTieneCovid fallida: ' .mysqli_error());
          $cliente=mysqli_fetch_array($resultado);
          if($cliente['tiene_covid']!=0) {
-             echo "<script > alert('No puede comprar este viaje ya que ha declarado síntomas compatibles con COVID-19 dentro de los 15 días anteriores a la fecha de salida');window.location='listarViajes.php'</script>";
+             echo "<script > alert('No puede comprar este viaje ya que ha declarado síntomas compatibles con COVID-19 dentro de los 15 días anteriores a la fecha de salida');window.location='home.php'</script>";
          }else{
          	 if (!isset($_POST['id_viaje'])) {
          	 	 $id_viaje=$_SESSION['viaje'];
