@@ -35,6 +35,9 @@ echo $_POST['fecha_inicial'];
 echo $_POST['fecha_final'];
 echo " Fecha actual".date("Y-m-d");*/
 echo isset($tipo_usuario)."aca";#si es falso no hay
+$fecha_inicial=$_POST['fecha_inicial'];
+$destino=$_POST['destino'];
+$fecha_final=$_POST['fecha_final'];
 if (empty($_POST['origen'])){
     $mensaje= "debe estar completo origen";
 }
@@ -45,20 +48,16 @@ else{//origen esta lleno
     $fecha1=((empty($_POST['fecha_inicial']))and (!empty($_POST['fecha_final'])));
 
     $fecha2=((!empty($_POST['fecha_inicial'])) and (empty($_POST['fecha_final'])));
-    //echo "segundo incompleto:".$fecha1."primero incompleto".$fecha2;
     if (($fecha1) or ($fecha2))   {#se ingreso el rango incompleto
         $mensaje= "Si se desea buscar por rango de fechas, se deben completar ambas";
     }
     else{
         if(!empty($_POST['destino'])){
-        $destino=$_POST['destino'];
         echo "entree al destino";
         $busco_destino=true;
     }
       if((!empty($_POST['fecha_inicial'])) and (!empty($_POST['fecha_final']))){//ingreso el rango completo
         echo "entre el rango";
-        $fecha_inicial=$_POST['fecha_inicial'];
-        $fecha_final=$_POST['fecha_final'];
         if(($fecha_final<$fecha_inicial) or ($fecha_inicial<date("Y-m-d"))){
             $mensaje="Se debe ingresar un rango de fechas valido";#la fecha final no debe ser menor a la inicial y la inicial no debe ser menor a la actual
         }
@@ -69,7 +68,7 @@ else{//origen esta lleno
 }
 }
 if($mensaje<>""){
-    echo "<script > alert('$mensaje');window.location='buscarPasaje.php?origen=$origen'</script>";;
+    echo "<script > alert('$mensaje');window.location='buscarPasaje.php?origen=$origen&destino=$destino&fecha_inicial=$fecha_inicial&fecha_final=$fecha_final'</script>";;
 }
 else{
     if(  ($busco_destino) and ($busco_rango)  ){
