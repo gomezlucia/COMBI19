@@ -1,19 +1,5 @@
-   <?php
-  include "BD.php";// conectar y seleccionar la base de datos
-  $link = conectar();
-
-
-if(!empty($_GET['fecha_inicial'])){
-   $fecha_inicial=$_GET['fecha_inicial'];}
-else{
-  $fecha_inicial="";
-}
-if(!empty($_GET['fecha_final'])){
-   $fecha_final=$_GET['fecha_final'];
- }
-else{
-  $fecha_final="";
-}
+  <?php
+ function buscar($link,$fecha_inicial,$fecha_final,$origen,$destino){
 ?>
 
    <html>
@@ -34,14 +20,13 @@ else{
       });
     </script>
   </head>
-  <body>
-  <a href="home.php" >Volver al home </a>     
+  <body>    
     <form action="validarDatosBusquedaPasaje.php" method="post">
      <h1>Buscar pasaje </h1> 
         Origen :   
              <select id="origen" name= 'origen' required=''  > 
-            <?php  if(!empty($_GET['origen'])){  ?>
-               <option value="<?php echo $_GET['origen'] ?>"><?php echo $_GET['origen'] ?></option>
+            <?php  if($origen!=""){  ?>
+               <option value="<?php echo $origen ?>" selected="selected"><?php echo $origen ?></option>
       <?php }else{ ?>
              <option value="0">Seleccione uno</option>
                <?php }
@@ -53,8 +38,7 @@ else{
      </select> <br><br>
              
 Destino:(Opcional)
-     <?php  if(!empty($_GET['destino'])){
-             $destino=$_GET['destino'];
+     <?php  if($destino!=""){
              $destinoC= "SELECT destino FROM rutas WHERE id_ruta='$destino' ";
              $resultadoC= mysqli_query($link,$destinoC) or die ('Consulta fallida: ' .mysqli_error($link));
              $valor = mysqli_fetch_array($resultadoC);
@@ -80,3 +64,4 @@ Destino:(Opcional)
     </form>
 </body>
 </html>
+<?php } ?>
