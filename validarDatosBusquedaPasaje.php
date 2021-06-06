@@ -13,8 +13,6 @@
 </head>
 
 <body>
-<a href="home.php">Volver al home</a>
-      <h1>Viajes disponibles</h1>
      <?php
           
          $usuario -> tieneSesionIniciada($sesion,$nombreUsuario);
@@ -25,72 +23,45 @@
              $tipo_usuario=$usuario['tipo_usuario'];
          }
 
-
-
-$mensaje="";
-/*echo $_POST['origen'].";";
-echo $_POST['destino'].";";
-echo "campo destino:".(empty($_POST['destino'])).";";
-echo $_POST['fecha_inicial'];
-echo $_POST['fecha_final'];
-echo " Fecha actual".date("Y-m-d");*/
-echo isset($tipo_usuario)."aca";#si es falso no hay
-$fecha_inicial=$_POST['fecha_inicial'];
-$destino=$_POST['destino'];
-$fecha_final=$_POST['fecha_final'];
-if (empty($_POST['origen'])){
-    $mensaje= "debe estar completo origen";
-}
-else{//origen esta lleno
-    $origen=$_POST['origen'];
-    $busco_destino=false;
-    $busco_rango=false;
-    $fecha1=((empty($_POST['fecha_inicial']))and (!empty($_POST['fecha_final'])));
-
-    $fecha2=((!empty($_POST['fecha_inicial'])) and (empty($_POST['fecha_final'])));
-    if (($fecha1) or ($fecha2))   {#se ingreso el rango incompleto
-        $mensaje= "Si se desea buscar por rango de fechas, se deben completar ambas";
-    }
-    else{
-        if(!empty($_POST['destino'])){
-        echo "entree al destino";
-        $busco_destino=true;
-    }
-      if((!empty($_POST['fecha_inicial'])) and (!empty($_POST['fecha_final']))){//ingreso el rango completo
-        echo "entre el rango";
-        if(($fecha_final<$fecha_inicial) or ($fecha_inicial<date("Y-m-d"))){
-            $mensaje="Se debe ingresar un rango de fechas valido";#la fecha final no debe ser menor a la inicial y la inicial no debe ser menor a la actual
-        }
-        else{
-        $busco_rango=true;
-       }
-   } 
-}
-}
+     $mensaje="";
+     $origen=$_POST['origen'];
+     $busco_destino=false;
+     $busco_rango=false;
+     if ( (empty($_POST['fecha_inicial']) and !empty($_POST['fecha_final']) ) or (!empty($_POST['fecha_inicial']) and empty($_POST['fecha_final']) ) ){#se ingreso el rango incompleto
+         $mensaje= "Si se desea buscar por rango de fechas, se deben completar ambas";
+     }else{
+         if(!empty($_POST['destino'])){
+             $busco_destino=true;
+         }
+         if((!empty($_POST['fecha_inicial'])) and (!empty($_POST['fecha_final']))){//ingreso el rango completo
+             if(($_POST['fecha_final']<$_POST['fecha_inicial']) or ($_POST['fecha_inicial']<date("Y-m-d"))){
+                 $mensaje="Se debe ingresar un rango de fechas valido";#la fecha final no debe ser menor a la inicial y la inicial no debe ser menor a la actual
+             }else{
+                 $busco_rango=true;
+             }
+         } 
+     }
 if($mensaje<>""){
-    echo "<script > alert('$mensaje');window.location='buscarPasaje.php?origen=$origen&destino=$destino&fecha_inicial=$fecha_inicial&fecha_final=$fecha_final'</script>";;
-}
-else{
-    if(  ($busco_destino) and ($busco_rango)  ){
-        echo ";;;todo";
-        $consulta= "SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) AND DATE(v.fecha_hora_salida)>='2021-06-10' AND DATE(v.fecha_hora_salida)<='2021-07-20' AND r.origen='$origen' AND r.destino='$destino'" ;}
-    else{
-        if($busco_destino){
-            echo "busco_destino";
-            $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino,v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) and r.origen='$origen' AND r.destino='$destino'";
-        }
-        elseif ($busco_rango) {
-            echo "busco_rango";
-             $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) AND DATE(v.fecha_hora_salida)>='$fecha_inicial' AND DATE(v.fecha_hora_salida)<='$fecha_final' AND r.origen='$origen'";
-        }
-        else{
+     echo "<script > alert('$mensaje');window.location='buscarPasaje.php?origen=$origen&destino=$_POST[destino]&fecha_inicial=$_POST[fecha_inicial]&fecha_final=$_POST[fecha_final]'</script>";;
+}else{
+    if(($busco_destino) and ($busco_rango)  ){
+         $fecha_hora_salida=strftime('%Y-%m-%d %H:%M:%S', strtotime($_POST['fecha_inicial'])); 
+         $fecha_hora_llegada=strftime('%Y-%m-%d %H:%M:%S', strtotime($_POST['fecha_final']));
+         $consulta= "SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) AND DATE(v.fecha_hora_salida)>='$_POST[fecha_inicial]' AND DATE(v.fecha_hora_llegada)<='$_POST[fecha_final]' AND r.id_ruta='$_POST[destino]'" ;
+     }else{
+         if($busco_destino){
+             $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino,v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0)  AND r.id_ruta='$_POST[destino]'";
+         }elseif ($busco_rango) {
+             $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) AND DATE(v.fecha_hora_salida)>='$_POST[fecha_inicial]' AND DATE(v.fecha_hora_llegada)<='$_POST[fecha_final]' AND r.origen='$origen'";
+         }else{
             $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) and r.origen='$origen'";
-        }
-    }
-
-         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
-         if ($resultado){
-            while (($valores = mysqli_fetch_array($resultado)) ){
+         }
+     } ?>
+<a href="home.php">Volver al home</a>
+      <h1>Viajes disponibles</h1>
+<?php     $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
+     if ($resultado){
+         while (($valores = mysqli_fetch_array($resultado)) ){
                  $origen = $valores['origen'];
                  $destino = $valores['destino'];
                  $fecha_hora_salida = $valores['fecha_hora_salida'];
@@ -145,6 +116,6 @@ else{
         }
          if(mysqli_num_rows($resultado)==0){ ?>
              <center> <b>No hay viajes disponibles por el momento</b> </center>
-<?php        } }  ?>
+<?php        }   }?>
 </body>
 </html>
