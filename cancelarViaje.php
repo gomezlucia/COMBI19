@@ -1,4 +1,10 @@
 <?php
+
+
+    $id_viaje_original=$_POST['id_viaje'];
+    cancelarViaje($id_viaje_original);
+
+  function cancelarViaje($id_viaje_original){
     include "BD.php";// conectar y seleccionar la base de datos
     $link = conectar();
     include "validarLogin.php";
@@ -6,7 +12,6 @@
     $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
     $usuario ->id($id);
 
-    $id_viaje_original=$_POST['id_viaje'];
     $consulta0="SELECT cupo FROM viajes WHERE (id_viaje= '$id_viaje_original')";
     $result0=mysqli_query ($link, $consulta0) or die ('Consuluta query1 fallida 10: ' .mysqli_error($link));
     if ($result0){
@@ -51,5 +56,7 @@
 
 }else{
   echo "<script > alert('El viaje no se pudo eliminar');window.location='listarViajes.php'</script>";
+}
+return;
 }
 ?>
