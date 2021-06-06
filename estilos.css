@@ -128,9 +128,9 @@ top: -20px; left: 1000px;
          .buscador{
              float: right;
              width: 50%;
-             height: 90%;
-           
-             background-color: red; 
+             height: 60%; 
+            background-color:#135373;
+            color:white;
          }
          .buscador_admi{
             float:top;
