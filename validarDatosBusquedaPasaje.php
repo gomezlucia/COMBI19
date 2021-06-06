@@ -42,7 +42,7 @@
          } 
      }
 if($mensaje<>""){
-     echo "<script > alert('$mensaje');window.location='buscarPasaje.php?origen=$origen&destino=$_POST[destino]&fecha_inicial=$_POST[fecha_inicial]&fecha_final=$_POST[fecha_final]'</script>";;
+     echo "<script > alert('$mensaje');window.location='home.php?origen=$origen&destino=$_POST[destino]&fecha_inicial=$_POST[fecha_inicial]&fecha_final=$_POST[fecha_final]'</script>";;
 }else{
     if(($busco_destino) and ($busco_rango)  ){
          $fecha_hora_salida=strftime('%Y-%m-%d %H:%M:%S', strtotime($_POST['fecha_inicial'])); 
