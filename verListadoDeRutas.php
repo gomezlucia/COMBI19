@@ -20,11 +20,15 @@
              $destino = $valores['destino'];
              $id_ruta = $valores['id_ruta'];
              $debaja=$valores['debaja'] ?>
-            <p> 
+            <p>
                  <b>Origen:</b> <?php echo $origen;?> <br>
                  <b>Destino:</b> <?php echo $destino;?><br>
                  <form action="modificarRuta.php" method="post">
                      <input type="submit" name="modificar" value="Modificar Ruta"></input>
+                     <input type="hidden" name="ruta" value="<?php echo $id_ruta; ?>"></input>
+                 </form>
+                 <form action="darDebajaRuta.php" method="post">
+                     <input type="submit" name="debaja" value="Dar de baja Ruta"></input>
                      <input type="hidden" name="ruta" value="<?php echo $id_ruta; ?>"></input>
                  </form>
              </p><hr>
