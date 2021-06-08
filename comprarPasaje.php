@@ -5,11 +5,13 @@
      $usuario= new usuario();
      $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
      $usuario ->id($id);
+     include "menu.php";
  ?>
  <!DOCTYPE html>
  <html>
  <head>
  	<title>Comprar Pasaje</title>
+    <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
  </head>
   <?php try {
              $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
@@ -35,6 +37,14 @@
          	 $datosViaje = mysqli_fetch_array($resultadoViaje);
          	 $adicionales="SELECT vs.id_servicio_adicional, vs.id_viaje,s.nombre_servicio,s.precio FROM servicios_adicionales s NATURAL JOIN viajes_servicios_adicionales vs WHERE vs.id_viaje='$id_viaje'";
          	 $resultado=mysqli_query($link,$adicionales) or  die ('Consulta noTieneCovid fallida: ' .mysqli_error()); ?>
+               <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
          	 <center>
          	 	 <p> <b>Origen:</b> <?php echo $datosViaje['origen'];?><br>
          		     <b>Destino:</b> <?php echo $datosViaje['destino'];?><br>
@@ -66,4 +76,6 @@
                   //redirige a la pagina inicioSesion y muestra una mensaje de error
          }?>
 </html>
+          
+
           
