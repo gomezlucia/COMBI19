@@ -1,11 +1,16 @@
   <?php
   include "BD.php";// conectar y seleccionar la base de datos
   $link = conectar();
-  session_start();
+      include "validarLogin.php";
+    $usuario= new usuario();
+    $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
+    $usuario ->id($id);
+      include "menu.php";
 ?>
   <html>
   <head>
     <title>Modificar ruta</title>
+     <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
   </head>
   <body>
   <?php
@@ -25,8 +30,14 @@
      $origen=$ruta['origen'];
      $destino=$ruta['destino'];
     ?>
-  <a href="home.php" >Volver al home </a> <br> 
-  <a href="verListadoDeRutas.php" >Volver al listado de rutas </a> 
+ <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
    <center>
     <form action="validarRuta.php" method="post">
      <h1>Modificar datos del chofer </h1>   
@@ -39,3 +50,4 @@
     </center>   
   </body>
 </html>
+
