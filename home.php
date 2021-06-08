@@ -79,11 +79,21 @@
                     <p>
                         <b>Nombre:</b> <?php echo $nombre;?><br>
                         <b>Puntaje:</b> <?php echo $puntaje;?><br>
-                         <?php echo $comentario;?><br>
+                         <?php echo $comentario;?><br>   
+      <?php }
+       if(mysqli_num_rows($resultado)==0){
+            ?>
+            <div>
+                 <p>
+                  <center> <b>No hay comentarios en la pagina por el momento</b>
+            </div>
+            <?php
+
+            }
+         ?>
             </p>
         </div>
-         <?php }
-         ?>
+
          </div>
 </div>
          <div class="listado">
