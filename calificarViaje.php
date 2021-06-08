@@ -5,18 +5,28 @@
  $usuario= new usuario();
  $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
  $usuario ->id($id);
+include "menu.php";
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<h1>Calificar Viaje</h1>
+      <title>Calificar Viaje</title>
+   <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
   <?php  try {
             $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
  ?>
-
- <a href="home.php" >Volver al home </a>
+ <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
+     <CENTER>
+    <h1>Calificar Viaje</h1>
  <form action="validarCalificacion.php" method="post">
   <p class="clasificacion">
     <input id="radio1" type="radio" name="estrella" value="1"><!--
@@ -42,6 +52,7 @@
 
   </p>
 </form>
+</CENTER>
 
 <?php  //echo "<script> alert('$_POST['estrella']');window.location='/COMBI19-main/calificarViaje.php'</script>";
  } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
