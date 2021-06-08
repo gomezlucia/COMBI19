@@ -1,4 +1,4 @@
- /*HEADER */
+/*HEADER */
  header b{
     color:  #135373;
    position: relative;
@@ -128,7 +128,7 @@ top: -20px; left: 1000px;
          .buscador{
             background-color:#135373;
             color:white;
-            
+             float:left;
 
          }
           .comentarios{
@@ -139,11 +139,7 @@ top: -20px; left: 1000px;
 
          .listado {
              padding-top: 10px;
-    padding-left: 530px;
-    margin-left: 100px;
-position:absolute;
-    float: left;
-
+             float: right;
              width: 40%;
              height: 90%;
          }
@@ -159,5 +155,7 @@ position:absolute;
              color: white;
          }
     
+   
+   
    
    
