@@ -1,11 +1,18 @@
 <?php
 	 include "BD.php";// conectar y seleccionar la base de datos
 	$link = conectar();
+      include "menu.php";
+          include "validarLogin.php";
+    $usuario= new usuario();
+    $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
+    $usuario ->id($id);
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Modificar Viajes</title>
+ <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
    <?php 
@@ -24,7 +31,14 @@
     $fecha_hora_llegada=$viaje['fecha_hora_llegada'];
 
   ?>
-  <a href="home.php">Volver al home</a> <br>
+   <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
   <center>
      <h2>Modificar datos del viaje</h2>
 	 <form name="editar" method="post" action="validarModificacionViaje.php" >
@@ -72,6 +86,5 @@
   </center>
 </body>
 </html>
-
 
 
