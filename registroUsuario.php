@@ -2,10 +2,12 @@
  include "BD.php";// conectar y seleccionar la base de datos
  $link = conectar();
  include "validarLogin.php";
+  include "menu.php";
 ?>
 <html>
   <head>
     <title>Registro de Usuarios</title>
+     <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
   </head>
   <body>
 	  <?php 
@@ -26,6 +28,14 @@
          $fecha_nacimiento=$_SESSION['fecha_nacimiento_c'];
          $dni=$_SESSION['DNI_c'];
        }?>
+       <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+                       
+       <hr>     
+     </header>
+     <center>
      <h1> Registrar usuario </h1>
     <form action="registrarse.php" method="post">
     	 <input type="text" name="nombre" size=50 required="" placeholder=" Nombre" value="<?php echo $nombre ?>"> <br><br>
@@ -40,5 +50,7 @@
 				<input type= "reset" value= "Borrar">
 	     <input type="hidden" name="tipo_usuario" value='cliente'> <br><br>
     </form>
+    </center>
   </body>
 </html>
+
