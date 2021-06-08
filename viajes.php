@@ -7,6 +7,8 @@
      $usuario ->id($id);
      include "listarViajes.php";
      include "buscarCualquierViaje.php";
+     include "menu.php";
+     //muestra todos los viajes para eladministrador
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,7 +16,14 @@
     <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
-<a href="home.php">Volver al home</a>
+ <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
  <center>
       <h1>Viajes</h1>
      <?php
@@ -22,7 +31,7 @@
              $usuario -> iniciada($nombreUsuario); ?>
              <div  class="buscador_admi">
                 
-     <?php       echo buscar($link); ?>
+     <?php        echo buscar($link); ?>
                 
              </div>
 
@@ -36,6 +45,9 @@
                   //redirige a la pagina inicioSesion y muestra una mensaje de error
          }?>
 </html>      
+                 
+        
+           
                  
         
          
