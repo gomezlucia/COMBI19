@@ -1,6 +1,7 @@
 
 
-     <?php function listarViajes($link,$usuario,$nombreUsuario,$id,$home){
+
+     <?php function listarViajes($link,$usuario,$nombreUsuario,$id,$vieneDelHome){
              $sesion=true;
              $usuario -> tieneSesionIniciada($sesion,$nombreUsuario);
               if($sesion){
@@ -9,7 +10,7 @@
                  $usuario=mysqli_fetch_array ($resultado);
                  $tipo_usuario=$usuario['tipo_usuario'];
              }
-             if($home) {
+             if($vieneDelHome==1) {
                  $consulta= "SELECT v.id_viaje,v.id_ruta,r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos,v.debaja FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0)" ;
              }else{
                  $consulta= "SELECT v.id_viaje,v.id_ruta,r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos,v.debaja FROM viajes v INNER JOIN combis c on (v.id_combi=c.id_combi) INNER JOIN tipos_combi t on (c.id_tipo_combi =t.id_tipo_combi ) INNER JOIN rutas r on (v.id_ruta=r.id_ruta)" ;
@@ -47,15 +48,16 @@
                                  <form action="cancelarViaje.php" method="post">
                                      <input type="submit" name="modificar" value="Cancelar viaje"></input>
                                      <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
-                             </form>  
-                  <?php      }
-                             if($cupo==0){?>
-                                 <form action="modificarDatosDeViajes.php" method="post">
-                                     <input type="submit" name="modificar" value="Modificar Viaje"></input>
-                                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
-                                     <input type="hidden" name="listarViajes" value="<?php echo $home ?>">
-                                 </form> <br>
-                <?php        } 
+                                 </form>  
+                  <?php      
+                                 if($cupo==0){?>
+                                     <form action="modificarDatosDeViajes.php" method="post">
+                                         <input type="submit" name="modificar" value="Modificar Viaje"></input>
+                                         <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                         <input type="hidden" name="listarViajes" value="<?php echo $home ?>">
+                                     </form> <br>
+                <?php            } 
+                             }
                          }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) { 
                                  $comproPasaje="SELECT * FROM clientes_viajes WHERE id_viaje='$id_viaje' and id_cliente='$id'";
                                  $resultadoPasaje= mysqli_query($link,$comproPasaje) or die ('Consulta comproPasaje fallida: ' .mysqli_error($link));
@@ -74,7 +76,7 @@
              <?php          
                      }elseif (($cupo<$asientos) ) { ?>
                          <form action="comprarPasaje.php" method="post">
-                             <input type="submit" name="comprar" value="Comprar viaje"></input>
+                             <input type="submit" name="comprar" value="Comprar pasaje"></input>
                              <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                          </form> 
 <?php                }   ?>
@@ -86,4 +88,3 @@
                  <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }  
      } ?>
-
