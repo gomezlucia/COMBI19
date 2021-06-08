@@ -5,14 +5,25 @@
     $usuario= new usuario();
     $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
     $usuario ->id($id);
+        include "menu.php";
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<center><h1>Perfil</h1>
+      <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
-	 <a href="home.php" >Volver al home </a>   
+ <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header> 
+     <center>
+        <h1>Perfil</h1> 
      <?php
         $consulta= "SELECT u.nombre, u.apellido, u.nombre_usuario, u.mail, u.fecha_nacimiento, u.DNI FROM usuarios u WHERE u.id_usuario=$id";
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: 14 ' .mysqli_error($link));
@@ -48,7 +59,7 @@
         $consulta= "SELECT t.id_tarjeta, t.numero_tarjeta FROM tarjetas t NATURAL JOIN tarjetas_clientes tc WHERE tc.id_cliente=$id";
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: 14 ' .mysqli_error($link));?>
 
-    <center><h2>Tarjetas</h2>
+    <h2>Tarjetas</h2>
     <?php
         if ($resultado){
             while (($valores = mysqli_fetch_array($resultado)) ){
@@ -74,7 +85,7 @@
             ?>
             <div>
                  <p>
-                  <center> <b>Aun no hay tarjetas guardadas en la pagina</b><br><br>
+                   <b>Aun no hay tarjetas guardadas en la pagina</b><br><br>
             </div>
             <?php
 
@@ -83,5 +94,6 @@
                            <input type="submit" value="Agregar tarjeta">
                         </form>
                     <?php }?>
+                </center>
             </body>
             </html>
