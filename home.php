@@ -67,7 +67,7 @@
          </div>
          <div class="listado">
              <center>
-<?php        echo listarViajes($link,$usuario,$nombreUsuario,$sesion,$id,true);  ?>
+<?php        echo listarViajes($link,$usuario,$nombreUsuario,$id,true);  ?>
              </center>
          </div>                
      </body> 
