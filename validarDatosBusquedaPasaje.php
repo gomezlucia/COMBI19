@@ -5,11 +5,13 @@
      $usuario= new usuario();
      $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
      $usuario ->id($id);
+       include "menu.php";
      $sesion=true;
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+     <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 
 <body>
@@ -57,7 +59,15 @@ if($mensaje<>""){
             $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) and r.origen='$origen'";
          }
      } ?>
-<a href="home.php">Volver al home</a>
+  <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
+     <center>
       <h1>Viajes disponibles</h1>
 <?php     $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
      if ($resultado){
@@ -117,5 +127,6 @@ if($mensaje<>""){
          if(mysqli_num_rows($resultado)==0){ ?>
              <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }   }?>
+</center>
 </body>
 </html>
