@@ -6,10 +6,11 @@
      $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
      $usuario ->id($id); 
   $tarjetaValida=false;
-  include "menu.php";
+  include "menu.php"; 
  // $mensaje="";
 
   if( (!empty($_POST['numero_tarjeta'])) and (!empty ($_POST['clave'])) ) {
+     $pag=$_POST['volverA'];
      $numero=$_POST['numero_tarjeta'];
      $codigo_seguridad=$_POST['clave'];
      $primero = substr($numero, 0,1); 
@@ -50,13 +51,13 @@ if (substr($numero,-1,1)!=3) {
                  $actualizarCupo="UPDATE viajes SET cupo=cupo+1 WHERE id_viaje='$_POST[id_viaje]'";
                  $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
 
-                 echo "<script> alert('Compra exitosa');window.location='/COMBI19-main/home.php'</script>";
+                 echo "<script> alert('Compra exitosa');window.location='$pag'</script>";
              }
 	 	     $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado,tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$numero','$_POST[precio]')";
 	 	     $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error()); 
              $actualizarCupo="UPDATE viajes SET cupo=cupo+1 WHERE id_viaje='$_POST[id_viaje]'";
              $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
-             echo "<script> alert('Compra exitosa');window.location='/COMBI19-main/home.php'</script>";
+             echo "<script> alert('Compra exitosa');window.location='$pag'</script>";
 	     }else{
 	     	 $_SESSION['tarjeta']=$numero;
 	     	 $_SESSION['viaje']=$_POST['id_viaje'];
@@ -90,3 +91,4 @@ if (substr($numero,-1,1)!=3) {
 </body>
 </html>
 <?php } ?>
+
