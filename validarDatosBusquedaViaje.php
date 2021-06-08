@@ -95,6 +95,7 @@ else{
                                          <input type="submit" name="modificar" value="Modificar Viaje"></input>
                                          <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                          <input type="hidden" name="listarViajes" value="<?php echo $home ?>">
+                                         <input type="hidden" name="volverA" value="viajes.php">
                                      </form> <br>
                 <?php            } ?>
                                  <form action="cancelarViaje.php" method="post">
@@ -114,3 +115,4 @@ else{
 <?php        }   }?>
 </center></body>
 </html>
+
