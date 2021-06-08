@@ -10,14 +10,13 @@
 ?>
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
 	<title>Modificar Viajes</title>
  <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
    <?php 
     $id_viaje=$_POST['id_viaje'];
-    $volverA=$_POST['listarViajes'];
     $consulta="SELECT id_combi,id_chofer,r.id_ruta,r.origen,r.destino,precio,fecha_hora_salida,fecha_hora_llegada FROM viajes NATURAL JOIN rutas r WHERE id_viaje='$id_viaje' ";
     $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error());
     $viaje=mysqli_fetch_array ($resultado); 
@@ -74,17 +73,15 @@
              <option value="0">Seleccione chofer</option>
              <?php while ($valores = mysqli_fetch_array($resultado)) {
                  echo '<option value="' . $valores["id_usuario"] . '">' . $valores["nombre"] ." ". $valores["apellido"].'</option>';}?>
-         </select> <br><br> <?php } 
-         if ($volverA==1){  
-             $pag="home.php";
-         }else{ 
-             $pag="viajes.php";
-         }?>
-         <input type="hidden" name="volverA" value="<?php echo $pag;  ?>">
+         </select> <br><br> 
+         <?php } ?>
+         <input type="hidden" name="volverA" value="<?php echo $_POST['volverA'] ?>">
          <input type="submit" value="Editar">
      </form>	
   </center>
 </body>
 </html>
+
+
 
 
