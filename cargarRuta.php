@@ -5,11 +5,12 @@
   $usuario= new usuario();
   $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
   $usuario ->id($id);
+      include "menu.php";
 ?>
   <html>
   <head>
     <title>Registro de ruta</title>
-
+ <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
   </head>
   <body>
     <?php  try {
@@ -21,7 +22,14 @@
          $destino=$_SESSION['destino_formulario'];
        }
 ?>
-         <a href="home.php" >Volver al home </a>   
+    <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
     <center>
     <form action="registrarRuta.php" method="post">
      <h1> Registrar ruta </h1>   
