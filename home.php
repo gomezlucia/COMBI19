@@ -35,9 +35,7 @@
  <?php       } ?>                       
          <hr>     
          </header>
-         <div class="comentarios">
-             <center>COMENTARIOS</center>
-         </div>
+         <div class="container-main">
          <div class="buscador">
              <center>
                <?php     
@@ -61,14 +59,41 @@
                  }else{
                      $destino="";
                  }
-               echo buscar($link,$fecha_inicial,$fecha_final,$origen,$destino);  ?>    
+               echo buscar($link,$fecha_inicial,$fecha_final,$origen,$destino);  ?>   
+
              </center>
            
          </div>
+         <div class="comentarios">
+             <h2>Comentarios</h2>
+              <?php 
+         $consulta="SELECT c.puntaje, c.comentario, u.nombre FROM calificaciones c INNER JOIN viaje_calificacion v ON (v.id_calificacion=c.id_calificacion) INNER JOIN usuarios u ON (v.id_cliente=u.id_usuario) ORDER BY c.id_calificacion DESC LIMIT 10";
+         $resultado=mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
+         while ($valores=mysqli_fetch_array($resultado)) {
+            $nombre=$valores['nombre'];
+            $puntaje=$valores['puntaje'];
+            $comentario=$valores['comentario'];
+            ?>
+              <div>
+                    <hr>
+                    <p>
+                        <b>Nombre:</b> <?php echo $nombre;?><br>
+                        <b>Puntaje:</b> <?php echo $puntaje;?><br>
+                         <?php echo $comentario;?><br>
+            </p>
+        </div>
+         <?php }
+         ?>
+         </div>
+</div>
          <div class="listado">
              <center>
+             <h1><b>Viajes</b></h1>
 <?php        echo listarViajes($link,$usuario,$nombreUsuario,$id,true);  ?>
              </center>
-         </div>                
+         </div> 
+
+      
+               
      </body> 
 </html>

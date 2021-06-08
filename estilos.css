@@ -112,26 +112,43 @@ top: -20px; left: 1000px;
         font-size: 18px;
     }
     /*Fin de Menù lateral*/
+         .container-main{
+            display: inline-flex;
+            flex-direction:column;
+            
+            padding-left: 10px;
+    padding-top: 10px;
+    margin-left: 40px;
+     
+      float: left;
+    width: 35%;
+             height: 50%;
 
-         .listado {
-             float: left;
-             width: 50%;
-             height: 90%;
-         }
-         .comentarios{
-            float: left-top;
-             width: 50%;
-             height: 20%;
-
-             background-color: blue; 
          }
          .buscador{
-             float: right;
-             width: 50%;
-             height: 60%; 
             background-color:#135373;
             color:white;
+            
+
          }
+          .comentarios{
+        float: left;
+          
+
+         }
+
+         .listado {
+             padding-top: 10px;
+    padding-left: 530px;
+    margin-left: 100px;
+position:absolute;
+    float: left;
+
+             width: 40%;
+             height: 90%;
+         }
+        
+
          .buscador_admi{
             float:top;
              font-size: 15px;
