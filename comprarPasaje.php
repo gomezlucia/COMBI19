@@ -5,7 +5,7 @@
      $usuario= new usuario();
      $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
      $usuario ->id($id);
-     include "menu.php";
+     include "menu.php"; 
  ?>
  <!DOCTYPE html>
  <html>
@@ -61,6 +61,7 @@
                           <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                           <input type="submit" name="Submit" value="Pagar pasaje"> 
                           <input type="hidden" name="precio" value="<?php echo  $datosViaje['precio']; ?>">
+                          <input type="hidden" name="volverA" value="<?php echo  $_POST['volverA'];?>">
                           <input type="reset" name="cancelar" value="Cancelar"></input><br><br>
               
                      </form>
@@ -76,6 +77,4 @@
                   //redirige a la pagina inicioSesion y muestra una mensaje de error
          }?>
 </html>
-          
-
           
