@@ -1,6 +1,5 @@
 
 
-
      <?php function listarViajes($link,$usuario,$nombreUsuario,$id,$vieneDelHome){
              $sesion=true;
              $usuario -> tieneSesionIniciada($sesion,$nombreUsuario);
@@ -54,7 +53,11 @@
                                      <form action="modificarDatosDeViajes.php" method="post">
                                          <input type="submit" name="modificar" value="Modificar Viaje"></input>
                                          <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
-                                         <input type="hidden" name="listarViajes" value="<?php echo $home ?>">
+                                <?php    if($vieneDelHome==1){ ?>
+                                             <input type="hidden" name="volverA" value="home.php">
+                        <?php            }else{?>
+                                             <input type="hidden" name="volverA" value="viajes.php">
+                               <?php     }?>                 
                                      </form> <br>
                 <?php            } 
                              }
