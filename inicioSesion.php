@@ -9,6 +9,7 @@
 <html>
 <head>
 	<title>COMBI-19</title>
+	 <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
 	 <?php try {
@@ -20,7 +21,13 @@
 			     $nombre=$_SESSION['nombre_login'];
 			     $contraseña=$_SESSION['cont_login'];
 		     }
-	?>
+	?>  <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+                          
+       <hr>     
+     </header>
          <center>
 			<form action="iniciarsesion.php" name="iniciarsesion" method="post" >
 				 <h2> Inciar Sesi&oacuten </h2>       
@@ -42,3 +49,4 @@
 			    header("Location: /COMBI19-main/home.php");
 	  } ?> 			
 </html>
+
