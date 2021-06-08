@@ -5,10 +5,12 @@
     $usuario= new usuario();
     $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
     $usuario ->id($id);
+    include "menu.php";
 ?>
   <html>
   <head>
     <title>Modificar datos</title>
+    <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
   </head>
   <body>
   <?php
@@ -24,7 +26,15 @@ $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_e
     $contraseña=$usuarioCliente['contraseña'];
     $email=$usuarioCliente['mail'];
     ?>
-  <a href="home.php" >Volver al home </a>     
+   <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
+     <center>
     <form action="validarDatosCliente.php" method="post">
      <h1>Modificar datos personales </h1>   
         <input type="text" name="nombre" size=50 placeholder=" Nombre nuevo" value="<?php echo $nombre;?>"><br><br>    
@@ -39,6 +49,7 @@ $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_e
         <input type= "reset" value= "Borrar">
         <input type="button" name="Cancelar" value="Cancelar" onClick="location.href='verPerfilDeUsuario.php'"> 
     </form>
+    </center>    
 </body>
   <?php  } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
                  $mensaje=$e->getMessage(); 
