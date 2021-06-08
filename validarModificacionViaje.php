@@ -2,8 +2,8 @@
 	include "BD.php";// conectar y seleccionar la base de datos
 	$link = conectar();
 	 if(!empty ($_POST['precio'])) {	
-        
-		 $pag=$_POST['volverA'];
+         
+		 $pag=$_POST['volverA']; 
 		 $ruta=$_POST['rutas'];
 		 $precioNuevo=$_POST['precio'];
 		 $id_viaje=$_POST['id_viaje'];
@@ -39,3 +39,4 @@
 	 }else{
 		echo "Por favor, no deje ningun campo en blanco.";
 	}
+
