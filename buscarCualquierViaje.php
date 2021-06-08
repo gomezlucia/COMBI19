@@ -1,6 +1,6 @@
  <?php
  function buscar($link){ ?>
-   <form action="validarDatosBusquedaPasaje.php" method="post">
+   <form action="validarDatosBusquedaViaje.php" method="post">
      <h2>Buscar Viaje </h2> 
         <select name= 'rutas' id="rutas">
              <option value="0">Seleccione ruta</option>
