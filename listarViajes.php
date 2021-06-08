@@ -1,7 +1,7 @@
 
 
      <?php function listarViajes($link,$usuario,$nombreUsuario,$id,$vieneDelHome){
-             $sesion=true;
+             $sesion=true; 
              $usuario -> tieneSesionIniciada($sesion,$nombreUsuario);
               if($sesion){
                  $consulta="SELECT tipo_usuario FROM usuarios WHERE id_usuario='$id'"; 
@@ -68,6 +68,7 @@
                                      <form action="comprarPasaje.php" method="post">
                                          <input type="submit" name="comprar" value="Comprar pasaje"></input>
                                          <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                         <input type="hidden" name="volverA" value="home.php">
                                      </form> 
                       <?php      }else{ //ya lo habia comprado ?>
                                      <form action="" method="post">
@@ -81,6 +82,7 @@
                          <form action="comprarPasaje.php" method="post">
                              <input type="submit" name="comprar" value="Comprar pasaje"></input>
                              <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                              <input type="hidden" name="volverA" value="home.php">
                          </form> 
 <?php                }   ?>
                  <hr>
