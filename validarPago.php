@@ -6,6 +6,7 @@
      $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
      $usuario ->id($id); 
   $tarjetaValida=false;
+  include "menu.php";
  // $mensaje="";
 
   if( (!empty($_POST['numero_tarjeta'])) and (!empty ($_POST['clave'])) ) {
@@ -71,9 +72,17 @@ if (substr($numero,-1,1)!=3) {
 <html>
 <head>
 	<title></title>
+<link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
-<a href="home.php">Volver al home</a>
+    <header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
  <center> 
  	 <h2>No se pudo establecer la conexión con el servidor</h1>
  	 <a href="">Por favor vuelva a intertalo</a>
