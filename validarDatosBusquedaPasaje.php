@@ -49,14 +49,14 @@ if($mensaje<>""){
     if(($busco_destino) and ($busco_rango)  ){
          $fecha_hora_salida=strftime('%Y-%m-%d %H:%M:%S', strtotime($_POST['fecha_inicial'])); 
          $fecha_hora_llegada=strftime('%Y-%m-%d %H:%M:%S', strtotime($_POST['fecha_final']));
-         $consulta= "SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) AND DATE(v.fecha_hora_salida)>='$_POST[fecha_inicial]' AND DATE(v.fecha_hora_llegada)<='$_POST[fecha_final]' AND r.id_ruta='$_POST[destino]'" ;
+         $consulta= "SELECT  v.debaja, v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) AND DATE(v.fecha_hora_salida)>='$_POST[fecha_inicial]' AND DATE(v.fecha_hora_llegada)<='$_POST[fecha_final]' AND r.id_ruta='$_POST[destino]'" ;
      }else{
          if($busco_destino){
-             $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino,v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0)  AND r.id_ruta='$_POST[destino]'";
+             $consulta="SELECT  v.debaja, v.id_viaje,v.id_ruta, r.origen, r.destino,v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0)  AND r.id_ruta='$_POST[destino]'";
          }elseif ($busco_rango) {
-             $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) AND DATE(v.fecha_hora_salida)>='$_POST[fecha_inicial]' AND DATE(v.fecha_hora_llegada)<='$_POST[fecha_final]' AND r.origen='$origen'";
+             $consulta="SELECT  v.debaja,v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) AND DATE(v.fecha_hora_salida)>='$_POST[fecha_inicial]' AND DATE(v.fecha_hora_llegada)<='$_POST[fecha_final]' AND r.origen='$origen'";
          }else{
-            $consulta="SELECT v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) and r.origen='$origen'";
+            $consulta="SELECT v.debaja, v.id_viaje,v.id_ruta, r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0) and r.origen='$origen'";
          }
      } ?>
   <header>
@@ -79,7 +79,8 @@ if($mensaje<>""){
                  $precio = $valores['precio'] ;
                  $cupo=$valores['cupo'];
                  $asientos=$valores['asientos'];
-                 $id_viaje=$valores['id_viaje'];?>
+                 $id_viaje=$valores['id_viaje'];
+                  $debaja=$valores['debaja']?>
                  <hr>
                  <p> <b>Origen:</b> <?php echo $origen;?><br>
                      <b>Destino:</b> <?php echo $destino;?><br>
@@ -98,8 +99,17 @@ if($mensaje<>""){
                              <form action="modificarDatosDeViajes.php" method="post">
                                  <input type="submit" name="modificar" value="Modificar Viaje"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                 <input type="hidden" name="volverA" value="home.php">
                              </form> 
-             <?php       }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) { 
+             <?php            if($debaja!=0){ ?>
+                                <b>Estado:</b> <?php echo "Cancelado";?>
+                   <?php     }else{ ?>
+                                 <form action="cancelarViaje.php" method="post">
+                                     <input type="submit" name="modificar" value="Cancelar viaje"></input>
+                                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                 </form> 
+                <?php        }
+                         }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) { 
                              $comproPasaje="SELECT * FROM clientes_viajes WHERE id_viaje='$id_viaje' and id_cliente='$id'";
                              $resultadoPasaje= mysqli_query($link,$comproPasaje) or die ('Consulta comproPasaje fallida: ' .mysqli_error($link));
                              if(mysqli_num_rows($resultadoPasaje)==0){?>
@@ -130,3 +140,4 @@ if($mensaje<>""){
 </center>
 </body>
 </html>
+
