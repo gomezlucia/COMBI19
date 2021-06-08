@@ -5,7 +5,7 @@
      $usuario= new usuario();
      $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
      $usuario ->id($id);
-       include "menu.php";
+       include "menu.php"; 
      $sesion=true;
 ?>
 <!DOCTYPE html>
@@ -116,6 +116,7 @@ if($mensaje<>""){
                                  <form action="comprarPasaje.php" method="post">
                                      <input type="submit" name="comprar" value="Comprar pasaje"></input>
                                      <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                      <input type="hidden" name="volverA" value="home.php">
                                  </form> 
                       <?php  }else{  ?>
                                  <form action="" method="post">
@@ -127,8 +128,9 @@ if($mensaje<>""){
                       }
                      }elseif (($cupo<$asientos) ) { ?>
                          <form action="comprarPasaje.php" method="post">
-                             <input type="submit" name="comprar" value="Comprar viaje"></input>
+                             <input type="submit" name="comprar" value="Comprar pasaje"></input>
                              <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                              <input type="hidden" name="volverA" value="home.php">
                          </form> 
 <?php                }
              }
