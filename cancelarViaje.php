@@ -46,7 +46,7 @@
         }
       }
 
-    if (($resultado3) or ($result5)){
+    if (isset($resultado3) or isset($result5)){
 
       echo "<script > alert('Viaje eliminado exitosamente');window.location='viajes.php'</script>";
 
