@@ -43,7 +43,7 @@ include "menu.php";
 
 
     <h1>¡Dejanos un comentario sobre el viaje!</h1>
-      <textarea name="comentario" size="2000" minlength="50"></textarea>
+       <textarea name="comentario"  minlength="50" placeholder="Escribir Comentario" cols="50" rows="10" ></textarea>
       <input type="hidden" name="id_viaje" value="<?php echo $_POST['id_viaje']; ?>">
       <input type="hidden" name="id" value="<?php echo $id; ?>">
       <br><br>
