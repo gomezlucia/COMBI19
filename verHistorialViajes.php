@@ -5,11 +5,13 @@
  $usuario= new usuario();
  $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
  $usuario ->id($id);
+     include "menu.php";
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<h1>Historial de Viajes</h1>
+  
+   <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
   <?php  try {
@@ -20,7 +22,16 @@
      $calificado= false;
  ?>
 
- <a href="home.php" >Volver al home </a>
+<header>
+       <a href="home.php" >  
+           <img src="logo_is.png" class="div_icono">  
+       </a>
+       <b><?php echo $nombreUsuario; ?></b>
+<?php           echo menu($id,$link); ?>                       
+       <hr>     
+     </header>
+    <center>
+ <h1>Historial de Viajes</h1>
      <?php
      $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
      $resultado0= mysqli_query($link,$consulta0) or die ('Consulta  fallida: ' .mysqli_error($link));
@@ -105,10 +116,7 @@
              <?php
         if(mysqli_num_rows($resultado)==0){
             ?>
-            <div>
-                 <p>
-                  <center> <b>Aun no ha realizado ningun viaje con nosotros!</b>
-            </div>
+                 <p> <b>Aun no ha realizado ningun viaje con nosotros!</b></p>
             <?php
 
             }
@@ -120,5 +128,7 @@
                        echo "<script> alert('$mensaje');window.location='/COMBI19-main/inicioSesion.php'</script>";
                         //redirige a la pagina inicioSesion y muestra una mensaje de error
            }?>
+</center>
+</body>
 </html>
 
