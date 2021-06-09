@@ -39,9 +39,10 @@
                 <br></p>
           <?php if($sesion){
                     if( ($tipo_usuario=='administrador') ){
-                       if($debaja!=0){ ?>
-                           <b>Estado:</b> <?php echo "Cancelado";?>
-              <?php     }else{ ?>
+                         if ($fecha_hora_salida> date("Y-m-d H:i:s")) {
+                             if($debaja!=0){ ?>
+                                  <b>Estado:</b> <?php echo "Cancelado";?>
+              <?php      }else{ ?>
                             <form action="cancelarViaje.php" method="post">
                                 <input type="submit" name="modificar" value="Cancelar viaje" class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input>
                                 <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
@@ -59,6 +60,9 @@
                                 </form> <br>
            <?php            }
                         }
+                     }else{ ?>
+                         <b>Estado:</b> <?php echo "Finalizado";?>
+           <?php      }   
                     }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) {
                             $comproPasaje="SELECT * FROM clientes_viajes WHERE id_viaje='$id_viaje' and id_cliente='$id'";
                             $resultadoPasaje= mysqli_query($link,$comproPasaje) or die ('Consulta comproPasaje fallida: ' .mysqli_error($link));
@@ -93,4 +97,5 @@
             <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }
 } ?>
+
 
