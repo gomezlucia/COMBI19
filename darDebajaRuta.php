@@ -9,7 +9,7 @@
     $debaja = false;
     $id_ruta_original=$_POST['ruta'];
 //    echo $id_ruta_original;
-    $consulta0="SELECT id_viaje  FROM viajes WHERE (id_ruta= '$id_ruta_original')";
+    $consulta0="SELECT id_viaje, cupo  FROM viajes WHERE (id_ruta= '$id_ruta_original')";
   //  echo $consulta0;
     $result0=mysqli_query ($link, $consulta0) or die ('Consuluta query1 fallida 10: ' .mysqli_error($link));
 //    var_dump($result0);
@@ -20,6 +20,7 @@
           $id_viaje=$valores['id_viaje'];
           //      echo date("Y"), date("m"), date("d");
         //  echo $hoy;
+        if ($valores['cupo'] <> 0){
         $consulta2="SELECT estado FROM clientes_viajes WHERE (id_viaje= '$id_viaje')";
         $result2=mysqli_query ($link, $consulta2) or die ('Consuluta query1 fallida 12: ' .mysqli_error($link));
         while (($valores1 = mysqli_fetch_array($result2)) and ($debaja== false)){
@@ -28,6 +29,9 @@
           } else {
         $debaja= true;
         }
+      }}
+      else {
+        $debaja= true;
       }
       }
 } else {
@@ -91,3 +95,4 @@ return $exito;
 }
 
 ?>
+
