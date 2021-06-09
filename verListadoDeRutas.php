@@ -14,12 +14,12 @@
 </head>
 <body>
   <header>
-       <a href="home.php" >  
-           <img src="logo_is.png" class="div_icono">  
+       <a href="home.php" >
+           <img src="logo_is.png" class="div_icono">
        </a>
        <b><?php echo $nombreUsuario; ?></b>
-<?php           echo menu($id,$link); ?>                       
-       <hr>     
+<?php           echo menu($id,$link); ?>
+       <hr>
      </header>
      <center>
  <h2>Rutas</h2>
@@ -40,17 +40,17 @@
                      <input type="submit" name="modificar" value="Modificar Ruta"></input>
                      <input type="hidden" name="ruta" value="<?php echo $id_ruta; ?>"></input>
                  </form><br>
+                 <?php if ($debaja == '0') { ?>
                  <form action="darDebajaRuta.php" method="post">
                      <input type="submit" name="debaja" value="Dar de baja Ruta"></input>
                      <input type="hidden" name="ruta" value="<?php echo $id_ruta; ?>"></input>
                  </form>
              </p><hr>
-    <?php }
+    <?php }}
           if(mysqli_num_rows($resultado)==0){?>
               <p><b>Aun no hay rutas cargadas</b></p>
-            <?php } 
+            <?php }
          }?>
          </center>
 </body>
 </html>
-
