@@ -48,7 +48,7 @@
 
         $consulta4="UPDATE clientes_viajes set estado ='devuelto' WHERE (id_viaje= '$id_viaje_original') and (id_cliente = '$id')" ;
         $result4=mysqli_query ($link, $consulta4) or die ('Consuluta query4 fallida 14: ' .mysqli_error($link));
-
+        echo 'consilta 4';
         $cupo_nuevo=$valores['cupo'] - 1;
 
         $consulta5="UPDATE viajes SET cupo='$cupo_nuevo' WHERE (id_viaje= '$id_viaje_original') " ;
@@ -56,11 +56,14 @@
       //  echo "result0";
         //  echo "result0 cupo 0";
 
-
-    if (($result4) or ($result5)){
-
-      echo "<script > alert('Pasaje eliminado exitosamente. En un momento le llegara un mail con la confirmación de la cancelación');window.location='$pagina'</script>";
-
+        echo 'consulta 5';
+    if (isset($result4) or isset($result5)){
+      echo 'entra al alert';
+      if ($pasaje_completo){
+      echo "<script > alert('Pasaje eliminado exitosamente. En un momento le llegara un mail con la confirmación de la cancelación del pasaje y de la devolucion total de su pasaje');window.location='$pagina'</script>";
+}else{
+  echo "<script > alert('Pasaje eliminado exitosamente. En un momento le llegara un mail con la confirmación de la cancelación del pasaje y de la devolucion de la mitad de su pasaje');window.location='$pagina'</script>";
+}
         }
 }else{
 echo "<script > alert('El pasaje no pudo ser cancelado correctamente. Por favor, intentelo de nuevo mas tarde');window.location='$pagina'</script>";
@@ -69,15 +72,15 @@ echo "<script > alert('El pasaje no pudo ser cancelado correctamente. Por favor,
 function compararFechas($fecha_hora_salida){
   echo 'empieza funcion';
         list($fecha, $horaio)= explode(" ", $fecha_hora_salida);
-        echo $fecha, $horaio, '111111';
+        echo $fecha, '0000000', $horaio, '111111';
         list($hora, $minuto)= explode(":", $horaio);
         echo $hora, $minuto, '22222222';
         list($anio,$mes,$dia) = explode("-",$fecha);
-        echo $anio, $mes, $dia, '333333333';
-        $anio_dif = date("Y") - $anio;
-        $mes_dif = date("m") - $mes;
-        $dia_dif = date("d") - $dia;
-        echo 'paso cuentas';
+        echo $anio, 'tt', $mes, 'tt',  $dia, '333333333';
+        $anio_dif = $anio - date("Y");
+        $mes_dif =  $mes - date("m");
+        $dia_dif = $dia - date("d") ;
+        echo 'paso cuentas y pongo dia', date("d"), '     ', $dia, '        ';
     //    $hora_dif = date("H") - $hora;
         $tothoras = 24;
         if ($anio_dif == 0){
@@ -85,7 +88,7 @@ function compararFechas($fecha_hora_salida){
           if ($mes_dif == 0) {
             echo '5';
             if ($dia_dif <= 2) {
-              echo '6';
+              echo '6','   ', $dia_dif;
               $hora_resta1= $tothoras-date("H");
               if ($dia_dif == 2){
                   $hora_resta1= $hora_resta1 + $tothoras;
