@@ -62,11 +62,7 @@
              			<b>Fecha y hora de salida:</b> <?php echo $fecha_hora_salida;?><br>
                   <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
              			<b>Precio:</b> <?php echo $precio;?><br>
-                  <b>Servicios adicionales:</b><br> <?php
-                  $ads=explode('/',$servicios_adicionales);
-                  foreach ($ads as $value) {
-                    echo $value."<br>";
-                  }?>
+                  <b>Servicios adicionales:</b> <?php  $ads=explode('/',$servicios_adicionales);  foreach ($ads as $value) { echo $value."<br>";  }?>
              			<b>Estado:</b> <?php echo $estado;?><br>
                   <b>Nombre del chofer:</b> <?php echo $nombre, '   ', $apellido ;?><br>
 
@@ -92,7 +88,16 @@
 
                   </form>
 
-              <?php  } $calificado= false; } } }?>
+              <?php  } $calificado= false; }
+            else{
+              if ($estado == 'pendiente'){?>
+                <form action="cancelarPasaje.php" method="post">
+                    <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
+                    <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                    <input type="hidden" name="pagina" value="verHistorialViajes.php"></input>
+                </form>
+          <?php    }
+            } } }?>
              		</p>
               <?php
  ?>
