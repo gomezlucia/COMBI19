@@ -38,27 +38,30 @@
          <div class="container-main">
          <div class="buscador">
              <center>
-               <?php     
-                 if(!empty($_GET['fecha_inicial'])){
-                     $fecha_inicial=$_GET['fecha_inicial'];}
-                 else{
-                     $fecha_inicial="";
-                 }
-                 if(!empty($_GET['fecha_final'])){
-                     $fecha_final=$_GET['fecha_final'];
-                 }else{
-                     $fecha_final="";
-                 }
-                 if (!empty($_GET['origen'])) {
-                        $origen=$_GET['origen'];
+               <?php  
+                 if (isset($_GET['error'])) {
+                     $origen=$_SESSION['busco_origen'];
+                     if(!empty($_GET['busco_final'])){
+                         $fecha_final=$_SESSION['fecha_final'];
+                     }else{
+                         $fecha_final="";
+                     }
+                     if(!empty($_GET['busco_inicial'])){
+                         $fecha_inicial=$_SESSION['fecha_inicial'];
+                     }else{
+                         $fecha_inicial="";
+                     } 
+                     if (!empty($_GET['busco_destino'])) {
+                         $destino=$_SESSION['busco_destino'];
+                     }else{
+                         $destino="";
+                     }  
                  }else{
                     $origen="";
-                 }   
-                  if (!empty($_GET['destino'])) {
-                        $destino=$_GET['destino'];
-                 }else{
-                     $destino="";
-                 }
+                    $destino="";
+                    $fecha_final="";
+                    $fecha_inicial="";
+                 }           
                echo buscar($link,$fecha_inicial,$fecha_final,$origen,$destino);  ?>   
 
              </center>
