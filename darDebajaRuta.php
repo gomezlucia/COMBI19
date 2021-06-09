@@ -34,7 +34,7 @@ if ($debaja== true){
   $hecho = cancelarViaje($id_viaje, $link);
     $consulta4="UPDATE rutas set debaja ='1' WHERE id_ruta= '$id_ruta_original' " ;
     $result4=mysqli_query ($link, $consulta4) or die ('Consuluta query4 fallida 14: ' .mysqli_error($link));
-      echo "<script > alert('ruta dada de baja en la bd');window.location='verListadoDeRutas.php'</script>";
+      echo "<script > alert('ruta dada de baja en la base de datos');window.location='verListadoDeRutas.php'</script>";
 }
 
 function cancelarViaje($id_viaje_original, $link){
