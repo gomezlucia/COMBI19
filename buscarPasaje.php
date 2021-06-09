@@ -20,7 +20,7 @@
       });
     </script>
   </head>
-  <body>    
+  <body>  
     <form action="validarDatosBusquedaPasaje.php" method="post">
      <h1>Buscar pasaje </h1> 
         Origen :   
@@ -42,7 +42,7 @@ Destino:(Opcional)
              $destinoC= "SELECT destino FROM rutas WHERE id_ruta='$destino' ";
              $resultadoC= mysqli_query($link,$destinoC) or die ('Consulta fallida: ' .mysqli_error($link));
              $valor = mysqli_fetch_array($resultadoC);
-             $consulta2= "SELECT id_ruta,destino FROM rutas WHERE origen='$_GET[origen]' and id_ruta<>'$destino' ";
+             $consulta2= "SELECT id_ruta,destino FROM rutas WHERE origen='$origen' and id_ruta<>'$destino' ";
              $resultado2= mysqli_query($link,$consulta2) or die ('Consulta fallida: ' .mysqli_error($link));?>
               <select id="destino" name= 'destino'   > 
              <option value="<?php echo $destino ?>" selected="selected"><?php echo  $valor['destino'] ?></option>
@@ -65,3 +65,4 @@ Destino:(Opcional)
 </body>
 </html>
 <?php } ?>
+
