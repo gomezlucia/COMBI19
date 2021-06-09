@@ -2,10 +2,7 @@
  function buscar($link,$fecha_inicial,$fecha_final,$ruta){ ?>
    <form action="validarDatosBusquedaViaje.php" method="post">
      <h2>Buscar Viaje </h2> 
-     <?php echo "algo". $ruta; 
-     if(empty($ruta)){
-      echo "sii";
-     }?>
+     
         <select name= 'rutas' id="rutas" required="">
              <option value="">Seleccione ruta</option>
              <?php
