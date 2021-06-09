@@ -1,4 +1,4 @@
-<?php function listarViajes($link,$usuario,$nombreUsuario,$id,$vieneDelHome){
+<?php function listarViajes($link,$usuario,$nombreUsuario,$id,$vieneDelHome){   
         $sesion=true;
         $usuario -> tieneSesionIniciada($sesion,$nombreUsuario);
          if($sesion){
@@ -12,7 +12,7 @@
         }else{
             $consulta= "SELECT v.id_viaje,v.id_ruta,r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos,v.debaja FROM viajes v INNER JOIN combis c on (v.id_combi=c.id_combi) INNER JOIN tipos_combi t on (c.id_tipo_combi =t.id_tipo_combi ) INNER JOIN rutas r on (v.id_ruta=r.id_ruta)" ;
         }
-        $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
+        $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));        
         if ($resultado){
             while (($valores = mysqli_fetch_array($resultado)) ){
                 $origen = $valores['origen'];
@@ -39,8 +39,9 @@
                 <br></p>
           <?php if($sesion){
                     if( ($tipo_usuario=='administrador') ){
-                       if($debaja!=0){ ?>
-                           <b>Estado:</b> <?php echo "Cancelado";?>
+                       if ($fecha_hora_salida> date("Y-m-d H:i:s")) {
+                             if($debaja!=0){ ?>
+                                  <b>Estado:</b> <?php echo "Cancelado";?>
               <?php     }else{ ?>
                             <form action="cancelarViaje.php" method="post">
                                 <input type="submit" name="modificar" value="Cancelar viaje"></input>
@@ -59,7 +60,9 @@
                                 </form> <br>
            <?php            }
                         }
-                    }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) {
+                       }else{ ?>
+                         <b>Estado:</b> <?php echo "Finalizado";?>
+           <?php      }   }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) {
                             $comproPasaje="SELECT * FROM clientes_viajes WHERE id_viaje='$id_viaje' and id_cliente='$id'";
                             $resultadoPasaje= mysqli_query($link,$comproPasaje) or die ('Consulta comproPasaje fallida: ' .mysqli_error($link));
                             if(mysqli_num_rows($resultadoPasaje)==0){ ?>
@@ -92,4 +95,7 @@
             <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }
 } ?>
+
+
+
 
