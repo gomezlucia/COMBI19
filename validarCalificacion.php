@@ -25,7 +25,9 @@ else {
      echo "<script > alert('Para completar la calificacion es necesario puntuar el viaje y agregar un comentario!');window.location='calificarViaje.php'</script>";
   }
 }
-  }
+  }else {
+       echo "<script > alert('Para completar la calificacion es necesario puntuar el viaje y agregar un comentario!');window.location='calificarViaje.php'</script>";
+    }
 
 
 }  else {
