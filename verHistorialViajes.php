@@ -5,13 +5,11 @@
  $usuario= new usuario();
  $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
  $usuario ->id($id);
-     include "menu.php";
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	
-   <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
+	<h1>Historial de Viajes</h1>
 </head>
 <body>
   <?php  try {
@@ -22,16 +20,7 @@
      $calificado= false;
  ?>
 
-<header>
-       <a href="home.php" >  
-           <img src="logo_is.png" class="div_icono">  
-       </a>
-       <b><?php echo $nombreUsuario; ?></b>
-<?php           echo menu($id,$link); ?>                       
-       <hr>     
-     </header>
-    <center>
- <h1>Historial de Viajes</h1>
+ <a href="home.php" >Volver al home </a>
      <?php
      $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
      $resultado0= mysqli_query($link,$consulta0) or die ('Consulta  fallida: ' .mysqli_error($link));
@@ -74,14 +63,15 @@
                   <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
              			<b>Precio:</b> <?php echo $precio;?><br>
                   <b>Servicios adicionales:</b><br> <?php
-                  $ads=explode('/',$servicios_adicionales); 
+                  $ads=explode('/',$servicios_adicionales);
                   foreach ($ads as $value) {
                     echo $value."<br>";
                   }?>
              			<b>Estado:</b> <?php echo $estado;?><br>
                   <b>Nombre del chofer:</b> <?php echo $nombre, '   ', $apellido ;?><br>
 
-                <?php  if ($calificado<>true){ // LA CALIFICACION ES UNICA
+                <?php if ($estado == 'finalizado'){
+                  if ($calificado<>true){ // LA CALIFICACION ES UNICA
                 //    $tipo='checkbox';
                 ?><br>
                 <form action="calificarViaje.php" method="post">
@@ -102,7 +92,7 @@
 
                   </form>
 
-              <?php  } $calificado= false; }}?>
+              <?php  } $calificado= false; } } }?>
              		</p>
               <?php
  ?>
@@ -112,7 +102,7 @@
             ?>
             <div>
                  <p>
-                   <b>Aun no ha realizado ningun viaje con nosotros!</b></p>
+                  <center> <b>Aun no ha realizado ningun viaje con nosotros!</b>
             </div>
             <?php
 
@@ -120,13 +110,10 @@
        }
 
         ?>
-</center>
-</body>
       <?php  } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
                        $mensaje=$e->getMessage();
                        echo "<script> alert('$mensaje');window.location='/COMBI19-main/inicioSesion.php'</script>";
                         //redirige a la pagina inicioSesion y muestra una mensaje de error
            }?>
 </html>
-
 
