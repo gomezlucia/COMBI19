@@ -31,4 +31,3 @@
    echo "<script > alert('La calificacion no se pudo eliminar');window.location='verHistorialViajes.php'</script>";
  }
  ?>
-
