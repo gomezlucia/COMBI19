@@ -87,7 +87,9 @@ else{
                          echo $cupo ?> <i>(está lleno)</i>
                      <?php }?><br>
                  </p>
-                 <?php if($debaja!=0){ ?>
+                 <?php 
+                 if($fecha_hora_salida>date("Y-m-d H:i:s")) {
+                 if($debaja!=0){ ?>
                                 <b>Estado:</b> <?php echo "Cancelado";?>
                    <?php     }else{ 
                                  if($cupo==0){?>
@@ -103,7 +105,11 @@ else{
                                      <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                              </form> 
 
-                  <?php      }       
+                  <?php      }}
+                  else{
+                    ?>
+                         <b>Estado:</b> <?php echo "Finalizado";
+                  }       
              } //while
          } //if ?>
 
