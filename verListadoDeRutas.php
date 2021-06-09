@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script type="text/javascript" src="seguir.js"></script>
      <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
@@ -40,9 +41,9 @@
                      <input type="submit" name="modificar" value="Modificar Ruta"></input>
                      <input type="hidden" name="ruta" value="<?php echo $id_ruta; ?>"></input>
                  </form><br>
-                 <?php if ($debaja == '0') { ?>
+                 <?php if ($debaja == 0) { ?>
                  <form action="darDebajaRuta.php" method="post">
-                     <input type="submit" name="debaja" value="Dar de baja Ruta"></input>
+                     <input type="submit" name="debaja" value="Dar de baja Ruta" class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input>
                      <input type="hidden" name="ruta" value="<?php echo $id_ruta; ?>"></input>
                  </form>
              </p><hr>
