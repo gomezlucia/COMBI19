@@ -20,7 +20,7 @@
          		 $agregar="INSERT INTO rutas(origen, destino,debaja) VALUES ('$origen','$destino',0)";
          		 $resultado= mysqli_query($link,$agregar) or die ('Consulta agregar fallida: ' .mysqli_error($link));
          		 if ($resultado) {
-         		 	 echo "<script > alert('Ruta registrada exitosamente');window.location='home.php'</script>";
+         		 	 echo "<script > alert('Ruta registrada exitosamente');window.location='verListadoDeRutas.php'</script>";
          		 } 
          	}
          }
