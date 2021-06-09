@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  
+  <script type="text/javascript" src="seguir.js"></script>
    <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
@@ -98,10 +98,10 @@
               else{ ?>
                 <br>
                 <b>Este viaje ya fue calificado <br><br>
-                  <form action="eliminarCalificacion.php" method="post">
+                  <form action="eliminarCalificacion.php" method="post" >
                   <input type="hidden" name="id" value="<?php echo $id; ?>"> </input>
                   <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"> </input>
-                  <input type="submit" value="Eliminar calificación"><br><br></input>
+                  <input type="submit" value="Eliminar calificación" class="btn_buscar"  onclick="return SubmitForm(this.form)" ><br><br></input>
 
                   </form>
 
@@ -109,7 +109,7 @@
             else{
               if ($estado == 'pendiente'){?>
                 <form action="cancelarPasaje.php" method="post">
-                    <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
+                    <input type="submit" name="cancelar" value="Cancelar pasaje" class="btn_buscar"  onclick="return SubmitForm(this.form)"></input>
                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                     <input type="hidden" name="pagina" value="verHistorialViajes.php"></input>
                 </form>
