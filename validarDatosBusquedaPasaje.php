@@ -119,10 +119,11 @@ if($mensaje<>""){
                                       <input type="hidden" name="volverA" value="home.php">
                                  </form> 
                       <?php  }else{  ?>
-                                 <form action="" method="post">
+                                  <form action="cancelarPasaje.php" method="post">
                                      <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
                                      <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
-                                 </form> 
+                                     <input type="hidden" name="pagina" value="validarDatosBusquedaPasaje.php"></input>
+                                 </form>
     }
  <?php                       }
                       }
