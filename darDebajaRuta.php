@@ -8,9 +8,14 @@
     $usuario ->id($id);
     $debaja = false;
     $id_ruta_original=$_POST['ruta'];
+//    echo $id_ruta_original;
     $consulta0="SELECT id_viaje  FROM viajes WHERE (id_ruta= '$id_ruta_original')";
+  //  echo $consulta0;
     $result0=mysqli_query ($link, $consulta0) or die ('Consuluta query1 fallida 10: ' .mysqli_error($link));
-      if ($result0){
+//    var_dump($result0);
+  //  echo 'hhhh';
+      if (mysqli_num_rows($result0) <> 0){
+    //    echo 'entra al if';
           while($valores = mysqli_fetch_array($result0)){
           $id_viaje=$valores['id_viaje'];
           //      echo date("Y"), date("m"), date("d");
@@ -26,6 +31,7 @@
       }
       }
 } else {
+  //echo 'entra al else';
   $consulta1="DELETE FROM rutas WHERE id_ruta = '$id_ruta_original' ";
   $resultado1= (mysqli_query ($link, $consulta1) or die ('Consulta fallida 11: ' .mysqli_error($link)));
   echo "<script > alert('ruta eliminada de la base de datos');window.location='verListadoDeRutas.php'</script>";
