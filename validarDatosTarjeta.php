@@ -4,6 +4,7 @@
    // include "classLogin.php";
   //$usuario= new usuario();
   //$usuario ->id($id);
+  echo $_POST['id'];
   $id_usuario=intval($_POST['id']);
   $cumpleF=false;
   $cumpleD=false;
@@ -63,18 +64,18 @@
         }
       }
         if((!$cumpleF) or (!$cumpleD)){
-          echo "<script > alert('$mensaje');window.location='agregarTarjeta.php'</script>";
+          echo "<script > alert('$mensaje');window.location='agregarTarjeta.php?numero=$numero&seguridad=$_POST[seguridad]&fecha=$_POST[fecha]'</script>";
         }
         else{
            $consulta="INSERT INTO tarjetas (numero_tarjeta, codigo_seguridad, fecha_vencimiento) VALUES ('$numero', '$codigo_seguridad', '$fecha')";#por ahora
-           $resultado= (mysqli_query ($link, $consulta) or die ('Consulta fallida: ' .mysqli_error($link)));
+           $resultado= (mysqli_query ($link, $consulta) or die ('Consulta fallida: acaa ' .mysqli_error($link)));
            if($resultado){
            $id_tarjeta=mysqli_insert_id($link); 
            echo $id_tarjeta;
            echo $id_usuario;
            $consulta2="INSERT INTO tarjetas_clientes (id_tarjeta, id_cliente) VALUES ('$id_tarjeta', '$id_usuario')";
-           $resultado2= (mysqli_query ($link, $consulta2) or die ('Consulta fallida: ' .mysqli_error($link)));
+           $resultado2= (mysqli_query ($link, $consulta2) or die ('Consulta fallida: aqui ' .mysqli_error($link)));
 
-          echo "<script > alert('Modificacion exitosa');window.location='verPerfilDeUsuario.php'</script>";#por ahora
+          echo "<script > alert('Tarjeta agregada exitosamente');window.location='verPerfilDeUsuario.php'</script>";
 
        } }
