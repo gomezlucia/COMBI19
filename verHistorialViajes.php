@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script type="text/javascript" src="seguir.js"></script>
+    <script type="text/javascript" src="seguir.js"></script>
    <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
@@ -23,19 +23,19 @@
  ?>
 
 <header>
-       <a href="home.php" >  
-           <img src="logo_is.png" class="div_icono">  
+       <a href="home.php" >
+           <img src="logo_is.png" class="div_icono">
        </a>
        <b><?php echo $nombreUsuario; ?></b>
-<?php           echo menu($id,$link); ?>                       
-       <hr>     
+<?php           echo menu($id,$link); ?>
+       <hr>
      </header>
     <center>
  <h1>Historial de Viajes</h1>
      <?php
      $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
      $resultado0= mysqli_query($link,$consulta0) or die ('Consulta  fallida: ' .mysqli_error($link));
-     $consulta= "SELECT v.id_viaje, v.id_ruta, v.id_chofer, v.fecha_hora_salida, v.fecha_hora_llegada, c.total,c.servicios_adicionales, v.debaja , t.origen, t.destino, c.id_cliente, c.estado, u.nombre, u.apellido, u.id_usuario FROM viajes v NATURAL JOIN rutas t NATURAL JOIN usuarios u NATURAL JOIN clientes_viajes c  WHERE (id_cliente='$id') and (id_chofer=id_usuario)" ;
+     $consulta= "SELECT v.id_viaje, v.id_ruta, v.id_chofer, v.id_combi, v.fecha_hora_salida, v.fecha_hora_llegada, c.total,c.servicios_adicionales, v.debaja , t.origen, t.destino, c.id_cliente, c.estado, c.tarjeta_utilizada, u.nombre, u.apellido, u.id_usuario  FROM viajes v NATURAL JOIN rutas t NATURAL JOIN usuarios u NATURAL JOIN clientes_viajes c  WHERE (id_cliente='$id') and (id_chofer=id_usuario)" ;
      $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
   //   $consulta2=" SELECT nom_chofer , ape_chofer , id_usuario FROM usuarios WHERE (id_usuario = '$valores['id_chofer']')"
     // $resultado2= mysqli_query($link,$consulta2) or die ('Consulta fallida: ' .mysqli_error($link));
@@ -45,6 +45,11 @@
             $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
             $resultado0= mysqli_query($link,$consulta0) or die ('Consulta fallida: ' .mysqli_error($link));
           //  var_dump($valores0);
+            $id_combi= $valores['id_combi'];
+            $consult10= "SELECT patente, id_combi FROM combis where (id_combi = '$id_combi')";
+            $result10 =  mysqli_query($link,$consult10) or die ('Consulta fallida: ' .mysqli_error($link));
+            $valores10 = mysqli_fetch_array($result10);
+
           if ($resultado0){
             while (($valores0 = mysqli_fetch_array($resultado0)) ){
             //  var_dump($valores0);
@@ -64,7 +69,11 @@
              $nombre = $valores['nombre'];
              $apellido = $valores['apellido'];
              $servicios_adicionales=$valores['servicios_adicionales'];
-
+             $patente = $valores10['patente'];
+             $numero_tarjeta= $valores['tarjeta_utilizada'];
+             $primeros = substr($numero_tarjeta, 0,2);
+             $ultimos =substr($numero_tarjeta, -4);
+             $cantidad=(strlen($numero_tarjeta))-strlen($primeros)-strlen($ultimos);
 //             echo $origen, '   -   ', $destino;
              ?>
                <hr>
@@ -73,16 +82,11 @@
              			<b>Fecha y hora de salida:</b> <?php echo $fecha_hora_salida;?><br>
                   <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
              			<b>Precio:</b> <?php echo $precio;?><br>
-            <?php if (!empty($servicios_adicionales)) { ?>
-                     <b>Servicios adicionales:</b><br> <?php  
-                     $ads=explode('/',$servicios_adicionales);  
-                     foreach ($ads as $value) { 
-                       echo $value."<br>";  
-                     }?>
-  <?php            }     ?>
+                  <b>Servicios adicionales:</b> <?php  $ads=explode('/',$servicios_adicionales);  foreach ($ads as $value) { echo $value."<br>";  }?>
              			<b>Estado:</b> <?php echo $estado;?><br>
                   <b>Nombre del chofer:</b> <?php echo $nombre, '   ', $apellido ;?><br>
-
+                  <b>Patente:</b> <?php echo $patente;?><br>
+                  <b>Numero de tarjeta:</b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?> <br>
                 <?php if ($estado == 'finalizado'){
                   if ($calificado<>true){ // LA CALIFICACION ES UNICA
                 //    $tipo='checkbox';
@@ -98,10 +102,11 @@
               else{ ?>
                 <br>
                 <b>Este viaje ya fue calificado <br><br>
-                  <form action="eliminarCalificacion.php" method="post" >
+                  <form action="eliminarCalificacion.php" method="post">
                   <input type="hidden" name="id" value="<?php echo $id; ?>"> </input>
                   <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"> </input>
                   <input type="submit" value="Eliminar calificación" class="btn_buscar"  onclick="return SubmitForm(this.form)" ><br><br></input>
+
 
                   </form>
 
@@ -109,7 +114,7 @@
             else{
               if ($estado == 'pendiente'){?>
                 <form action="cancelarPasaje.php" method="post">
-                    <input type="submit" name="cancelar" value="Cancelar pasaje" class="btn_buscar"  onclick="return SubmitForm(this.form)"></input>
+                    <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                     <input type="hidden" name="pagina" value="verHistorialViajes.php"></input>
                 </form>
@@ -137,5 +142,3 @@
 </center>
 </body>
 </html>
-
-
