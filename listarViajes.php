@@ -64,25 +64,33 @@
                          <b>Estado:</b> <?php echo "Finalizado";?>
            <?php      }   
                     }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) {
-                            $comproPasaje="SELECT * FROM clientes_viajes WHERE id_viaje='$id_viaje' and id_cliente='$id'";
+                            $comproPasaje="SELECT estado FROM clientes_viajes WHERE id_viaje='$id_viaje' and id_cliente='$id' order by id_cliente_viaje desc";
                             $resultadoPasaje= mysqli_query($link,$comproPasaje) or die ('Consulta comproPasaje fallida: ' .mysqli_error($link));
-                            $valores = mysqli_fetch_array($resultadoPasaje);
-                            if(mysqli_num_rows($resultadoPasaje)==0){ ?>
+                             $valores = mysqli_fetch_array($resultadoPasaje);
+                            if(mysqli_num_rows($resultadoPasaje)==0 ){ ?>
                                 <form action="comprarPasaje.php" method="post">
                                     <input type="submit" name="comprar" value="Comprar pasaje"></input>
                                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                     <input type="hidden" name="volverA" value="home.php">
                                 </form>
-                 <?php      }else{ if ($valores['estado']<> 'devuelto'){//ya lo habia comprado ?>
-                                <form action="cancelarPasaje.php" method="post">
-                                    <input type="submit" name="cancelar" value="Cancelar pasaje"  class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input>
-                                    <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
-                                    <input type="hidden" name="pagina" value="home.php"></input>
-                                </form>
-<?php                         }  }
-                        } ?>
+                 <?php       }else{ 
+                                 if ($valores['estado']== 'pendiente'){//ya lo habia comprado ?>
+                                     <form action="cancelarPasaje.php" method="post">
+                                         <input type="submit" name="cancelar" value="Cancelar pasaje"  class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input>
+                                         <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                         <input type="hidden" name="pagina" value="home.php"></input>
+                                     </form>
+<?php                            }elseif($valores['estado']== 'devuelto'){   echo "entre"?>
+                                     <form action="comprarPasaje.php" method="post">
+                                         <input type="submit" name="comprar" value="Comprar pasaje"></input>
+                                         <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                         <input type="hidden" name="volverA" value="home.php">
+                                     </form> 
+                         <?php   }  
+                             }
+                     } ?>
         <?php
-                }elseif (($cupo<$asientos) ) { ?>
+                 }elseif (($cupo<$asientos) ) { ?>
                     <form action="comprarPasaje.php" method="post">
                         <input type="submit" name="comprar" value="Comprar pasaje"></input>
                         <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
@@ -97,6 +105,3 @@
             <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }
 } ?>
-
-
-
