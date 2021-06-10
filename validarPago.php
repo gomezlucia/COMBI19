@@ -6,13 +6,10 @@
      $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
      $usuario ->id($id); 
   $tarjetaValida=false;
+   $pag=$_POST['volverA'];
   include "menu.php"; 
  // $mensaje="";
-
-  if( (!empty($_POST['numero_tarjeta'])) and (!empty ($_POST['clave'])) ) {
-     $pag=$_POST['volverA'];
-     $numero=$_POST['numero_tarjeta'];
-     $codigo_seguridad=$_POST['clave'];
+ function validarTarjeta($numero,$codigo_seguridad,$tarjetaValida){
      $primero = substr($numero, 0,1); 
      $primeros = substr($numero, 0,2); 
      if(($primeros==37) or ($primeros==34) or ($primero==4) or ($primero==5)){
@@ -30,45 +27,51 @@
              }//else{  $mensaje="el numero de tarjeta no es valido"; }
          } 
      }//else{ $mensaje="Solo se aceptan las siguientes tarjetas: american express, mastercard y visa"; }
+     return $tarjetaValida;
  } 
-if (substr($numero,-1,1)!=3) {
-	 if ($tarjetaValida) {
-	     if (substr($numero,-1,1)!=8) {
-	     	 if (!empty($_POST['chkl'])) {
-               	 $checkbox1 = $_POST['chkl'];
-                 $adicionalesSeleccionados=""; 
-                 $precioAdicional=0;
-                 foreach($checkbox1 as $valor) { 
-                     $consulta="SELECT nombre_servicio,precio FROM servicios_adicionales WHERE id_servicio_adicional='$valor'";  
-                     $resultado=mysqli_query($link,$consulta)  or die ('Consulta fallida: ' .mysqli_error());
-                     $valores = mysqli_fetch_array($resultado);
-                     $adicionalesSeleccionados=$valores['nombre_servicio']."/".$adicionalesSeleccionados;
-                     $precioAdicional=$precioAdicional+$valores['precio'];
-  		         } 
-  			     $precio=$precioAdicional+ $_POST['precio'];
-  			     $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado, servicios_adicionales, tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$adicionalesSeleccionados','$numero','$precio')";	 
-                 $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error()); 
-                 $actualizarCupo="UPDATE viajes SET cupo=cupo+1 WHERE id_viaje='$_POST[id_viaje]'";
-                 $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
-
-                 echo "<script> alert('Compra exitosa');window.location='$pag'</script>";
-             }
+    
+  if( (!empty($_POST['numero_tarjeta'])) and (!empty ($_POST['clave'])) ) {
+     $numero=$_POST['numero_tarjeta'];
+     $codigo_seguridad=$_POST['clave'];
+     if(!validarTarjeta($numero,$codigo_seguridad,$tarjetaValida)){
+         $_SESSION['tarjeta_ingresada']=$numero;
+         $_SESSION['viaje']=$_POST['id_viaje'];
+         echo "<script> alert('Numero de tarjeta invalido');window.location='/COMBI19-main/comprarPasaje.php'</script>";
+     }
+ }else{
+     $numero=$_POST['tarjetas']; 
+ }
+ if (substr($numero,-1,1)!=3) {
+	 if (substr($numero,-1,1)!=8) {
+	     if (!empty($_POST['chkl'])) {
+             $checkbox1 = $_POST['chkl'];
+             $adicionalesSeleccionados=""; 
+             $precioAdicional=0;
+             foreach($checkbox1 as $valor) { 
+                 $consulta="SELECT nombre_servicio,precio FROM servicios_adicionales WHERE id_servicio_adicional='$valor'";  
+                 $resultado=mysqli_query($link,$consulta)  or die ('Consulta fallida: ' .mysqli_error());
+                 $valores = mysqli_fetch_array($resultado);
+                 $adicionalesSeleccionados=$valores['nombre_servicio']."/".$adicionalesSeleccionados;
+                 $precioAdicional=$precioAdicional+$valores['precio'];
+  		     } 
+  			 $precio=$precioAdicional + $_POST['precio'];
+  			 $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado, servicios_adicionales, tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$adicionalesSeleccionados','$numero','$precio')";	 
+             $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error()); 
+             $actualizarCupo="UPDATE viajes SET cupo=cupo+1 WHERE id_viaje='$_POST[id_viaje]'";
+             $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
+             echo "<script> alert('Compra exitosa');window.location='$pag'</script>";
+         }//no compro adicionales
 	 	     $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado,tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$numero','$_POST[precio]')";
 	 	     $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error()); 
              $actualizarCupo="UPDATE viajes SET cupo=cupo+1 WHERE id_viaje='$_POST[id_viaje]'";
              $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
              echo "<script> alert('Compra exitosa');window.location='$pag'</script>";
-	     }else{
-	     	 $_SESSION['tarjeta']=$numero;
-	     	 $_SESSION['viaje']=$_POST['id_viaje'];
-             echo "<script> alert('La tarjeta no posee saldo suficiente');window.location='/COMBI19-main/comprarPasaje.php'</script>";
-	     } 
-     }else{
-     	 $_SESSION['tarjeta']=$numero;
+	 }else{ //sin saldo (termina en 8)
+	     $_SESSION['tarjeta_ingresada']=$numero;
 	     $_SESSION['viaje']=$_POST['id_viaje'];
-	     echo "<script> alert('Numero de tarjeta invalido');window.location='/COMBI19-main/comprarPasaje.php'</script>";
-     }
-}else{ ?>
+             echo "<script> alert('La tarjeta no posee saldo suficiente');window.location='/COMBI19-main/comprarPasaje.php?p=$pag'</script>";
+     } 
+}else{ //fallo la conexion (termina 3)?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,5 +93,8 @@ if (substr($numero,-1,1)!=3) {
  </center>
 </body>
 </html>
-<?php } ?>
+<?php } 
+?>
+
+
 
