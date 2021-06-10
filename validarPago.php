@@ -36,7 +36,7 @@
      if(!validarTarjeta($numero,$codigo_seguridad,$tarjetaValida)){
          $_SESSION['tarjeta_ingresada']=$numero;
          $_SESSION['viaje']=$_POST['id_viaje'];
-         echo "<script> alert('Numero de tarjeta invalido');window.location='/COMBI19-main/comprarPasaje.php'</script>";
+         echo "<script> alert('Numero de tarjeta invalido');window.location='/COMBI19-main/comprarPasaje.php?p=$pag'</script>";
      }
  }else{
      $numero=$_POST['tarjetas']; 
