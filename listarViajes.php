@@ -80,7 +80,7 @@
                                          <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                          <input type="hidden" name="pagina" value="home.php"></input>
                                      </form>
-<?php                            }elseif($valores['estado']== 'devuelto'){   echo "entre"?>
+<?php                            }elseif($valores['estado']== 'devuelto'){   ?>
                                      <form action="comprarPasaje.php" method="post">
                                          <input type="submit" name="comprar" value="Comprar pasaje"></input>
                                          <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
@@ -105,3 +105,4 @@
             <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }
 } ?>
+
