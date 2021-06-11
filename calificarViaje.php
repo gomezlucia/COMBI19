@@ -6,6 +6,7 @@
  $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
  $usuario ->id($id);
 include "menu.php";
+	//session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -13,17 +14,29 @@ include "menu.php";
       <title>Calificar Viaje</title>
    <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
-<body>
-  <?php  try {
-            $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
- ?>
+<body><?php  try {
+          $usuario -> iniciada($nombreUsuario); //entra al body si el usuario tenia una sesion iniciada
+          $comentario=""; ?>
+
+
  <header>
-       <a href="home.php" >  
-           <img src="logo_is.png" class="div_icono">  
+       <a href="home.php" >
+           <img src="logo_is.png" class="div_icono">
        </a>
        <b><?php echo $nombreUsuario; ?></b>
-<?php           echo menu($id,$link); ?>                       
-       <hr>     
+<?php           echo menu($id,$link); ?>
+
+        <?php  if ($_GET['error'] == 'false'){
+
+                    $id_viaje= $_SESSION['id_viaje'];
+                      $comentario= $_SESSION['comentario'];
+          //  echo $comentario;
+        }  if (isset($_POST['id_viaje'])){
+              $id_viaje= $_POST['id_viaje'];
+        //        $comentario= $_SESSION['comentario'];
+    //  echo $comentario;
+       }?>
+       <hr>
      </header>
      <CENTER>
     <h1>Calificar Viaje</h1>
@@ -43,8 +56,9 @@ include "menu.php";
 
 
     <h1>¡Dejanos un comentario sobre el viaje!</h1>
-       <textarea name="comentario"  minlength="50" placeholder="Escribir Comentario" cols="50" rows="10" ></textarea>
-      <input type="hidden" name="id_viaje" value="<?php echo $_POST['id_viaje']; ?>">
+
+       <textarea name="comentario" minlength="50" cols="50" rows="10" > <?php echo $comentario; ?></textarea>
+      <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>">
       <input type="hidden" name="id" value="<?php echo $id; ?>">
       <br><br>
       <input type="submit" value="Guardar">
@@ -62,3 +76,4 @@ include "menu.php";
      }
      ?>
 </html>
+
