@@ -40,12 +40,12 @@
      </header>
    <center>
     <form action="validarRuta.php" method="post">
-     <h1>Modificar datos del chofer </h1>   
+     <h1>Modificar datos de ruta </h1>   
         <input type="text" name="origen" size=50 placeholder=" Origen"  required="" value="<?php echo $origen;?>"><br><br>          
         <input type="text" name="destino" size=50 placeholder=" Destino"  required="" value="<?php echo $destino;?>"><br><br>        
         <input type="hidden"name="id" value="<?php echo $id_ruta;?>">
         <input type="submit" value="Guardar">
-        <input type= "reset" value= "Borrar">
+        <input type="button" name="Cancelar" value="Cancelar" onClick="location.href='verListadoDeRutas.php'"> 
     </form>
     </center>   
   </body>
