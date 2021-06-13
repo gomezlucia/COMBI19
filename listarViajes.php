@@ -46,6 +46,12 @@
                             <form action="cancelarViaje.php" method="post">
                                 <input type="submit" name="modificar" value="Cancelar viaje" class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input>
                                 <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
+                            <?php if($vieneDelHome==1){ ?>
+                                        <input type="hidden" name="volverA" value="home.php">
+                   <?php            }else{?>
+                                        <input type="hidden" name="volverA" value="viajes.php">
+                          <?php     }?>
                             </form>
              <?php
                             if($cupo==0){?>
@@ -105,5 +111,6 @@
             <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }
 } ?>
+
 
 
