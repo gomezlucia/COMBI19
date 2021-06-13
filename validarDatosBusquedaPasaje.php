@@ -130,6 +130,7 @@
                                  <input type="submit" name="comprar" value="Comprar pasaje"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                  <input type="hidden" name="volverA" value="home.php">
+                                 <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
                              </form> 
                   <?php  }else{  ?>
                              <form action="cancelarPasaje.php" method="post">
@@ -159,6 +160,7 @@
 </center>
 </body>
 </html>
+
 
 
 
