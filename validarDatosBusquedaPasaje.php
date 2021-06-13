@@ -118,6 +118,8 @@
                              <form action="cancelarViaje.php" method="post">
                                  <input type="submit" name="modificar" value="Cancelar viaje"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                  <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
+                                   <input type="hidden" name="volverA" value="home.php">
                              </form> 
                 <?php    }
                      }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) { 
@@ -157,5 +159,7 @@
 </center>
 </body>
 </html>
+
+
 
 
