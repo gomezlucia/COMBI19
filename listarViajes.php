@@ -85,6 +85,7 @@
                                          <input type="submit" name="cancelar" value="Cancelar pasaje"  class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input>
                                          <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                          <input type="hidden" name="pagina" value="home.php"></input>
+                                         <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
                                      </form>
 <?php                            }elseif($valores['estado']== 'devuelto'){   ?>
                                      <form action="comprarPasaje.php" method="post">
@@ -111,6 +112,5 @@
             <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }
 } ?>
-
 
 
