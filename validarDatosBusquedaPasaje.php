@@ -134,11 +134,11 @@
                                  <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                  <input type="hidden" name="pagina" value="validarDatosBusquedaPasaje.php"></input>
-                             </form>
-                         }
- <?php               }  
+                            </form>
+  <?php                          }
+              }  
              }elseif($cupo<$asientos){//if(sesion) 
-                echo "bbbbbbbbbbbbb";?>
+                ?>
                  <form action="comprarPasaje.php" method="post">
                      <input type="submit" name="comprar" value="Comprar pasaje"></input>
                      <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
@@ -153,10 +153,9 @@
          <center> 
              <b>No hay viajes disponibles por el momento</b> 
          </center>
-<?php }  }?>
+<?php }  ?>
 </center>
 </body>
 </html>
-
 
 
