@@ -21,7 +21,6 @@
      $precio="";
      $calificado= false;
  ?>
-
 <header>
        <a href="home.php" >
            <img src="logo_is.png" class="div_icono">
@@ -33,10 +32,9 @@
     <center>
  <h1>Historial de Viajes</h1>
      <?php
-     $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
-     $resultado0= mysqli_query($link,$consulta0) or die ('Consulta  fallida: ' .mysqli_error($link));
-     $consulta= "SELECT v.id_viaje, v.id_ruta, v.id_chofer, v.id_combi, v.fecha_hora_salida, v.fecha_hora_llegada, c.total,c.servicios_adicionales, v.debaja , t.origen, t.destino, c.id_cliente, c.estado, c.tarjeta_utilizada, u.nombre, u.apellido, u.id_usuario  FROM viajes v NATURAL JOIN rutas t NATURAL JOIN usuarios u NATURAL JOIN clientes_viajes c  WHERE (id_cliente='$id') and (id_chofer=id_usuario)" ;
+     $consulta= "SELECT v.id_viaje, v.id_ruta, v.id_chofer, v.id_combi, v.fecha_hora_salida, v.fecha_hora_llegada, c.total,c.servicios_adicionales ,c.id_cliente, c.estado, c.tarjeta_utilizada  FROM viajes v  NATURAL JOIN clientes_viajes c  WHERE (id_cliente='$id')" ;
      $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
+     //echo 'consulta1';
   //   $consulta2=" SELECT nom_chofer , ape_chofer , id_usuario FROM usuarios WHERE (id_usuario = '$valores['id_chofer']')"
     // $resultado2= mysqli_query($link,$consulta2) or die ('Consulta fallida: ' .mysqli_error($link));
     if ($resultado){
@@ -44,12 +42,25 @@
           while (($valores = mysqli_fetch_array($resultado)) ){
             $consulta0= "SELECT id_viaje, id_cliente FROM viaje_calificacion where (id_cliente = '$id')";
             $resultado0= mysqli_query($link,$consulta0) or die ('Consulta fallida: ' .mysqli_error($link));
+            //echo 'consulta0';
           //  var_dump($valores0);
             $id_combi= $valores['id_combi'];
+            $id_chofer= $valores['id_chofer'];
+          //  echo $id_chofer;
+            $id_ruta=$valores['id_ruta'];
+        //    echo 'asignacion0';
+            $consulta12 = "SELECT origen, destino, id_ruta FROM rutas where (id_ruta = '$id_ruta')";
+            $result12= mysqli_query($link,$consulta12) or die ('Consulta fallida 12: ' .mysqli_error($link));
+            $valores12= mysqli_fetch_array($result12);
+          //  echo 'consulta12';
+            $consulta11="SELECT nombre, apellido, id_usuario FROM usuarios where (id_usuario = '$id_chofer')";
+            $result11= mysqli_query($link,$consulta11) or die ('Consulta fallida 11: ' .mysqli_error($link));
+            $valores11=mysqli_fetch_array($result11);
+          //  echo 'consulta11';
             $consult10= "SELECT patente, id_combi FROM combis where (id_combi = '$id_combi')";
-            $result10 =  mysqli_query($link,$consult10) or die ('Consulta fallida: ' .mysqli_error($link));
+            $result10 =  mysqli_query($link,$consult10) or die ('Consulta fallida 10: ' .mysqli_error($link));
             $valores10 = mysqli_fetch_array($result10);
-
+          //  echo 'consulta10';
           if ($resultado0){
             while (($valores0 = mysqli_fetch_array($resultado0)) ){
             //  var_dump($valores0);
@@ -58,16 +69,16 @@
 
               }
             }
-             $destino = $valores['destino'];
+             $destino = $valores12['destino'];
            	 $fecha_hora_salida = $valores['fecha_hora_salida'];
              $fecha_hora_llegada = $valores['fecha_hora_llegada'];
              $precio = $valores['total'];
-             $origen = $valores['origen'];
+             $origen = $valores12['origen'];
              $id_viaje = $valores['id_viaje'] ;
-             $debaja = $valores['debaja'];
+      //       $debaja = $valores['debaja'];
              $estado = $valores['estado'];
-             $nombre = $valores['nombre'];
-             $apellido = $valores['apellido'];
+             $nombre = $valores11['nombre'];
+             $apellido = $valores11['apellido'];
              $servicios_adicionales=$valores['servicios_adicionales'];
              $patente = $valores10['patente'];
              $numero_tarjeta= $valores['tarjeta_utilizada'];
@@ -75,6 +86,7 @@
              $ultimos =substr($numero_tarjeta, -4);
              $cantidad=(strlen($numero_tarjeta))-strlen($primeros)-strlen($ultimos);
 //             echo $origen, '   -   ', $destino;
+            //  echo 'asignaciones';
              ?>
                <hr>
                	<h2><?php echo $origen, '-', $destino ;?></h2>
