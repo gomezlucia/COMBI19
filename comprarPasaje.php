@@ -1,4 +1,5 @@
 <?php
+
      include("BD.php");// conectar y seleccionar la base de datos
      $link=conectar();
      include "validarLogin.php";
@@ -18,7 +19,6 @@
      ?> 
  <body>
     <?php 
-       
          $noTieneCovid="SELECT c.tiene_covid FROM usuarios c  Where id_usuario='$id'";
          $resultado=mysqli_query($link,$noTieneCovid) or  die ('Consulta noTieneCovid fallida: ' .mysqli_error());
          $cliente=mysqli_fetch_array($resultado);
@@ -32,6 +32,7 @@
          	     $id_viaje=$_POST['id_viaje'];
          	     $numero_tarjeta="";
          	 }
+
            $tieneTarjetas="SELECT t.numero_tarjeta FROM usuarios c INNER JOIN tarjetas_clientes tc ON (c.id_usuario=tc.id_cliente) INNER JOIN tarjetas t ON (tc.id_tarjeta= t.id_tarjeta) WHERE id_usuario='$id'";
            $resultadoTarjetas=mysqli_query($link,$tieneTarjetas) or  die ('Consulta tiieneTarjetas fallida: ' .mysqli_error());
 
@@ -100,6 +101,6 @@
                   //redirige a la pagina inicioSesion y muestra una mensaje de error
          }?>
 </html>
-          
+
 
           
