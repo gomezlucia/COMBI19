@@ -6,7 +6,6 @@
  $usuario -> session ($nombreUsuario); //guarda en $nombreUsuario el valor que tiene la sesion (lo pasa por referencia)
  $usuario ->id($id);
 include "menu.php";
-	//session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,12 +25,12 @@ include "menu.php";
        <b><?php echo $nombreUsuario; ?></b>
 <?php           echo menu($id,$link); ?>
 
-        <?php  if ($_GET['error'] == 'false'){
+        <?php  if (isset($_GET['error'])and $_GET['error'] == 'false'){
 
                     $id_viaje= $_SESSION['id_viaje'];
                       $comentario= $_SESSION['comentario'];
           //  echo $comentario;
-        }  if (isset($_POST['id_viaje'])){
+        }elseif (isset($_POST['id_viaje'])){
               $id_viaje= $_POST['id_viaje'];
         //        $comentario= $_SESSION['comentario'];
     //  echo $comentario;
@@ -76,4 +75,3 @@ include "menu.php";
      }
      ?>
 </html>
-
