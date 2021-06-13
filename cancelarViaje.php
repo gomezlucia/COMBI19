@@ -29,6 +29,7 @@ $mail->Port = 2525;
    $usuario ->id($id);
    $id_viaje_original=$_POST['id_viaje'];
    $ruta=$_POST['ruta'];
+   $pag=$_POST['volverA'];
    $consulta_CupoViaje="SELECT cupo FROM viajes WHERE (id_viaje= '$id_viaje_original')";
    $result_CupoViaje=mysqli_query ($link, $consulta_CupoViaje) or die ('Consuluta consulta_CupoViaje fallida: ' .mysqli_error($link));
    if ($result_CupoViaje){
@@ -68,10 +69,10 @@ $mail->Port = 2525;
          }
       }
      if (isset($result_bV) or isset($result_debajaV)){
-        echo "<script > alert('Viaje eliminado exitosamente');window.location='viajes.php'</script>";
+        echo "<script > alert('Viaje eliminado exitosamente');window.location='$pag'</script>";
      }
    }else{
-     echo "<script > alert('El viaje no se pudo eliminar');window.location='viajes.php'</script>";
+     echo "<script > alert('El viaje no se pudo eliminar');window.location='$pag'</script>";
    }
 ?>
 
