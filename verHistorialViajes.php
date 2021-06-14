@@ -70,7 +70,7 @@
               }
             }
              $destino = $valores12['destino'];
-           	 $fecha_hora_salida = $valores['fecha_hora_salida'];
+             $fecha_hora_salida = $valores['fecha_hora_salida'];
              $fecha_hora_llegada = $valores['fecha_hora_llegada'];
              $precio = $valores['total'];
              $origen = $valores12['origen'];
@@ -89,19 +89,25 @@
             //  echo 'asignaciones';
              ?>
                <hr>
-               	<h2><?php echo $origen, '-', $destino ;?></h2>
-             		<p>
-             			<b>Fecha y hora de salida:</b> <?php echo $fecha_hora_salida;?><br>
+                <h2><?php echo $origen, '-', $destino ;?></h2>
+                <p>
+                  <b>Fecha y hora de salida:</b> <?php echo $fecha_hora_salida;?><br>
                   <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
-             			<b>Precio:</b> <?php echo $precio;?><br>
-                 <?php if (!empty($servicios_adicionales)) { ?>
+                  <b>Precio:</b> <?php echo $precio;?><br>
+                  <?php if (!empty($servicios_adicionales)) { ?>
                      <b>Servicios adicionales:</b><br> <?php  
                      $ads=explode('/',$servicios_adicionales);  
                      foreach ($ads as $value) { 
                        echo $value."<br>";  
                      }?>
   <?php            }     ?>
-             			<b>Estado:</b> <?php echo $estado;?><br>
+                  <b>Estado:</b> <?php if($estado=='cancelado'){
+                     echo "Viaje cancelado por la empresa (devolucion del 100% del monto)";
+                  }elseif($estado=='devuelto parcial'){
+                     echo "Pasaje cancelado (devolucion del 50% del monto)";
+                  }elseif($estado=='devuelto total'){
+                     echo "Pasaje cancelado (devolucion del 100% del monto)";
+                  }?><br>
                   <b>Nombre del chofer:</b> <?php echo $nombre, '   ', $apellido ;?><br>
                   <b>Patente:</b> <?php echo $patente;?><br>
                   <b>Numero de tarjeta:</b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?> <br>
@@ -139,7 +145,7 @@
                 </form>
           <?php    }
             } } }?>
-             		</p>
+                </p>
               <?php
  ?>
 
