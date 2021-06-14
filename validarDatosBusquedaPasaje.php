@@ -137,6 +137,7 @@
                                  <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                  <input type="hidden" name="pagina" value="validarDatosBusquedaPasaje.php"></input>
+                                 <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
                             </form>
   <?php                          }
               }  
