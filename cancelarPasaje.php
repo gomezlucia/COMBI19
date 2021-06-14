@@ -31,7 +31,7 @@ $mail->Port = 2525;
     $ruta=$_POST['ruta'];
     $id_viaje_original=$_POST['id_viaje'];
     $pagina= $_POST['pagina'];
-    $consulta0="SELECT fecha_hora_salida, fecha_hora_llegada, id_ruta, precio, cupo  FROM viajes WHERE (id_viaje= '$id_viaje_original')";
+    $consulta0="SELECT fecha_hora_salida, fecha_hora_llegada, id_ruta, precio, cupo,total  FROM viajes inner join clientes_viajes on (viajes.id_viaje=clientes_viajes.id_viaje)WHERE (viajes.id_viaje= '$id_viaje_original')";
     $result0=mysqli_query ($link, $consulta0) or die ('Consuluta query1 fallida 10: ' .mysqli_error($link));
 
     $consulta1="SELECT mail  FROM usuarios WHERE (id_usuario= '$id')";
@@ -42,10 +42,10 @@ $mail->Port = 2525;
         $mailCliente= mysqli_fetch_array($result1);
         $pasaje_completo = compararFechas($datosViaje['fecha_hora_salida']);
         if (!($pasaje_completo)){
-           $monto=$datosViaje['precio'] /2;
+           $monto=$datosViaje['total'] /2;
            $consulta4="UPDATE clientes_viajes set estado ='devuelto parcial' WHERE (id_viaje= '$id_viaje_original') and (id_cliente = '$id')" ;
         }else{
-           $monto = $datosViaje['precio'];
+           $monto = $datosViaje['total'];
            $consulta4="UPDATE clientes_viajes set estado ='devuelto total' WHERE (id_viaje= '$id_viaje_original') and (id_cliente = '$id')" ;
         }
          $result4=mysqli_query ($link, $consulta4) or die ('Consuluta query4 fallida 14: ' .mysqli_error($link));
@@ -119,4 +119,3 @@ function compararFechas($fecha_hora_salida){
    }
 
 return $pasaje_completo; } ?>
-
