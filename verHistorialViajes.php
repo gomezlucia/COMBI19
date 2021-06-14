@@ -107,6 +107,8 @@
                      echo "Pasaje cancelado (devolucion del 50% del monto)";
                   }elseif($estado=='devuelto total'){
                      echo "Pasaje cancelado (devolucion del 100% del monto)";
+                  }else{
+                     echo $estado;
                   }?><br>
                   <b>Nombre del chofer:</b> <?php echo $nombre, '   ', $apellido ;?><br>
                   <b>Patente:</b> <?php echo $patente;?><br>
