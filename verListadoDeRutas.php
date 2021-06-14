@@ -37,17 +37,21 @@
             <p>
                  <b>Origen:</b> <?php echo $origen;?> <br>
                  <b>Destino:</b> <?php echo $destino;?><br>
+                 <?php if ($debaja == 0) { ?>
+                 <form action="darDebajaRuta.php" method="post">
+                     <input type="submit" name="debaja" value="Dar de baja Ruta" class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input><br>
+                     <input type="hidden" name="id_ruta" value="<?php echo $id_ruta; ?>"></input>
+                     <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
+                 </form>
                  <form action="modificarRuta.php" method="post">
                      <input type="submit" name="modificar" value="Modificar Ruta"></input>
                      <input type="hidden" name="ruta" value="<?php echo $id_ruta; ?>"></input>
-                 </form><br>
-                 <?php if ($debaja == 0) { ?>
-                 <form action="darDebajaRuta.php" method="post">
-                     <input type="submit" name="debaja" value="Dar de baja Ruta" class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input>
-                     <input type="hidden" name="ruta" value="<?php echo $id_ruta; ?>"></input>
                  </form>
              </p><hr>
-    <?php }}
+    <?php }else{ ?>
+       <i>Ruta dada de baja</i><hr>
+   <?php }
+ }
           if(mysqli_num_rows($resultado)==0){?>
               <p><b>Aun no hay rutas cargadas</b></p>
             <?php }
@@ -55,3 +59,4 @@
          </center>
 </body>
 </html>
+
