@@ -10,7 +10,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <script type="text/javascript" src="seguir.js"></script>
+    <script type="text/javascript">
+      function eliminarCalificacion(frm){
+    var opcion = confirm('¿Esta seguro que desea eliminar su calificación?');
+        if(opcion == true){
+            frm.submit();
+        }else{
+            return false;
+        }
+}
+
+    </script>
      <script type="text/javascript" src="confirmarCancelarPasaje.js"></script>
    <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
@@ -132,7 +142,7 @@
                   <form action="eliminarCalificacion.php" method="post">
                   <input type="hidden" name="id" value="<?php echo $id; ?>"> </input>
                   <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"> </input>
-                  <input type="submit" value="Eliminar calificación" class="btn_buscar"  onclick="return SubmitForm(this.form)" ><br><br></input>
+                  <input type="submit" value="Eliminar calificación" class="btn_buscar"  onclick="return eliminarCalificacion(this.form)" ><br><br></input>
 
 
                   </form>
