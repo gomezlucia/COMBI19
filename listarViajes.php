@@ -44,7 +44,7 @@
                                   <b>Estado:</b> <?php echo "Cancelado";?>
               <?php      }else{ ?>
                             <form action="cancelarViaje.php" method="post">
-                                <input type="submit" name="modificar" value="Cancelar viaje" class="btn_buscar"  onclick="return SubmitForm(this.form)" ></input>
+                                <input type="submit" name="modificar" value="Cancelar viaje" class="btn_buscar"  onclick="return SubmitFormulario(this.form)" ></input>
                                 <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                 <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
                             <?php if($vieneDelHome==1){ ?>
