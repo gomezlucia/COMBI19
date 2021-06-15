@@ -12,6 +12,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
+     <script type="text/javascript" src="seguir.js"></script>
 </head>
 
 <body>
@@ -101,7 +102,7 @@ else{
                                      </form> <br>
                 <?php            } ?>
                                  <form action="cancelarViaje.php" method="post">
-                                     <input type="submit" name="modificar" value="Cancelar viaje"></input>
+                                     <input type="submit" name="modificar" value="Cancelar viaje" onclick="return SubmitFormulario(this.form)"></input>
                                      <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                       <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
                                        <input type="hidden" name="volverA" value="viajes.php">
