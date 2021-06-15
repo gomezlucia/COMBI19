@@ -12,6 +12,8 @@
 <html>
 <head>
      <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
+     <script type="text/javascript" src="confirmarCancelarPasaje.js"></script>
+     <script type="text/javascript" src="seguir.js"></script>
 </head>
 
 <body>
@@ -116,7 +118,7 @@
                                  <b>Estado:</b> <?php echo "Cancelado";?>
                <?php     }else{ ?>
                              <form action="cancelarViaje.php" method="post">
-                                 <input type="submit" name="modificar" value="Cancelar viaje"></input>
+                                 <input type="submit" name="modificar" value="Cancelar viaje"  onclick="return SubmitFormulario(this.form)"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                   <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
                                    <input type="hidden" name="volverA" value="home.php">
@@ -134,7 +136,7 @@
                              </form> 
                   <?php  }else{  ?>
                              <form action="cancelarPasaje.php" method="post">
-                                 <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
+                                 <input type="submit" name="cancelar" value="Cancelar pasaje" onclick="return SubmitForm(this.form)"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                  <input type="hidden" name="pagina" value="validarDatosBusquedaPasaje.php"></input>
                                  <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
@@ -161,8 +163,4 @@
 </center>
 </body>
 </html>
-
-
-
-
 
