@@ -25,6 +25,7 @@
                  <a href="verListadoDeRutas.php"> Ver listado de rutas </a>
                  <a href="cargarRuta.php"> Cargar ruta </a>
                  <a href="verListadoDeCombis.php"> Ver listado de combis </a>
+                <a href="verListadoDeAdicionales.php"> Ver listado de adicionales </a>
                  <a href="cargarCombi.php"> Cargar combis  </a>
                  <a href="registrarChoferes.php"> Registrar Chofer  </a>
                  <a href="verListadoDeChoferes.php"> Ver listado de choferes  </a>
