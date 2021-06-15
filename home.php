@@ -13,7 +13,8 @@
 <html>
     <head>
         <title> COMBI-19</title>
-         <script type="text/javascript" src="seguir.js"></script>
+           <script type="text/javascript" src="seguir.js"></script>
+          <script type="text/javascript" src="confirmarCancelarPasaje.js"></script>
        <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
      </head>
 
