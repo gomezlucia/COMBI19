@@ -10,7 +10,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script type="text/javascript" src="seguir.js"></script>
+  <script type="text/javascript">
+    function SubmitForm(frm){
+    var opcion = confirm('Si da de baja esta ruta, se cancelaran todos los viajes correspondientes a la misma y se les devolvera la totalidad del pago a los respectivos clientes ¿Esta seguro que desea continuar?');
+        if(opcion == true){
+            frm.submit();
+        }else{
+            return false;
+        }
+}
+  </script>
      <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
@@ -59,4 +68,5 @@
          </center>
 </body>
 </html>
+
 
