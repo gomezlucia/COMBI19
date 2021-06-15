@@ -11,6 +11,7 @@
 <html>
 <head>
     <script type="text/javascript" src="seguir.js"></script>
+     <script type="text/javascript" src="confirmarCancelarPasaje.js"></script>
    <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
@@ -140,7 +141,7 @@
             else{
               if ($estado == 'pendiente'){?>
                 <form action="cancelarPasaje.php" method="post">
-                    <input type="submit" name="cancelar" value="Cancelar pasaje"></input>
+                    <input type="submit" name="cancelar" value="Cancelar pasaje" onclick="return SubmitForm(this.form)"></input>
                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                     <input type="hidden" name="pagina" value="verHistorialViajes.php"></input>
                     <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
