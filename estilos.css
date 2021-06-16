@@ -154,6 +154,16 @@ top: -20px; left: 1000px;
              background:#135373;
              color: white;
          }
+         input[type=submit], input[type=reset] {
+  background-color: #135373;
+  border: 1px solid black;
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 2px 1px;
+  cursor: pointer;
+}
+   
     
    
    
