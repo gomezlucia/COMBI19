@@ -47,7 +47,7 @@ if (mysqli_num_rows($result0) <> 0){
                  $result4=mysqli_query ($link, $consulta4) or die ('Consuluta query4 fallida 14: ' .mysqli_error($link));
                  echo "<script > alert('Ruta dada de baja exitosamente');window.location='verListadoDeRutas.php'</script>";
              }else{ //viaje con estado finalizado/cancelado/devuelto parcial/devuelto total doy debaja ruta
-                 darDebajaViaje($link,$id_viaje);
+                 //darDebajaViaje($link,$id_viaje);
                  $consulta4="UPDATE rutas set debaja ='1' WHERE id_ruta= '$id_ruta_original' " ;
                  $result4=mysqli_query ($link, $consulta4) or die ('Consuluta query4 fallida 14: ' .mysqli_error($link));
                  echo "<script > alert('Ruta dada de baja exitosamente');window.location='verListadoDeRutas.php'</script>";
