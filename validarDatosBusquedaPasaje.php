@@ -127,7 +127,8 @@
                      }elseif (($cupo<$asientos) and ($tipo_usuario=='cliente') ) { 
                          $comproPasaje="SELECT * FROM clientes_viajes WHERE id_viaje='$id_viaje' and id_cliente='$id'";
                          $resultadoPasaje= mysqli_query($link,$comproPasaje) or die ('Consulta comproPasaje fallida: ' .mysqli_error($link));
-                         if(mysqli_num_rows($resultadoPasaje)==0){ ?>
+                         $valores = mysqli_fetch_array($resultadoPasaje);
+                         if($valores['estado']=='devuelto total' or $valores['estado']=='devuelto parcial'  ){  ?>
                              <form action="comprarPasaje.php" method="post">
                                  <input type="submit" name="comprar" value="Comprar pasaje"></input>
                                  <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
