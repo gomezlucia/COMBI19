@@ -25,12 +25,11 @@
 					if($datosUsuario =mysqli_fetch_array($resultadoConsulta1)) {
                          //guada los datos del usuario en la variable global SESSION
 						 $_SESSION['id_usuario'] = $datosUsuario ['id_usuario'];
-		              //   $_SESSION['nombre_usuario'] = $datosUsuario ['nombre_usuario'];
-						// $_SESSION['contraseña']=$datosUsuario ['contraseña'];
 			             $_SESSION['nombre'] = $datosUsuario ['nombre'];
 			             $_SESSION['apellido']=$datosUsuario ['apellido'];
+                         $_SESSION['tipo_usuario']=$datosUsuario['tipo_usuario'];
 
-			             if($datosUsuario['tipo_usuario']=='cliente'){
+			             if( $_SESSION['tipo_usuario']=='cliente'){
 				             $_SESSION['mail'] = $datosUsuario ['mail'];
 		                     $_SESSION['DNI'] = $datosUsuario ['DNI'];
 			                 $_SESSION['fecha_nacimiento']=$datosUsuario ['fecha_nacimiento'];
@@ -42,7 +41,7 @@
 								 $_SESSION['mail'] = $datosUsuario ['mail'];
 								 $_SESSION['legajo'] = $datosUsuario ['legajo'];
 								 $_SESSION['nombre_usuario'] = $datosUsuario ['nombre_usuario'];
-						 $_SESSION['contraseña']=$datosUsuario ['contraseña'];}
+						         $_SESSION['contraseña']=$datosUsuario ['contraseña'];}
 							 else{
 								 throw new Exception ('Usted esta dado de baja');
 							 }
@@ -89,5 +88,7 @@
 
 	}
 ?>
+
+
 
 
