@@ -59,7 +59,6 @@ $mail->Port = 2525;
          if ($estados['estado']=='pendiente') {//el estado cambia solo si era pendiente
            $obtenerMails="SELECT c.mail from usuarios c INNER join clientes_viajes cv ON (c.id_usuario=cv.id_cliente) where cv.id_viaje='$id_viaje_original' AND cv.estado='pendiente'";
            $result_mails=mysqli_query ($link, $obtenerMails) or die ('Consulta obtenerMails fallida: ' .mysqli_error($link));
-          
            $mails=mysqli_fetch_array($result_mails);
            $mail->setFrom('combi19@gmail.com');
            $mail->addAddress($mails['mail']);
@@ -78,7 +77,7 @@ $mail->Port = 2525;
        }  
        $mail->send();
      }//lo compraron 
-    
+     
      
      if (isset($result_bV) or isset($result_debajaV)){ //se elimino o se dio de baja y cambio de estado
        echo "<script > alert('Viaje eliminado exitosamente');window.location='$pag'</script>";
@@ -87,5 +86,6 @@ $mail->Port = 2525;
      echo "<script > alert('El viaje no se pudo eliminar');window.location='$pag'</script>";
    }
 ?>
+
 
 
