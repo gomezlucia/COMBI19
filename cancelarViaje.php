@@ -55,6 +55,7 @@ $mail->Port = 2525;
      } //NUNCA compraron el viaje
 
      else{ //lo compraron 
+       $enviar=true;
        while( $estados = mysqli_fetch_array($result_Estados)){ 
          if ($estados['estado']=='pendiente') {//el estado cambia solo si era pendiente
            $obtenerMails="SELECT c.mail from usuarios c INNER join clientes_viajes cv ON (c.id_usuario=cv.id_cliente) where cv.id_viaje='$id_viaje_original' AND cv.estado='pendiente'";
@@ -73,9 +74,16 @@ $mail->Port = 2525;
              $darDebajaViaje="UPDATE viajes SET debaja='1' WHERE (id_viaje= '$id_viaje_original') " ;
              $result_debajaV =mysqli_query ($link, $darDebajaViaje) or die ('Consulta darDebajaViaje fallida: ' .mysqli_error($link));
            }//cambio el estado a cancelado
+         }else{
+            $enviar=false;
          } //el estado cambia solo si era pendiente
-       }  
+       }
+       if($enviar){
        $mail->send();
+       }else{
+         $darDebajaViaje="UPDATE viajes SET debaja='1' WHERE (id_viaje= '$id_viaje_original') " ;
+             $result_debajaV =mysqli_query ($link, $darDebajaViaje) or die ('Consulta darDebajaViaje fallida: ' .mysqli_error($link));
+       }
      }//lo compraron 
      
      
@@ -86,6 +94,7 @@ $mail->Port = 2525;
      echo "<script > alert('El viaje no se pudo eliminar');window.location='$pag'</script>";
    }
 ?>
+
 
 
 
