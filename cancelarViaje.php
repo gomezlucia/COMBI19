@@ -76,8 +76,9 @@ $mail->Port = 2525;
            }//cambio el estado a cancelado
          } //el estado cambia solo si era pendiente
        }  
+       $mail->send();
      }//lo compraron 
-     $mail->send();
+    
      
      if (isset($result_bV) or isset($result_debajaV)){ //se elimino o se dio de baja y cambio de estado
        echo "<script > alert('Viaje eliminado exitosamente');window.location='$pag'</script>";
