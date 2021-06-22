@@ -11,8 +11,37 @@ include "menu.php";
 <html>
 <head>
 	<title></title>
-	 <script type="text/javascript" src="seguir.js"></script>
     <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
+     <script   src="https://code.jquery.com/jquery-3.1.1.min.js"  ></script>
+    <script type="text/javascript">
+ 	     function mostrarBoton(id) {
+             var x = document.getElementById('btn-'+ id);
+             if (x.style.display === "none") {
+                 x.style.display = "block";
+              } else {
+                 x.style.display = "none";
+             }
+         }
+         function validarCheckbox(){
+             if(!$('input[id=checkbox1]:checked').length==1){
+                 document.getElementById("mensajeError").innerHTML = "Por favor complete si tuvo fiebre en la ultima semana";
+                 return false;
+             }
+             if(!$('input[id=checkbox2]:checked').length==1){
+                 document.getElementById("mensajeError").innerHTML = "Por favor complete si perdió el gusto y/o olfato en la última semana";
+                 return false;
+             }
+             if(!$('input[id=checkbox3]:checked').length==1){
+                 document.getElementById("mensajeError").innerHTML = "Por favor complete si tiene dolor de garganta";
+                 return false;
+             }
+             if(!$('input[id=checkbox4]:checked').length==1){
+                 document.getElementById("mensajeError").innerHTML = "Por favor complete si tiene dificultad respiratoria";
+                 return false;
+             }
+             return true;
+         }
+ </script>  
 </head>
 <body>
 	 <header>
@@ -39,23 +68,62 @@ include "menu.php";
              <b>Fecha y hora de salida:</b> <?php echo  date("d/m/Y  H:i:s", strtotime($viaje['fecha_hora_salida']));?><br>
              <b>Fecha y hora de llegada:</b> <?php echo  date("d/m/Y  H:i:s", strtotime($viaje['fecha_hora_llegada']));?><br>
              </p>
-<?php    if(mysqli_num_rows($resultado2)==0){ ?>
+<?php    if(mysqli_num_rows($resultado2)==0){ //no tiene pasajeros ?>
              <p>
          	     <b>Sin pasajeros</b>
              </p>
-<?php    }else{ ?>
+<?php    }else{ //tiene pasajeros
+	         $counter = 0;?>
 	         <h3>Pasajeros:</h3>
- <?php       while ($pasajeros=mysqli_fetch_array ($resultado2)) { ?>
-           	     <p>
-                     <b>Nombre:</b> <?php echo $pasajeros['nombre']." ";?>
-                     <b>Apellido:</b> <?php echo $pasajeros['apellido']." ";?>
-                     <b>DNI:</b> <?php echo $pasajeros['DNI'];?><br>
-                 </p> 
- <?php           if(compararFechas($viaje['fecha_hora_salida'])){
-                     echo "Completar DDJJ";
-                 }
-              }
-         }   
+ <?php       while ($pasajeros=mysqli_fetch_array ($resultado2)) { 
+ 	             $ddjjCompletada="SELECT estado FROM ddjj_cliente WHERE id_viaje='$viaje[id_viaje]' and id_cliente='$pasajeros[id_usuario]'";
+                 $resultddjjCompletada=mysqli_query($link,$ddjjCompletada) or die ('Consulta ddjjCompletada fallida: ' .mysqli_error($link)); 
+ 	             if( (mysqli_num_rows($resultddjjCompletada)!=0) or ($pasajeros['estado']=='pendiente') ){ ?>
+                     <p>
+                         <b>Nombre:</b> <?php echo $pasajeros['nombre']." ";?>
+                         <b>Apellido:</b> <?php echo $pasajeros['apellido']." ";?>
+                         <b>DNI:</b> <?php echo $pasajeros['DNI'];?><br>
+                     </p> 
+ <?php          
+                     if(mysqli_num_rows($resultddjjCompletada)==0){ //no complero la DDJJ ?>
+                         <button onclick="mostrarBoton(<?php echo  $counter ?>)">Completar Declaracion Jurada</button>
+                         <div id="btn-<?php echo $counter ?>" style="display:none;" ><br>
+                             <form action="validarDDJJ.php" method="POST" onsubmit="return validarCheckbox()">
+                          	     <label for="temperatura">Temperatura Actual</label>
+  	                             <input type="number" step="0.10" name="temperatura" required="">
+  	                             <p>Fiebre en la última semana</p>
+  	                                 <input type="checkbox" name="fiebre" id="checkbox1" value="si"> SI
+                                     <input type="checkbox" name="fiebre" id="checkbox1" value="no">NO
+                                 <p>Pérdida de gusto y/o olfato en la última semana</p>
+                                     <input type="checkbox" name="gusto/olfato" id="checkbox2" value="si"> SI
+                                     <input type="checkbox" name="gusto/olfato" id="checkbox2" value="no">NO
+                                 <p>Dolor de garganta</p>
+                                     <input type="checkbox" name="dolorG" id="checkbox3" value="si"> SI
+                                     <input type="checkbox" name="dolorG" id="checkbox3" value="no">NO
+                                 <p>Dificultad respiratoria</p>
+                                     <input type="checkbox" name="difRes" id="checkbox4" value="si"> SI
+                                     <input type="checkbox" name="difRes" id="checkbox4" value="no">NO<br><br>
+                                     <input type="hidden" name="id_cliente" value="<?php echo $pasajeros['id_usuario'] ?>">
+                                     <input type="hidden" name="id_viaje" value="<?php echo $viaje['id_viaje'] ?>">
+                                     <input type="hidden" name="monto" value="<?php echo $pasajeros['total'] ?>">
+                                     <input type="hidden" name="mail" value="<?php echo $pasajeros['mail'] ?>">
+                                     <input type="hidden" name="ruta" value="<?php echo $viaje['origen']."-".$viaje['destino']?>">
+                                     <input type="submit" name="completar" value="Enviar">
+                             </form>
+                             <font color="red"><p id="mensajeError"></p></font>
+                         </div> 
+   <?php                 $counter++;
+                     }else{ //completo la DDJJ
+                 	     $estadoDDJJ=mysqli_fetch_array ($resultddjjCompletada);
+                 	     if ($estadoDDJJ['estado']=='rechazado') {
+                 	 	     echo " <font color='red'><b><p>Pasajero Rechazado</p></b></font>"; 
+                 	     }else{
+                              echo " <font color='green'><b><p>Pasajero Aceptado</p></b></font>"; 
+                 	     }
+                     }
+ 	             } 
+             }//while
+         }// no tiene pasajeros   
          if(mysqli_num_rows($resultado)==0){ ?>
              <p>
          	     <b>No tiene un viaje asignado</b>
@@ -84,9 +152,9 @@ function compararFechas($fecha_hora_salida){
      } 	 
      return $ddjj;
 }
-  ?>
-    
+  ?>  
 </center>
 </body>
 </html>
+
 
