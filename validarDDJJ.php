@@ -31,6 +31,7 @@ $monto=$_POST['monto'];
 
 if($_POST['difRes']=='no'){
 	 $dr=1;
+	 	//$estado='aceptado';
 }else{
 	 $dr=0;
 }
@@ -68,7 +69,7 @@ if ($_POST['temperatura']<38) {
  }else{
  	 $estado='rechazado';
  }
-
+ echo "antes consulta";
  $consultaDDJJ="INSERT INTO declaraciones_juradas(temperatura, fiebre_ultima_sem, perdida_gusto_olfato, dolor_garganta, dificultad_respiratoria) VALUES ('$_POST[temperatura]','$f','$go','$dg','$dr')"; 
  $resultadoDDJJ=mysqli_query($link,$consultaDDJJ) or die ('ConsultaDDJJ fallida: ' .mysqli_error($link));
  $id_ddjj=mysqli_insert_id($link);
@@ -92,6 +93,7 @@ if($estado=='rechazado'){
      $resultCupo =mysqli_query ($link, $actualizarCupo) or die ('Consuluta actualizarCupo fallida : ' .mysqli_error($link));
 
      $tieneCovid="UPDATE usuarios set tiene_covid =1 WHERE (id_cliente = '$id_cliente')" ;
+      $resultCovid =mysqli_query ($link, $tiene_covid) or die ('Consuluta tiene_covid fallida : ' .mysqli_error($link));
 }
 
  if ($resultadoAsignarDDJJ and $resultadoDDJJ) {
