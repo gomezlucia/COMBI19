@@ -28,16 +28,9 @@ $id_viaje=$_POST['id_viaje'];
 $mailCliente=$_POST['mail'];
 $ruta=$_POST['ruta'];
 $monto=$_POST['monto'];
-/*
-Escenario 3: Completar declaración jurada con datos de un cliente rechazable por presentar dos o mas respuestas afirmativas
-Dado el formulario de declaración jurada un cliente con temperatura actual de 37º, que no tuvo fiebre en la última semana sin pérdida de gusto y/o olfato en la última semana, con dolor de garganta y con dificultad respiratoria , cuando el chofer completa la declaración con temperatura actual de 37º, no tuvo fiebre en la última semana sin pérdida de gusto y/o olfato en la última semana, con dolor de garganta y con dificultad respiratoria y presiona enviar entonces el sistema le devuelve al cliente el 100% del monto del pasaje, le avisa por mail, suspende la posibilidad de viajar durante los próximos 15 días y se actualiza el cupo*
-
-agregar id_viaje a ddjj_cliente
-*/
 
 if($_POST['difRes']=='no'){
 	 $dr=1;
-	 	//$estado='aceptado';
 }else{
 	 $dr=0;
 }
@@ -75,7 +68,7 @@ if ($_POST['temperatura']<38) {
  }else{
  	 $estado='rechazado';
  }
- echo "antes consulta";
+
  $consultaDDJJ="INSERT INTO declaraciones_juradas(temperatura, fiebre_ultima_sem, perdida_gusto_olfato, dolor_garganta, dificultad_respiratoria) VALUES ('$_POST[temperatura]','$f','$go','$dg','$dr')"; 
  $resultadoDDJJ=mysqli_query($link,$consultaDDJJ) or die ('ConsultaDDJJ fallida: ' .mysqli_error($link));
  $id_ddjj=mysqli_insert_id($link);
