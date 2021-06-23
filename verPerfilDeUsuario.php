@@ -11,6 +11,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script type="text/javascript">
+    function eliminarVIP(frm){
+  var opcion = confirm('¿Esta seguro que desea eliminar su membresía? Dejará de obtener los descuentos en cada compra');
+      if(opcion == true){
+          frm.submit();
+      }else{
+          return false;
+      }
+}
+
+  </script>
       <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
@@ -72,7 +83,7 @@
                         </form>
                       <?php }else { ?>
                         <form action="darDebajaVIP.php" method="post">
-                           <input type="submit" value="Dar de baja membresía " class="btn_buscar" onclick="return SubmitFormulario(this.form)"><br><br>
+                           <input type="submit" value="Dar de baja membresía " class="btn_buscar" onclick="return eliminarVIP(this.form)"><br><br>
                             <input type="hidden"name="id" value="<?php echo $id;?>">
                         </form>
 
