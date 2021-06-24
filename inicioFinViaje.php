@@ -32,7 +32,7 @@ function inicioViaje($link,$id_viaje){
      $inicio="UPDATE viajes SET estadoV='en curso' WHERE (id_viaje= '$id_viaje') " ;
      $resultadoInicio =mysqli_query ($link, $inicio) or die ('Consulta inicio fallida : ' .mysqli_error($link));
 
-      echo "<script > alert('Viaje Iniciado');window.location='proximoViaje1.php'</script>";
+      echo "<script > alert('Viaje Iniciado');window.location='proximoViaje.php'</script>";
  }
 function finViaje($link,$id_viaje){
      $pasajeros="SELECT id_cliente_viaje FROM clientes_viajes WHERE id_viaje='$id_viaje' and estado='en curso'";
@@ -49,7 +49,7 @@ function finViaje($link,$id_viaje){
      $resultadoFechaFin =mysqli_query ($link, $actualizarFechaFin) or die ('Consulta actualizarFechaFin fallida : ' .mysqli_error($link));
      $fin="UPDATE viajes SET estadoV='finalizado' WHERE (id_viaje= '$id_viaje') " ;
      $resultadoFin =mysqli_query ($link, $fin) or die ('Consulta fin fallida : ' .mysqli_error($link));
-      echo "<script > alert('Viaje Finalizado');window.location='proximoViaje1.php'</script>";
+      echo "<script > alert('Viaje Finalizado');window.location='proximoViaje.php'</script>";
 
 }
 ?>
