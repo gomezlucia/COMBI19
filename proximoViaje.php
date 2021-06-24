@@ -23,6 +23,29 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
                  x.style.display = "none";
              }
          }
+         function mostrarMotivo(frm) {
+             var x = document.getElementById("motivo");
+             var c = document.getElementById("cancelarAcccion");
+             if (x.style.display === "none") {
+                  x.style.display = "block";
+                  c.style.display = "block";
+              } else {
+                 x.style.display = "none";
+                  var opcion = confirm('Si cancela el viaje se le devolvera el 100% del monto abonado a los clientes correspondientes¿Estas seguro que desea continuar?');
+                 if(opcion == true){
+                     frm.submit();
+                 }else{
+                     return false;
+                 }
+             }
+         }
+         function ocultarMotivo(){
+             var x = document.getElementById("motivo");
+             var c = document.getElementById("cancelarAcccion");
+             x.style.display = "none";
+             c.style.display = "none";
+         }
+
          function validarCheckbox(){
              if(!$('input[id=checkbox1]:checked').length==1){
                  document.getElementById("mensajeError").innerHTML = "Por favor complete si tuvo fiebre en la ultima semana";
@@ -56,12 +79,13 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
 <center>
 <?php 
      $proximoViaje= "SELECT r.destino,r.origen,v.id_viaje,v.fecha_hora_salida,v.fecha_hora_llegada,v.precio,v.cupo,v.estadoV,c.patente,tc.asientos FROM rutas r INNER JOIN viajes v ON (r.id_ruta=v.id_ruta) INNER JOIN combis c ON (v.id_combi=c.id_combi) INNER JOIN tipos_combi tc ON (c.id_tipo_combi=tc.id_tipo_combi) WHERE v.debaja=0 and v.fecha_hora_llegada=(SELECT MIN(v1.fecha_hora_llegada) FROM viajes v1 WHERE v1.fecha_hora_llegada>now() and (v1.estadoV<>'finalizado') and v1.id_chofer='$id')" ;
+    // var_dump($proximoViaje);
      $resultadoProximoViaje= mysqli_query($link,$proximoViaje) or die ('Consulta proximoViaje fallida: ' .mysqli_error($link));
      if (mysqli_num_rows($resultadoProximoViaje)!=0){
          $viaje=mysqli_fetch_array ($resultadoProximoViaje);
-         $obtenerPasajeros="SELECT cv.id_cliente,u.nombre,u.apellido,u.mail,u.DNI,u.tiene_covid,cv.id_cliente_viaje,cv.id_viaje,cv.estado,cv.estado,cv.total FROM usuarios u INNER JOIN clientes_viajes cv ON (u.id_usuario=cv.id_cliente) INNER JOIN viajes v ON (cv.id_viaje=v.id_viaje) WHERE v.id_viaje='$viaje[id_viaje]' and cv.estado='pendiente'";
+         $obtenerPasajeros="SELECT cv.id_cliente,u.nombre,u.apellido,u.mail,u.DNI,u.tiene_covid,cv.id_cliente_viaje,cv.id_viaje,cv.estado,cv.estado,cv.total FROM usuarios u INNER JOIN clientes_viajes cv ON (u.id_usuario=cv.id_cliente) INNER JOIN viajes v on (cv.id_viaje=v.id_viaje and u.id_usuario=cv.id_cliente ) LEFT JOIN ddjj_cliente djc ON (v.id_viaje=djc.id_viaje and u.id_usuario=djc.id_cliente) WHERE v.id_viaje='$viaje[id_viaje]'";
          $resultadoObtenerPasajeros= mysqli_query($link,$obtenerPasajeros) or die ('Consulta obtenerPasajeros fallida: ' .mysqli_error($link)); ?>
-
+         
          <h1>Proximo viaje</h1>
          <p>
              <b>Origen:</b> <?php echo $viaje['origen'];?><br>
@@ -70,11 +94,23 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
              <b>Fecha y hora de salida:</b> <?php echo  date("d/m/Y  H:i:s", strtotime($viaje['fecha_hora_salida']));?><br>
              <b>Fecha y hora de llegada:</b> <?php echo  date("d/m/Y  H:i:s", strtotime($viaje['fecha_hora_llegada']));?>
          </p> 
-<?php
-         if(mysqli_num_rows($resultadoObtenerPasajeros)==0){ //no tiene pasajeros ?>
-             <p><b>Sin pasajeros</b></p>
-<?php    }else{ //tiene pasajeros 
-             $counter = 0; 
+
+<?php        //CANCELAR VIAJE
+
+             if($viaje['estadoV']!='en curso'){ ?>
+                 <form action="cancelarViaje.php" method="POST">
+                     <div id="motivo" style="display:none;">
+                         <textarea name="motivo" cols="50" rows="6" required="" placeholder="Escriba su motivo de cancelacion" ></textarea>
+                     </div>
+                     <input type="submit"  name="cancelar" value="Cancelar Viaje" onclick="mostrarMotivo(this.form)"><br><br>
+                     <input type="submit" id="cancelarAcccion" style="display:none;" name="cancelar" value="Cancelar" onclick="ocultarMotivo()">
+                     <input type="hidden" name="id_viaje" value="<?php echo $viaje['id_viaje'] ?>">
+                     <input type="hidden" name="ruta" value="<?php echo $viaje['origen']."-".$viaje['destino'] ?>">
+                     <input type="hidden" name="volverA" value="proximoViaje.php">
+                 </form>                  
+ <?php   }      
+
+             //CANCELAR VIAJE
 
              //BOTONES DE INICIO Y FIN DE VIAJE
 
@@ -92,8 +128,12 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
  <?php       }
 
              //BOTONES DE INICIO Y FIN DE VIAJE
-
-?>           <h3>Pasajeros:</h3> 
+         
+         if(mysqli_num_rows($resultadoObtenerPasajeros)==0){ //no tiene pasajeros ?>
+             <p><b>Sin pasajeros</b></p>
+<?php    }else{ //tiene pasajeros 
+             $counter = 0;  ?>
+           <h3>Pasajeros:</h3> 
 <?php        while ($pasajeros=mysqli_fetch_array ($resultadoObtenerPasajeros)) { 
                  $ddjjCompletada="SELECT estado FROM ddjj_cliente WHERE id_viaje='$viaje[id_viaje]' and id_cliente='$pasajeros[id_cliente]'";
                  $resultddjjCompletada=mysqli_query($link,$ddjjCompletada) or die ('Consulta ddjjCompletada fallida: ' .mysqli_error($link));
@@ -176,6 +216,10 @@ function compararFechas($fecha_hora_salida){
 </center>
 </body>
 </html>
+
+
+
+
 
 
 
