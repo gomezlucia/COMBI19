@@ -143,6 +143,7 @@
                if(mysqli_num_rows($resultado) > 1){ ?>
                   <form action="borrarTarjeta.php" method="post">
                     <font color="blue">  <b></b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?>    <input type="hidden"name="id_tarjeta" value="<?php echo $id_tarjeta;?>">
+                      <input type="hidden"name="vip" value="<?php echo true;?>">
                         <input type="submit" value="Eliminar" class="btn_buscar"  onclick="return SubmitFormVip(this.form)"> </font>
                           </form>
                       <?php } else { ?>
@@ -154,6 +155,7 @@
                   <?php   } }else { ?>
                     <form action="borrarTarjeta.php" method="post">
                        <b></b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?>    <input type="hidden"name="id_tarjeta" value="<?php echo $id_tarjeta;?>">
+                       <input type="hidden"name="vip" value="<?php echo false;?>">
                            <input type="submit" value="Eliminar" class="btn_buscar"  onclick="return SubmitForm(this.form)">
                     </form>
               <?php     }  ?>
