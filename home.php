@@ -110,7 +110,7 @@
 </div>
          <div class="listado">
              <center>
-               <?php if (!$es_vip){ ?>
+               <?php if ($es_vip['vip']=='0'){ ?>
                <form action="registrarVIP.php" method="post">
                    <b> Si se registra como cliente vip, obtendra un 10% de descuento en cada compra que realice en nuestra página! </b><br><br>
                   <input type="submit" value="Registrarse como cliente VIP"><br><br>
