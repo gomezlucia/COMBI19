@@ -7,15 +7,17 @@ if ($_POST['boton']=='Iniciar Viaje') {
     finViaje($link,$_POST['id_viaje']);
 }
 function inicioViaje($link,$id_viaje){
-     $ausentes="SELECT DISTINCT cv.id_cliente FROM clientes_viajes cv WHERE cv.id_cliente not in (SELECT DISTINCT djc.id_cliente FROM clientes_viajes cv INNER JOIN ddjj_cliente djc ON (cv.id_viaje=djc.id_viaje) WHERE djc.id_viaje='$id_viaje')";
+     $ausentes="SELECT DISTINCT cv.id_cliente FROM clientes_viajes cv WHERE id_viaje='$id_viaje' and cv.id_cliente not in (SELECT DISTINCT djc.id_cliente FROM clientes_viajes cv INNER JOIN ddjj_cliente djc ON (cv.id_viaje=djc.id_viaje) WHERE djc.id_viaje='$id_viaje')";
      $resultadoAusentes=mysqli_query($link,$ausentes) or die ('Consulta ausentes fallida: ' .mysqli_error($link));
-
+     var_dump($ausentes);echo "<br>";
      if(mysqli_num_rows($resultadoAusentes)!=0){
          while ($ausente=mysqli_fetch_array ($resultadoAusentes)) {
-             $cambiarEstado="UPDATE clientes_viajes SET estado='ausente' WHERE id_viaje='$id_viaje' and id_cliente='$ausente[id_cliente]'";
+             $cambiarEstado="UPDATE clientes_viajes SET estado='ausente' WHERE id_viaje='$id_viaje' and id_cliente='$ausente[id_cliente]' and estado='pendiente'";
+             var_dump($cambiarEstado);echo "<br>";
              $resultadoCambiarEstado=mysqli_query($link,$cambiarEstado) or die ('Consulta cambiarEstado fallida: ' .mysqli_error($link));
 
              $actualizarCupo="UPDATE viajes SET cupo=cupo-1 WHERE (id_viaje= '$id_viaje') " ;
+             var_dump($actualizarCupo);echo "<br>";
              $resultadoCupo =mysqli_query ($link, $actualizarCupo) or die ('Consulta actualizarCupo fallida : ' .mysqli_error($link));
          }
      }
@@ -29,8 +31,9 @@ function inicioViaje($link,$id_viaje){
              $resultadoEnCurso =mysqli_query ($link, $enCurso) or die ('Consulta enCurso fallida : ' .mysqli_error($link));
          }
      }
-     $inicio="UPDATE viajes SET estadoV='en curso' WHERE (id_viaje= '$id_viaje') " ;
-     $resultadoInicio =mysqli_query ($link, $inicio) or die ('Consulta inicio fallida : ' .mysqli_error($link));
+     $fecha_hora_salida=date("Y-m-d H:i:s");
+     $actualizarViaje="UPDATE viajes SET fecha_hora_salida='$fecha_hora_salida',estadoV='en curso' WHERE (id_viaje= '$id_viaje') " ;
+     $resultadoActualizarViaje =mysqli_query ($link, $actualizarViaje) or die ('Consulta actualizarViaje fallida : ' .mysqli_error($link));
 
       echo "<script > alert('Viaje Iniciado');window.location='proximoViaje.php'</script>";
  }
@@ -45,10 +48,9 @@ function finViaje($link,$id_viaje){
          }
      }
      $fecha_hora_llegada=date("Y-m-d H:i:s");
-     $actualizarFechaFin="UPDATE viajes SET fecha_hora_llegada='$fecha_hora_llegada' WHERE (id_viaje= '$id_viaje') " ;
-     $resultadoFechaFin =mysqli_query ($link, $actualizarFechaFin) or die ('Consulta actualizarFechaFin fallida : ' .mysqli_error($link));
-     $fin="UPDATE viajes SET estadoV='finalizado' WHERE (id_viaje= '$id_viaje') " ;
-     $resultadoFin =mysqli_query ($link, $fin) or die ('Consulta fin fallida : ' .mysqli_error($link));
+     $actualizarViaje="UPDATE viajes SET fecha_hora_llegada='$fecha_hora_llegada', estadoV='finalizado' WHERE (id_viaje= '$id_viaje') " ;
+     $resultadoActualizarViaje =mysqli_query ($link, $actualizarViaje) or die ('Consulta actualizarViaje fallida : ' .mysqli_error($link));
+    
       echo "<script > alert('Viaje Finalizado');window.location='proximoViaje.php'</script>";
 
 }
