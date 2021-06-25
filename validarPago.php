@@ -8,7 +8,12 @@
   $tarjetaValida=false;
    $pag=$_POST['volverA'];
   include "menu.php"; 
- // $mensaje="";
+  #echo "vacio tar ingresada". empty($_POST['numero_tarjeta'])."<br>";
+  #echo "isset tar ingresada". isset($_POST['numero_tarjeta'])."<br>";
+  #echo "vacio tar lista". empty($_POST['tarjetas'])."<br>";
+  #echo "isset tar lista". isset($_POST['tarjetas'])."<br>";
+  $cumple=false;
+  $mensaje="";
  function validarTarjeta($numero,$codigo_seguridad,$tarjetaValida){
      $primero = substr($numero, 0,1); 
      $primeros = substr($numero, 0,2); 
@@ -30,52 +35,107 @@
      return $tarjetaValida;
  } 
     
-  if( (!empty($_POST['numero_tarjeta'])) and (!empty ($_POST['clave'])) ) {
-     $numero=$_POST['numero_tarjeta'];
+
+  if( (!empty($_POST['numero_tarjeta'])) and (empty ($_POST['clave'])) or (empty($_POST['numero_tarjeta'])) and (!empty ($_POST['clave'])) ) {
+      $mensaje= "Por favor, ingrese los datos de su tarjeta completos";
+       $numero=$_POST['numero_tarjeta'];
+     $codigo_seguridad=$_POST['clave'];
+  }
+  elseif( (empty($_POST['numero_tarjeta'])) and (empty($_POST['clave'])) and (empty($_POST['tarjetas'])) ){
+        $numero=$_POST['numero_tarjeta'];
+     $codigo_seguridad=$_POST['clave'];
+        $mensaje= "Por favor ingrese una tarjeta para realizar el pago";
+  }
+  elseif( (!empty($_POST['numero_tarjeta'])) and (!empty($_POST['clave'])) ){
+      $numero=$_POST['numero_tarjeta'];
      $codigo_seguridad=$_POST['clave'];
      if(!validarTarjeta($numero,$codigo_seguridad,$tarjetaValida)){
-         $_SESSION['tarjeta_ingresada']=$numero;
-         $_SESSION['viaje']=$_POST['id_viaje'];
-         echo "<script> alert('Numero de tarjeta invalido');window.location='/COMBI19-main/comprarPasaje.php?p=$pag'</script>";
+        $mensaje="La tarjeta ingresada es invalida";
      }
- }else{
-     $numero=$_POST['tarjetas']; 
- }
- if (substr($numero,-1,1)!=3) {
-	 if (substr($numero,-1,1)!=8) {
-	     if (!empty($_POST['chkl'])) {
-             $checkbox1 = $_POST['chkl'];
-             $adicionalesSeleccionados=""; 
-             $precioAdicional=0;
-             foreach($checkbox1 as $valor) { 
-                 $consulta="SELECT nombre_servicio,precio FROM servicios_adicionales WHERE id_servicio_adicional='$valor'";  
-                 $resultado=mysqli_query($link,$consulta)  or die ('Consulta fallida: ' .mysqli_error());
-                 $valores = mysqli_fetch_array($resultado);
-                 $adicionalesSeleccionados=$valores['nombre_servicio']."/".$adicionalesSeleccionados;
-                 $precioAdicional=$precioAdicional+$valores['precio'];
-  		     } 
-  			 $precio=$precioAdicional + $_POST['precio'];
-  			 $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado, servicios_adicionales, tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$adicionalesSeleccionados','$numero','$precio')";	 
+     else{
+        $cumple=true;
+     }
+    
+  }
+  else{
+    $numero=$_POST['tarjetas'];
+    $cumple=true;
+  }
+
+if(!$cumple){//falla y tengo que devolver atributos
+  
+     if( (!isset($_POST['tarjetas'])) and (!isset($_POST['numero_tarjeta'])) ) {
+            $_SESSION['tarjetas']="";
+            $_SESSION['numero_tarjeta']="";
+       }
+     else{
+                  if(!isset($_POST['tarjetas'])){
+           $_SESSION['tarjetas']="";
+           $_SESSION['numero_tarjeta']=$_POST['numero_tarjeta'];
+        }
+        else{
+            $_SESSION['tarjetas']=$_POST['tarjetas'];
+            $_SESSION['numero_tarjeta']="";
+        }
+        }
+         $_SESSION['adicionales_seleccionados']=$_POST['adicionales_seleccionados'];
+         $_SESSION['viaje']=$_POST['id_viaje'];
+         $_SESSION['total']=$_POST['total'];
+   echo "<script > alert('$mensaje');window.location='comprarPasaje.php'</script>";
+}
+else{
+    $total=$_POST['total'];
+    if($_POST['usuarioVip']){
+       $descuento=0.1; #descuento del 10%
+       $cobro=$total - ($total* $descuento);
+    }
+    else{
+        $cobro=$total;
+    }
+    if (substr($numero,-1,1)!=3) {
+     if (substr($numero,-1,1)!=8) {
+         if (!empty($_POST['adicionales_seleccionados'])) { 
+            $adicionales_seleccionados=$_POST['adicionales_seleccionados'];
+             $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado, servicios_adicionales, tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$adicionales_seleccionados','$numero','$cobro')";   
              $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error()); 
              $actualizarCupo="UPDATE viajes SET cupo=cupo+1 WHERE id_viaje='$_POST[id_viaje]'";
              $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
-             echo "<script> alert('Compra exitosa');window.location='$pag'</script>";
-         }//no compro adicionales
-	 	     $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado,tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$numero','$_POST[precio]')";
-	 	     $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error()); 
+             echo "<script > alert('Compra exitosa');window.location='home.php'</script>";
+             #"<script> alert('Compra exitosa');window.location='$home.php'</script>";
+         }
+         else{//no compro adicionales
+             $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado,tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$numero','$cobro')";
+             $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error()); 
              $actualizarCupo="UPDATE viajes SET cupo=cupo+1 WHERE id_viaje='$_POST[id_viaje]'";
              $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
-             echo "<script> alert('Compra exitosa');window.location='$pag'</script>";
-	 }else{ //sin saldo (termina en 8)
-	     $_SESSION['tarjeta_ingresada']=$numero;
-	     $_SESSION['viaje']=$_POST['id_viaje'];
-             echo "<script> alert('La tarjeta no posee saldo suficiente');window.location='/COMBI19-main/comprarPasaje.php?p=$pag'</script>";
+             
+             echo "<script> alert('Compra exitosa');window.location='home.php'</script>";
+     }
+     }else{ //sin saldo (termina en 8)
+        if( (!isset($_POST['tarjetas'])) and (!isset($_POST['numero_tarjeta'])) ) {
+            $_SESSION['tarjetas']="";
+            $_SESSION['numero_tarjeta']="";
+       }
+     else{
+                  if(!isset($_POST['tarjetas'])){
+           $_SESSION['tarjetas']="";
+           $_SESSION['numero_tarjeta']=$_POST['numero_tarjeta'];
+        }
+        else{
+            $_SESSION['tarjetas']=$_POST['tarjetas'];
+            $_SESSION['numero_tarjeta']="";
+        }
+        }
+         $_SESSION['adicionales_seleccionados']=$_POST['adicionales_seleccionados'];
+         $_SESSION['viaje']=$_POST['id_viaje'];
+         $_SESSION['total']=$_POST['total'];
+             echo "<script> alert('La tarjeta no posee saldo suficiente');window.location='comprarPasaje.php'</script>";
      } 
 }else{ //fallo la conexion (termina 3)?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+    <title></title>
 <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
 </head>
 <body>
@@ -88,12 +148,12 @@
        <hr>     
      </header>
  <center> 
- 	 <h2>No se pudo establecer la conexión con el servidor</h1>
- 	 <a href="">Por favor vuelva a intertalo</a>
+     <h2>No se pudo establecer la conexión con el servidor</h2>
+     <a href="">Por favor vuelva a intertalo</a>
  </center>
 </body>
 </html>
-<?php } 
-?>
 
+<?php } }
+?> 
 

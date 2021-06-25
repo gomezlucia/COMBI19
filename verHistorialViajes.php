@@ -104,12 +104,12 @@
                 <p>
                   <b>Fecha y hora de salida:</b> <?php echo $fecha_hora_salida;?><br>
                   <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
-                  <b>Precio:</b> <?php echo $precio;?><br>
+                  <b>Total:</b> $<?php echo $precio;?><br>
                   <?php if (!empty($servicios_adicionales)) { ?>
                      <b>Servicios adicionales:</b><br> <?php  
                      $ads=explode('/',$servicios_adicionales);  
                      foreach ($ads as $value) { 
-                       echo $value."<br>";  
+                       echo str_replace ( "," , " $" , $value ) ."<br>";  
                      }?>
   <?php            }     ?>
                   <b>Estado:</b> <?php if($estado=='cancelado'){
