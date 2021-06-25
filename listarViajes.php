@@ -75,7 +75,7 @@
                              if(mysqli_num_rows($resultadoPasaje)!=0){
                                   $valores = mysqli_fetch_array($resultadoPasaje);
                                  if($valores['estado']=='devuelto total' or $valores['estado']=='devuelto parcial'  ){  ?>
-                                      <form action="comprarPasaje.php" method="post">
+                                      <form action="agregarAdicionalesAlPasaje.php" method="post">
                                     <input type="submit" name="comprar" value="Comprar pasaje"></input>
                                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                                     <input type="hidden" name="volverA" value="home.php">
@@ -91,7 +91,7 @@
 <?php                                }
                                  }
                              }else{ ?>
-                                <form action="comprarPasaje.php" method="post">
+                                <form action="agregarAdicionalesAlPasaje.php" method="post">
                         <input type="submit" name="comprar" value="Comprar pasaje"></input>
                         <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                          <input type="hidden" name="volverA" value="home.php">
@@ -101,7 +101,7 @@
                      } ?>
         <?php
                  }elseif (($cupo<$asientos) ) { ?>
-                    <form action="comprarPasaje.php" method="post">
+                    <form action="agregarAdicionalesAlPasaje.php" method="post">
                         <input type="submit" name="comprar" value="Comprar pasaje"></input>
                         <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
                          <input type="hidden" name="volverA" value="home.php">
@@ -115,6 +115,3 @@
             <center> <b>No hay viajes disponibles por el momento</b> </center>
 <?php        }
 } ?>
-
-
-
