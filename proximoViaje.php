@@ -13,6 +13,12 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
 <head>
 	<title></title>
     <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
+    <style type="text/css">
+        #cancelarAccion,#cancelarViaje{
+    display: inline-block;
+    margin: 0 10px;
+}
+    </style>
      <script   src="https://code.jquery.com/jquery-3.1.1.min.js"  ></script>
     <script type="text/javascript">
  	     function mostrarBoton(id) {
@@ -97,13 +103,14 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
 
 <?php        //CANCELAR VIAJE
 
-             if($viaje['estadoV']!='en curso'){ ?>
+             if( ($viaje['estadoV']!='en curso') and compararFechas($viaje['fecha_hora_salida'],5) ){ ?>
                  <form action="cancelarViaje.php" method="POST">
+                     <input type="submit" id="cancelarViaje"  name="cancelar" value="Cancelar Viaje" onclick="mostrarMotivo(this.form)"><br><br>
                      <div id="motivo" style="display:none;">
                          <textarea name="motivo" cols="50" rows="6" required="" placeholder="Escriba su motivo de cancelacion" ></textarea>
+                         <button id="cancelarAcccion"  name="cancelar" onclick="ocultarMotivo()">Cancelar</button> 
                      </div>
-                     <input type="submit"  name="cancelar" value="Cancelar Viaje" onclick="mostrarMotivo(this.form)"><br><br>
-                     <input type="submit" id="cancelarAcccion" style="display:none;" name="cancelar" value="Cancelar" onclick="ocultarMotivo()">
+
                      <input type="hidden" name="id_viaje" value="<?php echo $viaje['id_viaje'] ?>">
                      <input type="hidden" name="ruta" value="<?php echo $viaje['origen']."-".$viaje['destino'] ?>">
                      <input type="hidden" name="volverA" value="proximoViaje.php">
@@ -128,6 +135,17 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
  <?php       }
 
              //BOTONES DE INICIO Y FIN DE VIAJE
+
+             //BOTON VENDER PASAJE
+
+             if( ($viaje['cupo']<$viaje['asientos']) and ($viaje['estadoV']=='en curso'))  { ?>
+                 <form action="" method="POST">
+                     <input type="submit"  name="boton" value="Vender Pasaje" >
+                     <input type="hidden" name="id_viaje" value="<?php echo $viaje['id_viaje'] ?>">
+                 </form>  
+ <?php       }
+
+             //BOTON VENDER PASAJE
          
          if(mysqli_num_rows($resultadoObtenerPasajeros)==0){ //no tiene pasajeros ?>
              <p><b>Sin pasajeros</b></p>
@@ -146,7 +164,7 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
 <?php            } //datos del pasajero
                  
                  //SOLO SE MUESTRA EL FORMULARIO SI NO LO COMPLETO Y SIGUE TENIENDO EL PASAJE PENDIENTE 
-                 if(mysqli_num_rows($resultddjjCompletada)==0 and $pasajeros['estado']=='pendiente' and compararFechas($viaje['fecha_hora_salida']) ){ 
+                 if(mysqli_num_rows($resultddjjCompletada)==0 and $pasajeros['estado']=='pendiente' and compararFechas($viaje['fecha_hora_salida'],2) ){ 
 ?>                   <button onclick="mostrarBoton(<?php echo  $counter ?>)">Completar Declaracion Jurada</button>
                      <div id="btn-<?php echo $counter ?>" style="display:none;" ><br>
                          <form action="validarDDJJ.php" method="POST" onsubmit="return validarCheckbox()">
@@ -192,7 +210,7 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
              <H2><b>No tiene un viaje asignado</b></H2>
 <?php    }
      
-function compararFechas($fecha_hora_salida){
+function compararFechas($fecha_hora_salida,$condicion){
      list($fecha, $horario)= explode(" ", $fecha_hora_salida);
      //echo "fecha: ".$fecha." horario: ".$horario."<br>";
      list($hora, $minuto)= explode(":", $horario);
@@ -207,7 +225,7 @@ function compararFechas($fecha_hora_salida){
 
      $ddjj=false;
 
-     if (($anio_dif == 0)and($mes_dif == 0)and($dia_dif == 0)and(($hora-date("H"))<=2)) {
+     if (($anio_dif == 0)and($mes_dif == 0)and($dia_dif == 0)and(($hora-date("H"))<=$condicion)) {
          $ddjj=true;
      }   
      return $ddjj;
