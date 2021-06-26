@@ -36,9 +36,19 @@
        <a href="home.php" >
            <img src="logo_is.png" class="div_icono">
        </a>
-       <b><?php echo $nombreUsuario; ?></b>
-<?php           echo menu($id,$link); ?>
-       <hr>
+
+       <?php        $usuario -> tieneSesionIniciada($sesion,$nombreUsuario);
+                     ?>
+
+                        <?php $consulta00= "SELECT u.vip FROM usuarios u WHERE u.id_usuario=$id";
+                              $resultado00= mysqli_query($link,$consulta00) or die ('Consulta fallida: 00 ' .mysqli_error($link));
+                              $es_vip = mysqli_fetch_array($resultado00);
+                              if ($es_vip['vip']=='1'){ ?>
+                                <b><?php echo $nombreUsuario ; ?></b> <b>VIP</b>
+                        <?php } else{    ?>
+                          <b><?php echo $nombreUsuario; ?></b>
+       <?php      }    echo menu($id,$link);
+                    ?> <hr>
      </header>
     <center>
  <h1>Historial de Viajes</h1>
@@ -106,10 +116,10 @@
                   <b>Fecha y hora de llegada:</b> <?php echo $fecha_hora_llegada;?><br>
                   <b>Total:</b> $<?php echo $precio;?><br>
                   <?php if (!empty($servicios_adicionales)) { ?>
-                     <b>Servicios adicionales:</b><br> <?php  
-                     $ads=explode('/',$servicios_adicionales);  
-                     foreach ($ads as $value) { 
-                       echo str_replace ( "," , " $" , $value ) ."<br>";  
+                     <b>Servicios adicionales:</b><br> <?php
+                     $ads=explode('/',$servicios_adicionales);
+                     foreach ($ads as $value) {
+                       echo str_replace ( "," , " $" , $value ) ."<br>";
                      }?>
   <?php            }     ?>
                   <b>Estado:</b> <?php if($estado=='cancelado'){
