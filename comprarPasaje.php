@@ -22,10 +22,12 @@
          selectBox.disabled=false;
          document.getElementById("numero_tarjeta").disabled= true;
          document.getElementById("clave").disabled= true;
+        document.getElementById("fecha").disabled= true;
        }else{
 
          document.getElementById("numero_tarjeta").disabled= false;
          document.getElementById("clave").disabled= false;
+           document.getElementById("fecha").disabled= false;
 
        }
      }
@@ -34,13 +36,16 @@
         var num=document.getElementById("numero_tarjeta").value;
         var clave=document.getElementById("clave").value;
          var selectBox = document.getElementById("tarjetas");
-       if (num != "") {
+         var fecha=document.getElementById("fecha").value;
+       if ( (num != "") || (clave!= "") || (fecha!= "") ){
+       
           selectBox.disabled=true;
        }else{
 
          selectBox.disabled=false;
          num.disabled= true;
          clave.disabled= true;
+         fecha.disabled= true;
        }
      }
     </script>
@@ -55,6 +60,7 @@
          	 	 $id_viaje=$_SESSION['viaje'];
              $total=$_SESSION['total'];
              $tarjetas_select=$_SESSION['tarjetas'];
+             $fecha=$_SESSION['fecha'];
              $numero_tarjeta=$_SESSION['numero_tarjeta'];
              $adicionales_seleccionados=$_SESSION['adicionales_seleccionados'];
          	 }else{
@@ -62,13 +68,15 @@
          	     $id_viaje=$_POST['id_viaje'];
          	     $tarjetas_select="";
                $numero_tarjeta="";
+               $fecha="";
                $adicionales_seleccionados=$_POST['adicionales_seleccionados'];
          	 }
+
            if(!empty($tarjetas_select)){
-            $tieneTarjetas="SELECT t.numero_tarjeta FROM usuarios c INNER JOIN tarjetas_clientes tc ON (c.id_usuario=tc.id_cliente) INNER JOIN tarjetas t ON (tc.id_tarjeta= t.id_tarjeta) WHERE id_usuario='$id' and t.numero_tarjeta<>'$tarjetas_select'";
+            $tieneTarjetas="SELECT t.numero_tarjeta FROM usuarios c INNER JOIN tarjetas_clientes tc ON (c.id_usuario=tc.id_cliente) INNER JOIN tarjetas t ON (tc.id_tarjeta= t.id_tarjeta) WHERE id_usuario='$id' and t.numero_tarjeta<>'$tarjetas_select'  and t.fecha_vencimiento>=now()";
            }
            else{
-            $tieneTarjetas="SELECT t.numero_tarjeta FROM usuarios c INNER JOIN tarjetas_clientes tc ON (c.id_usuario=tc.id_cliente) INNER JOIN tarjetas t ON (tc.id_tarjeta= t.id_tarjeta) WHERE id_usuario='$id'";
+            $tieneTarjetas="SELECT t.numero_tarjeta FROM usuarios c INNER JOIN tarjetas_clientes tc ON (c.id_usuario=tc.id_cliente) INNER JOIN tarjetas t ON (tc.id_tarjeta= t.id_tarjeta) WHERE id_usuario='$id'  and t.fecha_vencimiento>=now()";
            }
            
            $resultadoTarjetas=mysqli_query($link,$tieneTarjetas) or  die ('Consulta tiieneTarjetas fallida: ' .mysqli_error());
@@ -117,7 +125,8 @@
           <?php    
                      
                        if(mysqli_num_rows($resultadoTarjetas)!=0){
-                        if(!empty($numero_tarjeta)){ //significa que volvio del validar pago con una tarjeta ingresada en el input?>
+                        if( (!empty($numero_tarjeta)) or (!empty($fecha)) ){ //significa que volvio del validar pago con una tarjeta ingresada en el input
+                          ?>
                           <b>Mis Tarjetas:</b><br>
                          <select name= "tarjetas" id="tarjetas" disabled="" onchange="ocultarIngresoTarjeta();">
                            <option value="0">Seleccionar Tarjeta:</option>
@@ -143,14 +152,16 @@
                      <?php if(!empty($tarjetas_select)){
                                            ?> 
                      <b>Numero de tarjeta: </b><input type="text" name="numero_tarjeta"  maxlength="16"  disabled="" onchange="ocultarSeleccionarTarjeta()" id="numero_tarjeta"> </input><br><br>
-                     <b>Clave de seguridad: </b><input type="password" name="clave" id="clave" maxlength="4" disabled="" value=""></input><br><br>
+                     <b>Clave de seguridad: </b><input type="password" name="clave" id="clave" maxlength="4" disabled="" onchange="ocultarSeleccionarTarjeta()" value=""></input><br><br>
+                     <b>Fecha de vencimiento: </b><input type="month" name="fecha" id="fecha" disabled="" class="form-control" onchange="ocultarSeleccionarTarjeta()"><br><br>
+
 
                      <?php }
                      else{
                        ?> 
                      <b>Numero de tarjeta: </b><input type="text" name="numero_tarjeta"  maxlength="16" value="<?php echo $numero_tarjeta ?>"  onchange="ocultarSeleccionarTarjeta()" id="numero_tarjeta"> </input><br><br>
-                     <b>Clave de seguridad: </b><input type="password" name="clave" id="clave" maxlength="4"  value=""></input><br><br>
-
+                     <b>Clave de seguridad: </b><input type="password" name="clave" id="clave" maxlength="4"  value="" onchange="ocultarSeleccionarTarjeta()"></input><br><br>
+                     <b>Fecha de vencimiento: </b><input type="month" name="fecha" id="fecha" value="<?php echo $fecha ?>" class="form-control" onchange="ocultarSeleccionarTarjeta()"><br><br>
                      <?php
                      } ?>
                      </div>

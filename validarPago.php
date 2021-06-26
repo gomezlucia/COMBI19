@@ -36,24 +36,33 @@
  } 
     
 
-  if( (!empty($_POST['numero_tarjeta'])) and (empty ($_POST['clave'])) or (empty($_POST['numero_tarjeta'])) and (!empty ($_POST['clave'])) ) {
+  if( ((empty($_POST['numero_tarjeta'])) or (empty ($_POST['clave'])) or (empty($_POST['fecha']))) and (!((empty($_POST['numero_tarjeta'])) and (empty($_POST['clave'])) and (empty($_POST['fecha'])))) ) {
       $mensaje= "Por favor, ingrese los datos de su tarjeta completos";
        $numero=$_POST['numero_tarjeta'];
      $codigo_seguridad=$_POST['clave'];
   }
-  elseif( (empty($_POST['numero_tarjeta'])) and (empty($_POST['clave'])) and (empty($_POST['tarjetas'])) ){
+  elseif( (empty($_POST['numero_tarjeta'])) and (empty($_POST['clave'])) and (empty($_POST['fecha'])) and (empty($_POST['tarjetas'])) ){
         $numero=$_POST['numero_tarjeta'];
      $codigo_seguridad=$_POST['clave'];
         $mensaje= "Por favor ingrese una tarjeta para realizar el pago";
   }
-  elseif( (!empty($_POST['numero_tarjeta'])) and (!empty($_POST['clave'])) ){
+  elseif( (!empty($_POST['numero_tarjeta'])) and (!empty($_POST['clave'])) and (!empty($_POST['fecha'])) ){
       $numero=$_POST['numero_tarjeta'];
      $codigo_seguridad=$_POST['clave'];
+     $fecha=$_POST['fecha'];
      if(!validarTarjeta($numero,$codigo_seguridad,$tarjetaValida)){
         $mensaje="La tarjeta ingresada es invalida";
      }
      else{
-        $cumple=true;
+        if($fechaActual=date("Y-m")>=$_POST['fecha']){
+          $mensaje="Segun la fecha de fecha de vencimiento, la tarjeta que intenta ingresar ya caduco";
+        }
+        else{
+          $fecha= $_POST['fecha'].'-01';
+            $cumple=true;
+        }
+      
+        
      }
     
   }
@@ -72,6 +81,7 @@ if(!$cumple){//falla y tengo que devolver atributos
                   if(!isset($_POST['tarjetas'])){
            $_SESSION['tarjetas']="";
            $_SESSION['numero_tarjeta']=$_POST['numero_tarjeta'];
+           $_SESSION['fecha']=$_POST['fecha'];
         }
         else{
             $_SESSION['tarjetas']=$_POST['tarjetas'];
@@ -99,9 +109,9 @@ else{
              $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado, servicios_adicionales, tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$adicionales_seleccionados','$numero','$cobro')";   
              $resultado=mysqli_query($link,$consulta) or  die ('Consulta fallida: ' .mysqli_error()); 
              $actualizarCupo="UPDATE viajes SET cupo=cupo+1 WHERE id_viaje='$_POST[id_viaje]'";
-             $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
+            $resultado=mysqli_query($link,$actualizarCupo) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error()); 
              echo "<script > alert('Compra exitosa');window.location='home.php'</script>";
-             #"<script> alert('Compra exitosa');window.location='$home.php'</script>";
+            
          }
          else{//no compro adicionales
              $consulta="INSERT INTO clientes_viajes(id_cliente, id_viaje, estado,tarjeta_utilizada, total) VALUES ('$id','$_POST[id_viaje]','pendiente','$numero','$cobro')";
@@ -120,10 +130,12 @@ else{
                   if(!isset($_POST['tarjetas'])){
            $_SESSION['tarjetas']="";
            $_SESSION['numero_tarjeta']=$_POST['numero_tarjeta'];
+             $_SESSION['fecha']=$_POST['fecha'];
         }
         else{
             $_SESSION['tarjetas']=$_POST['tarjetas'];
             $_SESSION['numero_tarjeta']="";
+             $_SESSION['fecha']="";
         }
         }
          $_SESSION['adicionales_seleccionados']=$_POST['adicionales_seleccionados'];
