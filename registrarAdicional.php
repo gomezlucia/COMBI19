@@ -17,7 +17,7 @@
          		 $agregar="INSERT INTO servicios_adicionales(nombre_servicio, precio) VALUES ('$servicio','$precio')";
          		 $resultado2= mysqli_query($link,$agregar) or die ('Consulta agregar fallida: ' .mysqli_error($link));
          		 if ($resultado2) {
-         		 	 echo "<script > alert('Adicional registrado exitosamente');window.location='home.php'</script>";
+         		 	 echo "<script > alert('Adicional registrado exitosamente');window.location='verListadoDeAdicionales.php'</script>";
          		 }
          	}
         }
