@@ -10,7 +10,7 @@
         if($vieneDelHome==1) {
             $consulta= "SELECT v.id_viaje,v.id_ruta,r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos,v.debaja FROM viajes v NATURAL JOIN combis c NATURAL JOIN tipos_combi t NATURAL JOIN rutas r WHERE (now()<=fecha_hora_salida)and (debaja=0)" ;
         }else{
-            $consulta= "SELECT v.id_viaje,v.id_ruta,r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos,v.debaja FROM viajes v INNER JOIN combis c on (v.id_combi=c.id_combi) INNER JOIN tipos_combi t on (c.id_tipo_combi =t.id_tipo_combi ) INNER JOIN rutas r on (v.id_ruta=r.id_ruta)" ;
+            $consulta= "SELECT v.id_viaje,v.id_ruta,r.origen, r.destino, v.fecha_hora_salida, v.fecha_hora_salida, v.fecha_hora_llegada, v.precio, v.cupo, t.asientos,v.debaja,v.motivo_cancelacion FROM viajes v INNER JOIN combis c on (v.id_combi=c.id_combi) INNER JOIN tipos_combi t on (c.id_tipo_combi =t.id_tipo_combi ) INNER JOIN rutas r on (v.id_ruta=r.id_ruta)" ;
         }
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: ' .mysqli_error($link));
         if ($resultado){
@@ -23,7 +23,8 @@
                 $cupo=$valores['cupo'];
                 $asientos=$valores['asientos'];
                 $id_viaje=$valores['id_viaje'];
-                $debaja=$valores['debaja'];?>
+                $debaja=$valores['debaja'];
+                $motivo=$valores['motivo_cancelacion']?>
                  <p>
                     <b>Origen:</b> <?php echo $origen;?><br>
                     <b>Destino:</b> <?php echo $destino;?><br>
@@ -40,19 +41,21 @@
           <?php if($sesion){
                     if( ($tipo_usuario=='administrador') ){
                          if ($fecha_hora_salida> date("Y-m-d H:i:s")) {
-                             if($debaja!=0){ ?>
+                             if($debaja!=0 and empty($motivo) ){ ?>
                                   <b>Estado:</b> <?php echo "Cancelado";?>
-              <?php      }else{ ?>
-                            <form action="cancelarViaje.php" method="post">
-                                <input type="submit" name="modificar" value="Cancelar viaje" class="btn_buscar"  onclick="return SubmitFormulario(this.form)" ></input>
-                                <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
-                                <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
-                            <?php if($vieneDelHome==1){ ?>
-                                        <input type="hidden" name="volverA" value="home.php">
-                   <?php            }else{?>
-                                        <input type="hidden" name="volverA" value="viajes.php">
-                          <?php     }?>
-                            </form>
+              <?php          }elseif(!empty($motivo)){ ?>
+                                 <b>Estado:</b> <?php echo "Cancelado por el chofer ("."<i>".$motivo."</i>".")";?>
+                <?php        }else{ ?>
+                                 <form action="cancelarViaje.php" method="post">
+                                     <input type="submit" name="modificar" value="Cancelar viaje" class="btn_buscar"  onclick="return SubmitFormulario(this.form)" ></input>
+                                     <input type="hidden" name="id_viaje" value="<?php echo $id_viaje; ?>"></input>
+                                     <input type="hidden" name="ruta" value="<?php echo $origen."-".$destino; ?>"></input>
+                            <?php    if($vieneDelHome==1){ ?>
+                                         <input type="hidden" name="volverA" value="home.php">
+                   <?php             }else{?>
+                                         <input type="hidden" name="volverA" value="viajes.php">
+                          <?php      }?>
+                                 </form>
              <?php
                             if($cupo==0){?>
                                 <form action="modificarDatosDeViajes.php" method="post">
