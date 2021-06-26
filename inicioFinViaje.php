@@ -9,15 +9,13 @@ if ($_POST['boton']=='Iniciar Viaje') {
 function inicioViaje($link,$id_viaje){
      $ausentes="SELECT DISTINCT cv.id_cliente FROM clientes_viajes cv WHERE id_viaje='$id_viaje' and cv.id_cliente not in (SELECT DISTINCT djc.id_cliente FROM clientes_viajes cv INNER JOIN ddjj_cliente djc ON (cv.id_viaje=djc.id_viaje) WHERE djc.id_viaje='$id_viaje')";
      $resultadoAusentes=mysqli_query($link,$ausentes) or die ('Consulta ausentes fallida: ' .mysqli_error($link));
-     var_dump($ausentes);echo "<br>";
+     
      if(mysqli_num_rows($resultadoAusentes)!=0){
          while ($ausente=mysqli_fetch_array ($resultadoAusentes)) {
              $cambiarEstado="UPDATE clientes_viajes SET estado='ausente' WHERE id_viaje='$id_viaje' and id_cliente='$ausente[id_cliente]' and estado='pendiente'";
-             var_dump($cambiarEstado);echo "<br>";
              $resultadoCambiarEstado=mysqli_query($link,$cambiarEstado) or die ('Consulta cambiarEstado fallida: ' .mysqli_error($link));
 
              $actualizarCupo="UPDATE viajes SET cupo=cupo-1 WHERE (id_viaje= '$id_viaje') " ;
-             var_dump($actualizarCupo);echo "<br>";
              $resultadoCupo =mysqli_query ($link, $actualizarCupo) or die ('Consulta actualizarCupo fallida : ' .mysqli_error($link));
          }
      }
