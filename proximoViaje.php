@@ -13,11 +13,6 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
 <head>
 	<title></title>
     <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
-    <style type="text/css">
-        #cancelarAccion,#cancelarViaje{
-    display: inline-block;
-    margin: 0 10px;
-}
     </style>
      <script   src="https://code.jquery.com/jquery-3.1.1.min.js"  ></script>
     <script type="text/javascript">
@@ -89,7 +84,7 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
      $resultadoProximoViaje= mysqli_query($link,$proximoViaje) or die ('Consulta proximoViaje fallida: ' .mysqli_error($link));
      if (mysqli_num_rows($resultadoProximoViaje)!=0){
          $viaje=mysqli_fetch_array ($resultadoProximoViaje);
-         $obtenerPasajeros="SELECT cv.id_cliente,u.nombre,u.apellido,u.mail,u.DNI,u.tiene_covid,cv.id_cliente_viaje,cv.id_viaje,cv.estado,cv.estado,cv.total FROM usuarios u INNER JOIN clientes_viajes cv ON (u.id_usuario=cv.id_cliente) INNER JOIN viajes v on (cv.id_viaje=v.id_viaje and u.id_usuario=cv.id_cliente ) LEFT JOIN ddjj_cliente djc ON (v.id_viaje=djc.id_viaje and u.id_usuario=djc.id_cliente) WHERE v.id_viaje='$viaje[id_viaje]'";
+         $obtenerPasajeros="SELECT cv.id_cliente,u.nombre,u.apellido,u.mail,u.DNI,u.tiene_covid,cv.id_cliente_viaje,cv.id_viaje,cv.estado,cv.estado,cv.total FROM usuarios u INNER JOIN clientes_viajes cv ON (u.id_usuario=cv.id_cliente) INNER JOIN viajes v on (cv.id_viaje=v.id_viaje and u.id_usuario=cv.id_cliente ) LEFT JOIN ddjj_cliente djc ON (v.id_viaje=djc.id_viaje and u.id_usuario=djc.id_cliente) WHERE v.id_viaje='$viaje[id_viaje]' and (cv.estado<>'devuelto total' and cv.estado<>'devuelto parcial')";
          $resultadoObtenerPasajeros= mysqli_query($link,$obtenerPasajeros) or die ('Consulta obtenerPasajeros fallida: ' .mysqli_error($link)); ?>
          
          <h1>Proximo viaje</h1>
@@ -155,7 +150,7 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
 <?php        while ($pasajeros=mysqli_fetch_array ($resultadoObtenerPasajeros)) { 
                  $ddjjCompletada="SELECT estado FROM ddjj_cliente WHERE id_viaje='$viaje[id_viaje]' and id_cliente='$pasajeros[id_cliente]'";
                  $resultddjjCompletada=mysqli_query($link,$ddjjCompletada) or die ('Consulta ddjjCompletada fallida: ' .mysqli_error($link));
-                 if($pasajeros['estado']=='pendiente' or $pasajeros['estado']=='ausente' or( mysqli_num_rows($resultddjjCompletada)!=0 )){ //datos del pasajero ?>
+                 if($pasajeros['estado']=='pendiente' or $pasajeros['estado']=='ausente' or $pasajeros['estado']=='en curso' or ( mysqli_num_rows($resultddjjCompletada)!=0 )){ //datos del pasajero ?>
                      <p>
                          <b>Nombre:</b> <?php echo $pasajeros['nombre']." ";?>
                          <b>Apellido:</b> <?php echo $pasajeros['apellido']." ";?>
@@ -201,6 +196,8 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
                      }else{
                          echo " <font color='green'><b><p>Pasajero Aceptado</p></b></font>"; 
                      }  
+                 }elseif($pasajeros['estado']=='en curso'){
+                     echo " <font color='green'><b><p>Pasajero Aceptado</p></b></font>"; 
                  }
              } //while pasajeros 
 ?>
@@ -234,10 +231,3 @@ function compararFechas($fecha_hora_salida,$condicion){
 </center>
 </body>
 </html>
-
-
-
-
-
-
-
