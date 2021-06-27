@@ -148,9 +148,10 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
                      <input type="submit"  name="boton" value="Usuario Nuevo" >
                      <input type="hidden" name="id_viaje" value="<?php echo $viaje['id_viaje'] ?>">
                  </form> 
-                 <form action="" method="POST">
-                     <input type="submit"  name="boton" value="Usuario Exsitente" >
+                 <form action="venderPasaje.php" method="POST">
+                     <input type="submit"  name="boton" value="Usuario Existente" >
                      <input type="hidden" name="id_viaje" value="<?php echo $viaje['id_viaje'] ?>">
+                      <input type="hidden" name="precio" value="<?php echo $viaje['precio'] ?>">
                  </form> 
                  </div> 
  <?php       }
@@ -233,6 +234,7 @@ function compararFechas($fecha_hora_salida,$condicion){
      $anio_dif = $anio - date("Y");
      $mes_dif =  $mes - date("m");
      $dia_dif = $dia - date("d") ;
+     //echo "anio_dif".$anio_dif." mes_dif ".$mes_dif." dia_dif ".$dia_dif."<br>";
 
      $ddjj=false;
 
