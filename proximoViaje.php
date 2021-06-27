@@ -24,6 +24,14 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
                  x.style.display = "none";
              }
          }
+         function mostrarBotonVender() {
+             var x = document.getElementById("botonesVender");
+             if (x.style.display === "none") {
+                 x.style.display = "block";
+              } else {
+                 x.style.display = "none";
+             }
+         }
          function mostrarMotivo(frm) {
              var x = document.getElementById("motivo");
              var c = document.getElementById("cancelarAcccion");
@@ -134,10 +142,17 @@ date_default_timezone_set("America/Argentina/Buenos_aires");
              //BOTON VENDER PASAJE
 
              if( ($viaje['cupo']<$viaje['asientos']) and ($viaje['estadoV']=='en curso'))  { ?>
+                 <button onclick="mostrarBotonVender()">Vender Pasaje</button>
+                 <div id="botonesVender" style="display:none;">
                  <form action="" method="POST">
-                     <input type="submit"  name="boton" value="Vender Pasaje" >
+                     <input type="submit"  name="boton" value="Usuario Nuevo" >
                      <input type="hidden" name="id_viaje" value="<?php echo $viaje['id_viaje'] ?>">
-                 </form>  
+                 </form> 
+                 <form action="" method="POST">
+                     <input type="submit"  name="boton" value="Usuario Exsitente" >
+                     <input type="hidden" name="id_viaje" value="<?php echo $viaje['id_viaje'] ?>">
+                 </form> 
+                 </div> 
  <?php       }
 
              //BOTON VENDER PASAJE
@@ -218,7 +233,6 @@ function compararFechas($fecha_hora_salida,$condicion){
      $anio_dif = $anio - date("Y");
      $mes_dif =  $mes - date("m");
      $dia_dif = $dia - date("d") ;
-     //echo "anio_dif".$anio_dif." mes_dif ".$mes_dif." dia_dif ".$dia_dif."<br>";
 
      $ddjj=false;
 
