@@ -11,10 +11,11 @@
 <html>
 <head>
  <link rel="stylesheet" type="text/css" href="estilos.css" media="all" > </link>
+ <script type="text/javascript" src="confirmarBajaDeAdicional.js"></script>
 </head>
 <body>
 
- <header>
+ <header >
        <a href="home.php" >  
            <img src="logo_is.png" class="div_icono">  
        </a>
@@ -30,17 +31,21 @@
         if ($resultado){
           while (($valores = mysqli_fetch_array($resultado)) ){
 
-        	 $precio = $valores['precio'];
+           $precio = $valores['precio'];
              $nombre_servicio = $valores['nombre_servicio'];
              $id_servicio_adicional=$valores['id_servicio_adicional'];
 
              ?>
-             		<p>
-             			<b>Nombre:</b> <?php echo $nombre_servicio;?><br>
-             			<b>Precio:</b> $<?php echo $precio;?><br>
- <form action="modificarDatosAdicionales.php" method="post"> 
+                <p>
+                  <b>Nombre:</b> <?php echo $nombre_servicio;?><br>
+                  <b>Precio:</b> $<?php echo $precio;?><br>
+                   <form action="modificarDatosAdicionales.php" method="post"> 
                            <input type="hidden"name="id" value="<?php echo $id_servicio_adicional;?>">
                            <input type="submit"  value ="Editar">
+                        </form><br>
+                   <form action="darDeBajaAdicional.php" method="post"> 
+                           <input type="hidden"name="id" value="<?php echo $id_servicio_adicional;?>">
+                           <input type="submit" name="eliminar" value="Eliminar" class="btn_buscar"  onclick="return SubmitFormularioAdicional(this.form)" ></input>
                         </form><br>
                   <hr>
                  </p>
@@ -53,4 +58,3 @@
          } ?>
         </center>  
 </html>
-
