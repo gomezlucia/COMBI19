@@ -76,23 +76,23 @@
 if(!$cumple){//falla y tengo que devolver atributos
 
      if( (!isset($_POST['tarjetas'])) and (!isset($_POST['numero_tarjeta'])) ) {
-            $_SESSION['tarjetas']="";
-            $_SESSION['numero_tarjeta']="";
+            $_SESSION['tarjetas0']="";
+            $_SESSION['numero_tarjeta0']="";
        }
      else{
                   if(!isset($_POST['tarjetas'])){
-           $_SESSION['tarjetas']="";
-           $_SESSION['numero_tarjeta']=$_POST['numero_tarjeta'];
-           $_SESSION['fecha']=$_POST['fecha'];
+           $_SESSION['tarjetas0']="";
+           $_SESSION['numero_tarjeta0']=$_POST['numero_tarjeta'];
+           $_SESSION['fecha0']=$_POST['fecha'];
         }
         else{
-            $_SESSION['tarjetas']=$_POST['tarjetas'];
-            $_SESSION['numero_tarjeta']="";
+            $_SESSION['tarjetas0']=$_POST['tarjetas'];
+            $_SESSION['numero_tarjeta0']="";
         }
         }
-         $_SESSION['adicionales_seleccionados']=$_POST['adicionales_seleccionados'];
-         $_SESSION['viaje']=$_POST['id_viaje'];
-         $_SESSION['total']=$_POST['total'];
+         $_SESSION['adicionales_seleccionados0']=$_POST['adicionales_seleccionados'];
+         $_SESSION['viaje0']=$_POST['id_viaje'];
+         $_SESSION['total0']=$_POST['total'];
    echo "<script > alert('$mensaje');window.location='registrarVIP.php'</script>";
 }
 else{
@@ -110,25 +110,22 @@ else{
 
      }else{ //sin saldo (termina en 8)
         if( (!isset($_POST['tarjetas'])) and (!isset($_POST['numero_tarjeta'])) ) {
-            $_SESSION['tarjetas']="";
-            $_SESSION['numero_tarjeta']="";
+            $_SESSION['tarjetas0']="";
+            $_SESSION['numero_tarjeta0']="";
        }
      else{
                   if(!isset($_POST['tarjetas'])){
-           $_SESSION['tarjetas']="";
-           $_SESSION['numero_tarjeta']=$_POST['numero_tarjeta'];
-             $_SESSION['fecha']=$_POST['fecha'];
+           $_SESSION['tarjetas0']="";
+           $_SESSION['numero_tarjeta0']=$_POST['numero_tarjeta'];
+             $_SESSION['fecha0']=$_POST['fecha'];
         }
         else{
-            $_SESSION['tarjetas']=$_POST['tarjetas'];
-            $_SESSION['numero_tarjeta']="";
-             $_SESSION['fecha']="";
+            $_SESSION['tarjetas0']=$_POST['tarjetas'];
+            $_SESSION['numero_tarjeta0']="";
+             $_SESSION['fecha0']="";
         }
         }
-         $_SESSION['adicionales_seleccionados']=$_POST['adicionales_seleccionados'];
-         $_SESSION['viaje']=$_POST['id_viaje'];
-         $_SESSION['total']=$_POST['total'];
-             echo "<script> alert('La tarjeta no posee saldo suficiente');window.location='registrarVIP.php'</script>";
+               echo "<script> alert('La tarjeta no posee saldo suficiente');window.location='registrarVIP.php'</script>";
      }
 }else{ //fallo la conexion (termina 3)?>
 <!DOCTYPE html>
