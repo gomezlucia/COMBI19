@@ -57,19 +57,16 @@
     <?php
           $usuarioVip=false;
          	 if (!isset($_POST['id_viaje'])) {
-         	 	 $id_viaje=$_SESSION['viaje'];
-             $total=$_SESSION['total'];
-             $tarjetas_select=$_SESSION['tarjetas'];
-             $fecha=$_SESSION['fecha'];
-             $numero_tarjeta=$_SESSION['numero_tarjeta'];
-             $adicionales_seleccionados=$_SESSION['adicionales_seleccionados'];
+         	 	 $tarjetas_select=$_SESSION['tarjetas0'];
+             $fecha=$_SESSION['fecha0'];
+             $numero_tarjeta=$_SESSION['numero_tarjeta0'];
+
          	 }else{
-               $total=$_POST['total'];
-         	     $id_viaje=$_POST['id_viaje'];
+
          	     $tarjetas_select="";
                $numero_tarjeta="";
                $fecha="";
-               $adicionales_seleccionados=$_POST['adicionales_seleccionados'];
+
          	 }
 
            if(!empty($tarjetas_select)){
@@ -114,6 +111,7 @@
                          <select name= "tarjetas" id="tarjetas" onchange="ocultarIngresoTarjeta();">
                            <option value="0">Seleccionar Tarjeta:</option>
              <?php        if(!empty($tarjetas_select)){
+
                             echo '<option selected="true" value="' . $tarjetas_select . '" select="" >' . $tarjetas_select . '</option>';
              }
                           while ($tarjetas = mysqli_fetch_array($resultadoTarjetas)) {
@@ -143,14 +141,8 @@
                           <input type="button" name="Cancelar" value="Cancelar" onClick="location.href='home.php'">
                           <input type="submit" name="Submit" value="Registrarse">
                           <input type="hidden" name="volverA" value="<?php echo  $volverA;?>">
-
-
                      </form>
          	 </center>
- <?php
-
-    ?>
-
  </body>
  <?php   } catch (Exception $e) { //entra a esta parte solo si no tenia una sesion iniciada
                  $mensaje=$e->getMessage();
