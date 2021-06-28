@@ -1,6 +1,7 @@
 <?php
 include "BD.php";// conectar y seleccionar la base de datos
 $link = conectar();
+date_default_timezone_set("America/Argentina/Buenos_aires");
 if ($_POST['boton']=='Iniciar Viaje') {
     inicioViaje($link,$_POST['id_viaje']);
 }else{
