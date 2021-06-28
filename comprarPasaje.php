@@ -95,16 +95,18 @@
        <a href="home.php" >
            <img src="logo_is.png" class="div_icono">
        </a>
-       
-        <?php $consulta00= "SELECT u.vip FROM usuarios u WHERE u.id_usuario=$id";
-               $resultado00= mysqli_query($link,$consulta00) or die ('Consulta fallida: 00 ' .mysqli_error($link));
-               $es_vip = mysqli_fetch_array($resultado00);
-               if ($es_vip['vip']=='1'){ ?>
-                 <b><?php echo $nombreUsuario ; ?></b> <b>VIP</b>
-         <?php } else{    ?>
-           <b><?php echo $nombreUsuario; ?></b>
-<?php      }    echo menu($id,$link);
-     ?>
+       <?php        $usuario -> tieneSesionIniciada($sesion,$nombreUsuario);
+                     ?>
+
+                        <?php $consulta00= "SELECT u.vip FROM usuarios u WHERE u.id_usuario=$id";
+                              $resultado00= mysqli_query($link,$consulta00) or die ('Consulta fallida: 00 ' .mysqli_error($link));
+                              $es_vip = mysqli_fetch_array($resultado00);
+                              if ($es_vip['vip']=='1'){ ?>
+                                <b><?php echo $nombreUsuario ; ?></b> <b>VIP</b>
+                        <?php } else{    ?>
+                          <b><?php echo $nombreUsuario; ?></b>
+       <?php      }    echo menu($id,$link);
+                    ?>
        <hr>
      </header>
          	 <center>
@@ -196,5 +198,4 @@
                   //redirige a la pagina inicioSesion y muestra una mensaje de error
          }?>
 </html>
-
           
