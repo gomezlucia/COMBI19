@@ -46,6 +46,11 @@
      $codigo_seguridad=$_POST['clave'];
         $mensaje= "Por favor ingrese una tarjeta para completar el registro";
   }
+  elseif ( (!empty($_POST['tarjetas'])) and  (empty($_POST['numero_tarjeta'])) and (empty($_POST['clave'])) and (empty($_POST['fecha'])) ) {
+    $actualizarCliente="UPDATE usuarios SET vip='1' WHERE id_usuario='$id'";
+    $resultado=mysqli_query($link,$actualizarCliente) or  die ('Consulta actualizarCupo fallida: ' .mysqli_error());
+     echo "<script > alert('registro exitoso');window.location='verPerfilDeUsuario.php'</script>";
+  }
   elseif( (!empty($_POST['numero_tarjeta'])) and (!empty($_POST['clave'])) and (!empty($_POST['fecha'])) ){
       $numero=$_POST['numero_tarjeta'];
      $codigo_seguridad=$_POST['clave'];
