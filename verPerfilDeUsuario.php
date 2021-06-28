@@ -31,16 +31,6 @@
         }
 }
   </script>
-  <script type="text/javascript">
-    function SubmitFormVip(frm){
-    var opcion = confirm('Esta tarjeta esta asociada a su membresia. Si la elimina, se asociara otra tarjeta registrada ¿ Aun desea eliminar esta tarjeta de su cuenta ?');
-        if(opcion == true){
-            frm.submit();
-        }else{
-            return false;
-        }
-}
-  </script>
 
   <script type="text/javascript">
     function SubmitFormVipSin(frm){
@@ -122,7 +112,7 @@
                 </p>
               </div>
                    <?php }
-        $consulta= "SELECT t.id_tarjeta, t.numero_tarjeta, tc.vip FROM tarjetas t NATURAL JOIN tarjetas_clientes tc WHERE tc.id_cliente=$id";
+        $consulta= "SELECT t.id_tarjeta, t.numero_tarjeta FROM tarjetas t NATURAL JOIN tarjetas_clientes tc WHERE tc.id_cliente=$id";
         $resultado= mysqli_query($link,$consulta) or die ('Consulta fallida: 14 ' .mysqli_error($link));?>
 
     <h2>Tarjetas</h2>
@@ -134,28 +124,22 @@
              $primeros = substr($numero_tarjeta, 0,2);
              $ultimos =substr($numero_tarjeta, -4);
              $cantidad=(strlen($numero_tarjeta))-strlen($primeros)-strlen($ultimos);
-             $tarj_vip=$valores['vip'];
+
              ?>
                 <div>
                     <hr>
                     <p>
-            <?php          if ($tarj_vip==1){
-               if(mysqli_num_rows($resultado) > 1){ ?>
-                  <form action="borrarTarjeta.php" method="post">
-                    <font color="blue">  <b></b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?>    <input type="hidden"name="id_tarjeta" value="<?php echo $id_tarjeta;?>">
-                      <input type="hidden"name="vip" value="<?php echo true;?>">
-                        <input type="submit" value="Eliminar" class="btn_buscar"  onclick="return SubmitFormVip(this.form)"> </font>
-                          </form>
-                      <?php } else { ?>
-                        <form action="verPerfilDeUsuario.php" method="post">
-                          <font color="blue">  <b></b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?>    <input type="hidden"name="id_tarjeta" value="<?php echo $id_tarjeta;?>">
-                        <input type="submit" value="Eliminar" class="btn_buscar"  onclick="return SubmitFormVipSin(this.form)"> </font>
-                    </form>
+            <?php
+               if (($es_vip['vip']=='1') and (mysqli_num_rows($resultado) == 1)){ ?>
+                 <form action="verPerfilDeUsuario.php" method="post">
+                 <b></b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?>    <input type="hidden"name="id_tarjeta" value="<?php echo $id_tarjeta;?>">
+                 <input type="submit" value="Eliminar" class="btn_buscar"  onclick="return SubmitFormVipSin(this.form)"> </font>
+             </form>
 
-                  <?php   } }else { ?>
+                  <?php    }else { ?>
                     <form action="borrarTarjeta.php" method="post">
                        <b></b> <?php echo $primeros.(str_repeat('*',$cantidad)).$ultimos;?>    <input type="hidden"name="id_tarjeta" value="<?php echo $id_tarjeta;?>">
-                       <input type="hidden"name="vip" value="<?php echo false;?>">
+                       <input type="hidden" name="vip" value="<?php echo false;?>">
                            <input type="submit" value="Eliminar" class="btn_buscar"  onclick="return SubmitForm(this.form)">
                     </form>
               <?php     }  ?>
