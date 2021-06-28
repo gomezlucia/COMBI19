@@ -247,3 +247,4 @@ function compararFechas($fecha_hora_salida,$condicion){
 </center>
 </body>
 </html>
+
