@@ -100,3 +100,4 @@ if($estado=='rechazado'){
  	 header("Location: /COMBI19-main/proximoViaje.php");
  }
 ?>
+
